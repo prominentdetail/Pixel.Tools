@@ -885,7 +885,7 @@ function draw(){
 					context.beginPath();
 					context.rect(tool.offset.x-1,tool.offset.y-1,(project.width*tool.zoom)+1,(project.height*tool.zoom)+1);
 					context.strokeStyle = 'white';
-					context.setLineDash([]);
+					//context.setLineDash([]);
 					context.stroke();
 				}
 				context.globalAlpha=1;
@@ -918,6 +918,7 @@ function draw(){
 						if(myHistory[0].id != entry.id || entry.rotation.degree==0){
 							var scalex = (entry.selectionclipcanvas.width+entry.resize.x)/entry.selectionclipcanvas.width;
 							var scaley = (entry.selectionclipcanvas.height+entry.resize.y)/entry.selectionclipcanvas.height;
+							context.save();
 							context.beginPath();
 							context.setLineDash([3,2]);
 							entry.trace.forEach(function(entrypoint){
@@ -928,6 +929,7 @@ function draw(){
 							context.lineWidth = 1;
 							context.strokeStyle = 'white';
 							context.stroke();
+							context.restore();
 						}
 						//entry.checkercount--;
 						//if(entry.checkercount==0){entry.checkercount=100;}
@@ -1069,7 +1071,7 @@ function draw(){
 								//context.rect(tool.offset.x+((entry.selectionoffset.x+entry.selectionclipcanvas.width)*tool.zoom),tool.offset.y+((entry.selectionoffset.y+entry.selectionclipcanvas.height)*tool.zoom),8,8);
 								context.strokeStyle = 'white';
 								if(entry.selectionhandle.state == 1)context.strokeStyle = 'yellow';
-								context.setLineDash([]);
+								//context.setLineDash([]);
 								context.stroke();
 								
 								if( entry.rotation.state == 0 &&
@@ -1089,10 +1091,11 @@ function draw(){
 								//context.rect(tool.offset.x+((entry.selectionoffset.x+entry.selectionclipcanvas.width)*tool.zoom),tool.offset.y+((entry.selectionoffset.y+entry.selectionclipcanvas.height)*tool.zoom),8,8);
 								context.strokeStyle = 'white';
 								if(entry.rotation.state == 1)context.strokeStyle = 'yellow';
-								context.setLineDash([]);
+								//context.setLineDash([]);
 								context.stroke();
 								
 								if(entry.rotation.degree!=0){
+									context.save();
 									context.beginPath();
 									context.setLineDash([3,2]);
 									context.moveTo(tool.offset.x+((entry.selectionoffset.x+entry.rotation.sx)*tool.zoom),tool.offset.y+((entry.selectionoffset.y+entry.rotation.sy)*tool.zoom) );
@@ -1108,6 +1111,7 @@ function draw(){
 									context.strokeStyle = 'white';
 									if(entry.rotation.state == 1)context.strokeStyle = 'yellow';
 									context.stroke();
+									context.restore();
 								}
 								
 							}
@@ -1116,6 +1120,7 @@ function draw(){
 					
 					
 					if(entry.frame==framenum && myHistory[0].selectionpoints.length>0 && myHistory[0].rotation.degree==0){
+						context.save();
 						context.beginPath();
 						context.setLineDash([3,2]);
 						context.moveTo(tool.offset.x+(myHistory[0].selectionpoints[0].x*tool.zoom),tool.offset.y+(myHistory[0].selectionpoints[0].y*tool.zoom));
@@ -1127,6 +1132,7 @@ function draw(){
 						context.lineWidth = 1;
 						context.strokeStyle = 'white';
 						context.stroke();
+						context.restore();
 					}
 					
 				});
@@ -1272,7 +1278,7 @@ function draw(){
 					minicontext.beginPath();
 					minicontext.rect(tool.secondary_offset.x-1,tool.secondary_offset.y-1,(project.width*tool.secondary_zoom)+1,(project.height*tool.secondary_zoom)+1);
 					minicontext.strokeStyle = 'white';
-					minicontext.setLineDash([]);
+					//minicontext.setLineDash([]);
 					minicontext.stroke();
 				}
 				minicontext.globalAlpha=1;
@@ -1302,6 +1308,7 @@ function draw(){
 			var row = Math.ceil(canvas.height / (project.grid.y*tool.zoom))+1;
 			var startx = tool.offset.x % (project.grid.x*tool.zoom);
 			var starty = tool.offset.y % (project.grid.y*tool.zoom);
+			context.save();
 			context.beginPath();
 			context.setLineDash([1,3]);
 			for(var x=0; x<col; x++){
@@ -1321,7 +1328,7 @@ function draw(){
 			context.stroke();
 			
 			context.beginPath();
-			context.setLineDash([1,3]);
+			//context.setLineDash([1,3]);
 			for(var x=0; x<col; x++){
 				if(startx+(x*(project.grid.x*tool.zoom)) > tool.offset.x && startx+(x*(project.grid.x*tool.zoom)) < tool.offset.x+(project.width*tool.zoom) ){
 					context.moveTo(startx+(x*(project.grid.x*tool.zoom))+0.5,Math.max(0,tool.offset.y)+1.5 );
@@ -1337,6 +1344,7 @@ function draw(){
 			context.lineWidth = 1;
 			context.strokeStyle = 'black';
 			context.stroke();
+			context.restore();
 		}
 		
 		if(tool.edge.length>0 && (mouse.tool=="eraser" || mouse.tool=="magiceraser" || mouse.tool=="pencil" || mouse.tool=="brush" || mouse.tool=="bucket") ){
@@ -1356,7 +1364,7 @@ function draw(){
 			});
 			ctx.lineTo((tool.edge[0].x*z)+toolx+(tool.offset.x%z)-((toolcanvas.width*0.5)*z),(tool.edge[0].y*z)+tooly+(tool.offset.y%z)-((toolcanvas.height*0.5)*z));
 		
-			ctx.setLineDash([]);
+			//ctx.setLineDash([]);
 			ctx.lineWidth = 1;
 			//ctx.strokeStyle = 'rgb('+(255-mouse.colorbelow.r)+','+(255-mouse.colorbelow.g)+','+(255-mouse.colorbelow.b)+')';
 			ctx.strokeStyle = 'rgb('+(((255-mouse.colorbelow.r)*(255-mouse.prevcolorbelow.r))/255)+','+(((255-mouse.colorbelow.g)*(255-mouse.prevcolorbelow.g))/255)+','+(((255-mouse.colorbelow.b)*(255-mouse.prevcolorbelow.b))/255)+')';
@@ -1376,7 +1384,7 @@ function draw(){
 			
 			ctx.beginPath();
 			ctx.rect(offset.x+(tile.x*project.grid.x*z),offset.y+(tile.y*project.grid.y*z),project.grid.x*z,project.grid.y*z);
-			ctx.setLineDash([]);
+			//ctx.setLineDash([]);
 			ctx.lineWidth = 1;
 			ctx.strokeStyle = 'rgb('+(255-mouse.colorbelow.r)+','+(255-mouse.colorbelow.g)+','+(255-mouse.colorbelow.b)+')';
 			ctx.stroke();
@@ -1384,7 +1392,7 @@ function draw(){
 			ctx = context;
 			ctx.beginPath();
 			ctx.rect(tool.offset.x+(tile.set.x*project.grid.x*tool.zoom)-1,tool.offset.y+(tile.set.y*project.grid.y*tool.zoom)-1,(project.grid.x*tool.zoom)+2,(project.grid.y*tool.zoom)+2);
-			ctx.setLineDash([]);
+			//ctx.setLineDash([]);
 			ctx.lineWidth = 2;
 			ctx.strokeStyle = 'rgb('+(255-mouse.colorbelow.r)+','+(255-mouse.colorbelow.g)+','+(255-mouse.colorbelow.b)+')';
 			ctx.stroke();
@@ -1393,7 +1401,7 @@ function draw(){
 		if( project.playback.state==true){
 			context.beginPath();
 			context.rect(tool.offset.x+(project.playback.crop.x*tool.zoom),tool.offset.y+(project.playback.crop.y*tool.zoom),project.playback.crop.w*tool.zoom,project.playback.crop.h*tool.zoom);
-			context.setLineDash([]);
+			//context.setLineDash([]);
 			context.lineWidth = 1;
 			context.strokeStyle = 'rgb('+(255-mouse.colorbelow.r)+','+(255-mouse.colorbelow.g)+','+(255-mouse.colorbelow.b)+')';
 			context.stroke();
