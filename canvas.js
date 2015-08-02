@@ -1,4 +1,4 @@
-	
+
 function canvas_events(){
 
 	$('#canvas, #minicanvas').on('mousewheel',function(objEvent, intDelta){
@@ -29,7 +29,7 @@ function canvas_events(){
 	});
 
     var rx = /INPUT|SELECT|TEXTAREA/i;
-	
+
 	document.documentElement.addEventListener('keypress', function (e) {
 		//prevent backspace key from going previous page
         if( e.which == 8 ){ // 8 == backspace
@@ -37,36 +37,36 @@ function canvas_events(){
                 e.preventDefault();
             }
         }
-		
+
 		if(rx.test(e.target.tagName))mouse.focus=true;
 	});
-	
+
 	document.documentElement.addEventListener('keydown', function (e) {
-		
-		
+
+
 		if (!key.timer && key.held==0) key.timer = setTimeout(function() {
             key.held = 1;
         }, key.pressedTime);
-		
+
 		//prevent backspace key from going previous page
         if( e.which == 8 ){ // 8 == backspace
             if(!rx.test(e.target.tagName) || e.target.disabled || e.target.readOnly ){
                 e.preventDefault();
             }
         }
-	
+
 		if ( $(document.activeElement).prop('type') == 'text' ){
 
 		}else if(( e.keycode || e.which ) == 32) {
 			if(mouse.left==false){
 				key.spacebar = true;
-				$('#canvas').css('cursor','url(cursor-'+(key.alt==true?'zoomout':(key.ctrl==true?'zoomin':'hand'))+'.png),crosshair');
-				$('#minicanvas').css('cursor','url(cursor-'+(key.alt==true?'zoomout':(key.ctrl==true?'zoomin':'hand'))+'.png),crosshair');
+				$('#canvas').css('cursor','url(img/cursor-'+(key.alt==true?'zoomout':(key.ctrl==true?'zoomin':'hand'))+'.png),crosshair');
+				$('#minicanvas').css('cursor','url(img/cursor-'+(key.alt==true?'zoomout':(key.ctrl==true?'zoomin':'hand'))+'.png),crosshair');
 				tool.preventdraw = true;
 			}
 			e.preventDefault();
 		}
-		
+
 		var selectiontool = (mouse.tool=='lasso' || mouse.tool=='marquee' || mouse.tool=='magicwand' ? true : false);
 		if( (e.ctrlKey || e.metaKey) && $(document.activeElement).prop('type') != 'text' ){
 			key.ctrl=true;
@@ -107,7 +107,7 @@ function canvas_events(){
 					send_history_select(myHistory[0].selected);
 				}
 			}
-			
+
 			if(approveContinue()){	//helps keep peers in sync
 				//copy (ctrl+C)
 				if( mouse.left==false && project.playback.state==false && ( e.keycode || e.which ) == 67){
@@ -119,7 +119,7 @@ function canvas_events(){
 					pasteSelection(myHistory[0].id);
 					send_paste_selection();
 				}
-			
+
 				//Deselect selection/clip
 				if( mouse.left==false && project.playback.state==false && ( e.keycode || e.which ) == 68){
 					if(myHistory[0].selectionclipped == false){
@@ -142,44 +142,44 @@ function canvas_events(){
 					}
 				}
 			}
-			
+
 			if( ( e.keycode || e.which ) == 219){	//hardness down
 				$('#tool_hardness').slider('value',tool.hardness-1);
-			}			
+			}
 			if( ( e.keycode || e.which ) == 221){	//hardness up
 				$('#tool_hardness').slider('value',tool.hardness+1);
-			}			
+			}
 			if( ( e.keycode || e.which ) == 188){	//levels down
 				$('#tool_levels').slider('value',tool.levels-1);
 			}
 			if( ( e.keycode || e.which ) == 190){	//levels up
 				$('#tool_levels').slider('value',tool.levels+1);
 			}
-			$('#canvas').css('cursor', (key.spacebar==true?'url(cursor-zoomin.png),': (selectiontool==true && key.alt==false?'url(cursor-cut.png),':(selectiontool==true && key.alt==true ? 'url(cursor-copy.png),':'')))+'crosshair');
-			$('#minicanvas').css('cursor', (key.spacebar==true?'url(cursor-zoomin.png),': (selectiontool==true && key.alt==false?'url(cursor-cut.png),':(selectiontool==true && key.alt==true ? 'url(cursor-copy.png),':'')))+'crosshair');
+			$('#canvas').css('cursor', (key.spacebar==true?'url(img/cursor-zoomin.png),': (selectiontool==true && key.alt==false?'url(img/cursor-cut.png),':(selectiontool==true && key.alt==true ? 'url(img/cursor-copy.png),':'')))+'crosshair');
+			$('#minicanvas').css('cursor', (key.spacebar==true?'url(img/cursor-zoomin.png),': (selectiontool==true && key.alt==false?'url(img/cursor-cut.png),':(selectiontool==true && key.alt==true ? 'url(img/cursor-copy.png),':'')))+'crosshair');
 			e.preventDefault();
 		}
 		if(e.altKey && $(document.activeElement).prop('type') != 'text' ){
 			key.alt=true;
-			$('#canvas').css('cursor','url(cursor-'+(key.spacebar==true?'zoomout.png)': (selectiontool==true && key.ctrl==false && key.shift==false?'subtract.png) 7 7': (selectiontool==true && key.ctrl==false && key.shift==true?'intersect.png) 7 7': (selectiontool==true && key.ctrl==true?'copy.png)':'eyedropper.png) 0 15'))))+',crosshair');
-			$('#minicanvas').css('cursor','url(cursor-'+(key.spacebar==true?'zoomout.png)': (selectiontool==true && key.ctrl==false && key.shift==false?'subtract.png) 7 7': (selectiontool==true && key.ctrl==false && key.shift==true?'intersect.png) 7 7': (selectiontool==true && key.ctrl==true?'copy.png)':'eyedropper.png) 0 15'))))+',crosshair');
+			$('#canvas').css('cursor','url(img/cursor-'+(key.spacebar==true?'zoomout.png)': (selectiontool==true && key.ctrl==false && key.shift==false?'subtract.png) 7 7': (selectiontool==true && key.ctrl==false && key.shift==true?'intersect.png) 7 7': (selectiontool==true && key.ctrl==true?'copy.png)':'eyedropper.png) 0 15'))))+',crosshair');
+			$('#minicanvas').css('cursor','url(img/cursor-'+(key.spacebar==true?'zoomout.png)': (selectiontool==true && key.ctrl==false && key.shift==false?'subtract.png) 7 7': (selectiontool==true && key.ctrl==false && key.shift==true?'intersect.png) 7 7': (selectiontool==true && key.ctrl==true?'copy.png)':'eyedropper.png) 0 15'))))+',crosshair');
 			//$('#canvas').css('cursor','url(cursor-eyedropper.png) 0 15,crosshair');
 			e.preventDefault();
 		}
 		if(e.shiftKey && $(document.activeElement).prop('type') != 'text' ){
 			key.shift=true;
 			if(selectiontool==true){
-				$('#canvas').css('cursor','url(cursor-'+(key.alt==true?'intersect':'add')+'.png) 7 7,crosshair');
-				$('#minicanvas').css('cursor','url(cursor-'+(key.alt==true?'intersect':'add')+'.png) 7 7,crosshair');
+				$('#canvas').css('cursor','url(img/cursor-'+(key.alt==true?'intersect':'add')+'.png) 7 7,crosshair');
+				$('#minicanvas').css('cursor','url(img/cursor-'+(key.alt==true?'intersect':'add')+'.png) 7 7,crosshair');
 			}
 			e.preventDefault();
 		}
-		
+
 		//delete key (for deleting clipped image or clearing selected canvas)
 		if(approveContinue()){
 			if( $(document.activeElement).prop('type') != 'text' && mouse.left==false && project.playback.state==false && ( e.keycode || e.which ) == 46){
 				if(myHistory[0].selectionclipped == false){
-				
+
 					commitHistory(myHistory[0].id);
 					//if clearing section, keep backup of what was there so we can pass to historylist(so we can restore it).
 					var backupcanvas = document.createElement("canvas");
@@ -187,22 +187,22 @@ function canvas_events(){
 					backupcanvas.height = project.height;
 					var backupcontext = backupcanvas.getContext("2d");
 					backupcontext.drawImage(project.canvaslayer[project.currentframe],0,0);
-				
+
 					myHistory[0].selectionsetclip = true;
 					selectClip(myHistory[0].id);
 					var type = "cut";
-					
+
 					myHistory[0].context.drawImage(myHistory[0].selectionclipcanvas,myHistory[0].selectionoffset.x,myHistory[0].selectionoffset.y);
-					
+
 					claimHistory(myHistory[0].id,myHistory[0].canvas);
 					myHistory[0].layers.push(new historylayerdata("Delete",myHistory[0].canvas,myHistory[0],true,backupcanvas) );
 					project.contextlayer[project.currentframe].globalCompositeOperation = 'destination-out';
 					project.contextlayer[project.currentframe].drawImage(myHistory[0].canvas,0,0);
 					project.contextlayer[project.currentframe].globalCompositeOperation = 'source-over';
-				
+
 					myHistory[0].context.clearRect(0, 0, myHistory[0].canvas.width, myHistory[0].canvas.height);
 					send_select_clip(type);
-					
+
 					selectClearClip(myHistory[0].id);
 					send_select_clear();
 					//make sure selection is not selecting anything
@@ -220,7 +220,7 @@ function canvas_events(){
 		}
 		//hotkeys
 		if( $(document.activeElement).prop('type') != 'text' && mouse.left ==false && mouse.right==false ){
-			
+
 			if(key.ctrl==false){
 				if( ( e.keycode || e.which ) == 69){	//eraser
 					//document.getElementById("eraser").click();
@@ -242,7 +242,7 @@ function canvas_events(){
 					else if($( "#pencil" ).attr('value')==1 && key.held==1 && mouse.tool=='brush'){
 						document.getElementById("pencil").click();
 					}
-					
+
 				}
 				if( ( e.keycode || e.which ) == 71){	//bucket
 					document.getElementById("bucket").click();
@@ -274,7 +274,7 @@ function canvas_events(){
 				//if( ( e.keycode || e.which ) == 67){	//collision
 				//	$('#collision').click();
 				//}
-				
+
 				if( ( e.keycode || e.which ) == 219){	//size down
 					$('#tool_size').slider('value',tool.size-0.5);
 					//if(tool.size>0)tool.size-=0.5;
@@ -289,11 +289,11 @@ function canvas_events(){
 				if( ( e.keycode || e.which ) == 190){	//opacity up
 					$('#tool_opacity').slider('value',tool.opacity+1);
 				}
-				
+
 				if( ( e.keycode || e.which ) == 67){	//colordex
 					$('#colordex_radio').click();
 				}
-				
+
 				if( ( e.keycode || e.which ) == 88){	//swap colors
 					var rgb1 = {r:mouse.rgb.r,g:mouse.rgb.g,b:mouse.rgb.b}, rgb2 = {r:mouse.rgb2.r,g:mouse.rgb2.g,b:mouse.rgb2.b};
 					//var group1 = colorGroup, group2 = colorGroup2;
@@ -307,10 +307,10 @@ function canvas_events(){
 					mouse.currentColor = 0;
 					eyedropColor({r:rgb2.r,g:rgb2.g,b:rgb2.b});
 					mouse.currentColor = 1;
-					eyedropColor({r:rgb1.r,g:rgb1.g,b:rgb1.b}); 					
+					eyedropColor({r:rgb1.r,g:rgb1.g,b:rgb1.b});
 					mouse.currentColor = currentC;
 					if(mouse.currentColor==0)eyedropColor({r:rgb2.r,g:rgb2.g,b:rgb2.b});	//make sure we still have the correct color selected
-					
+
 					var groupIcons = {sx:$("#colordex_start").css('left'),sy:$("#colordex_start").css('top'),ex:$("#colordex_end").css('left'),ey:$("#colordex_end").css('top'),ux:$("#colordex_endup").css('left'),uy:$("#colordex_endup").css('top')};
 					var groupIcons2 = {sx:$("#colordex2_start").css('left'),sy:$("#colordex2_start").css('top'),ex:$("#colordex2_end").css('left'),ey:$("#colordex2_end").css('top'),ux:$("#colordex2_endup").css('left'),uy:$("#colordex2_endup").css('top')};
 					$("#colordex_start").css({'left':groupIcons2.sx,'top':groupIcons2.sy});
@@ -320,12 +320,12 @@ function canvas_events(){
 					$("#colordex_endup").css({'left':groupIcons2.ux,'top':groupIcons2.uy});
 					$("#colordex2_endup").css({'left':groupIcons.ux,'top':groupIcons.uy});
 				}
-				
+
 				if( ( e.keycode || e.which ) == 86){	//secondary viewport
 					$('#mini_container').toggle();
 					if(typeof(Storage) !== 'undefined')localStorage.mini_container = $('#mini_container').css('display') ;
 				}
-				
+
 				if(approveContinue()){	//helps keep peers in sync
 					if( ( e.keycode || e.which ) == 37){	//left arrow key
 						myHistory[0].selectionoffset.x--;
@@ -349,7 +349,7 @@ function canvas_events(){
 					}
 				}
 			}
-			
+
 			if( ( e.keycode || e.which ) == 49){	//1
 				document.getElementById("preset1").click();
 			}
@@ -380,23 +380,23 @@ function canvas_events(){
 			if( ( e.keycode || e.which ) == 48){	//0
 				document.getElementById("preset0").click();
 			}
-				
+
 			e.preventDefault();
 		}
-		
+
 		if (key.timer && key.held==1){
 			key.held = 2;
 			clearTimeout(key.timer);
 			key.timer=false;
 		}
-		   
+
 	}, false);
-	
+
 	document.documentElement.addEventListener('keyup', function (e) {
 		clearTimeout(key.timer);
         key.timer=false;
 		key.held=0;
-		
+
 		if ( $(document.activeElement).prop('type') == 'text' ){
 
 		}else if(( e.keycode || e.which ) == 32) {
@@ -406,37 +406,37 @@ function canvas_events(){
 			if(mouse.left==false)tool.preventdraw=false;
 			//e.preventDefault();
 		}
-		
+
 		var selectiontool = (mouse.tool=='lasso' || mouse.tool=='marquee' || mouse.tool=='magicwand' ? true : false);
-		
+
 		if(key.ctrl==true && (e.ctrlKey==false && e.metaKey==false) ){
-			$('#canvas').css('cursor',(key.spacebar==true?'url(cursor-hand.png),crosshair':'crosshair') );
-			$('#minicanvas').css('cursor',(key.spacebar==true?'url(cursor-hand.png),crosshair':'crosshair') );
+			$('#canvas').css('cursor',(key.spacebar==true?'url(img/cursor-hand.png),crosshair':'crosshair') );
+			$('#minicanvas').css('cursor',(key.spacebar==true?'url(img/cursor-hand.png),crosshair':'crosshair') );
 		}
 		key.ctrl=(e.ctrlKey || e.metaKey);
 		if(key.alt==true && e.altKey==false){
-			$('#canvas').css('cursor',(key.spacebar==true?'url(cursor-hand.png),crosshair': (selectiontool==true && key.ctrl==true?'url(cursor-cut.png),crosshair':(selectiontool==true && key.shift==true?'url(cursor-add.png) 7 7,crosshair':'crosshair')) ) );
-			$('#minicanvas').css('cursor',(key.spacebar==true?'url(cursor-hand.png),crosshair': (selectiontool==true && key.ctrl==true?'url(cursor-cut.png),crosshair':(selectiontool==true && key.shift==true?'url(cursor-add.png) 7 7,crosshair':'crosshair')) ) );
+			$('#canvas').css('cursor',(key.spacebar==true?'url(img/cursor-hand.png),crosshair': (selectiontool==true && key.ctrl==true?'url(img/cursor-cut.png),crosshair':(selectiontool==true && key.shift==true?'url(img/cursor-add.png) 7 7,crosshair':'crosshair')) ) );
+			$('#minicanvas').css('cursor',(key.spacebar==true?'url(img/cursor-hand.png),crosshair': (selectiontool==true && key.ctrl==true?'url(img/cursor-cut.png),crosshair':(selectiontool==true && key.shift==true?'url(img/cursor-add.png) 7 7,crosshair':'crosshair')) ) );
 		}
 		key.alt=e.altKey;
 		if(key.shift==true && e.shiftKey==false){
-			$('#canvas').css('cursor',(selectiontool==true && key.alt==true?'url(cursor-subtract.png) 7 7,crosshair':'crosshair') );
-			$('#minicanvas').css('cursor',(selectiontool==true && key.alt==true?'url(cursor-subtract.png) 7 7,crosshair':'crosshair') );
+			$('#canvas').css('cursor',(selectiontool==true && key.alt==true?'url(img/cursor-subtract.png) 7 7,crosshair':'crosshair') );
+			$('#minicanvas').css('cursor',(selectiontool==true && key.alt==true?'url(img/cursor-subtract.png) 7 7,crosshair':'crosshair') );
 		}
 		key.shift=e.shiftKey;
-		
+
 		if(( e.keycode || e.which ) == 61 || ( e.keycode || e.which ) == 173 ||
 		( e.keycode || e.which ) == 187 || ( e.keycode || e.which ) == 189 ) {
 			tool.zoomstop=false;
 		}
-		
+
 		if(approveContinue()){	//helps keep peers in sync
-			if( ( e.keycode || e.which ) == 37 || ( e.keycode || e.which ) == 38 ||	
+			if( ( e.keycode || e.which ) == 37 || ( e.keycode || e.which ) == 38 ||
 			( e.keycode || e.which ) == 39 || ( e.keycode || e.which ) == 40){	//arrow keys
 				send_select_move(myHistory[0].selectionoffset);
 			}
 		}
-		
+
 	}, false);
 
 	canvas.pointermove = function(e){
@@ -448,12 +448,12 @@ function canvas_events(){
 		left = 0;
 		middle = 1;
 		right = 2;
-		
+
 		canvas.focus();
-		
+
 		if(e.button === left ){
 			mouse.left = true;
-						
+
 			if(key.spacebar==false && tool.preventdraw==false && project.lock==false && animation.state==false){
 				var finalx = Math.floor((mouse.pos.x - tool.offset.x)/tool.zoom);
 				var finaly = Math.floor((mouse.pos.y - tool.offset.y)/tool.zoom);
@@ -468,7 +468,7 @@ function canvas_events(){
 					mouse.lastclick.x = finalx;
 					mouse.lastclick.y = finaly;
 				}
-					
+
 				updatePen();
 				var t = {size:tool.size,opacity:tool.opacity,hardness:tool.hardness,levels:tool.levels,pressure:tool.pressure,tilt:tool.tilt,pen:tool.pen,dither:tool.dither};
 
@@ -477,8 +477,8 @@ function canvas_events(){
 					myHistory[0].clip.x2 = Math.max(1,Math.min(project.width, finalx)), myHistory[0].clip.y2 = Math.max(1,Math.min(project.height, finaly));
 					myHistory[0].setclip=false;
 				}
-				
-				
+
+
 				if( $('#canvas').css('cursor')=='crosshair'){
 
 					if(mouse.tool=="eraser"){
@@ -486,7 +486,7 @@ function canvas_events(){
 						erase_line(project.contextlayer[project.currentframe],lastfinalx,lastfinaly,finalx,finaly,mouse.color,t,myHistory[0].id);
 						if(mouse.context!=palettecontext)send_eraser_line(lastfinalx,lastfinaly,finalx,finaly,mouse.color,t);
 					}
-					
+
 					if(mouse.tool=="magiceraser" && tool.brushing==false){
 						commitHistory(myHistory[0].id);
 						var cGroup = (currentColorGroup==0?colorGroup:colorGroup2);
@@ -496,14 +496,14 @@ function canvas_events(){
 						magiceraser_line(lastfinalx,lastfinaly,finalx,finaly,cGroup,t, cGbase, cGbaseup, myHistory[0].id);
 						send_magiceraser_line(lastfinalx,lastfinaly,finalx,finaly,cGroup,t,cGbase,cGbaseup);
 					}
-					
+
 					if(mouse.tool=="pencil"){
 						commitHistory(myHistory[0].id);
 						var mouseColor = (mouse.currentColor==0?mouse.color:mouse.color2);
 						pixel_line(project.contextlayer[project.currentframe],lastfinalx,lastfinaly,finalx,finaly,mouseColor,t,myHistory[0].id);
 						send_pixel_line(lastfinalx,lastfinaly,finalx,finaly,mouseColor,t);
 					}
-					
+
 					if(mouse.tool=="brush" && tool.brushing==false){
 						commitHistory(myHistory[0].id);
 						var cGroup = (currentColorGroup==0?colorGroup:colorGroup2);
@@ -513,23 +513,23 @@ function canvas_events(){
 						brush_line(lastfinalx,lastfinaly,finalx,finaly,cGroup,t, cGbase, cGbaseup, myHistory[0].id);
 						send_brush_line(lastfinalx,lastfinaly,finalx,finaly,cGroup,t,cGbase,cGbaseup);
 					}
-					
+
 					if(mouse.tool=="bucket"){
 						commitHistory(myHistory[0].id);
 						var contiguous = ($("#contiguous").next('label').attr('aria-pressed')=='true'? true:false);
 						floodFill(project.contextlayer[project.currentframe],{x:finalx,y:finaly},mouse.rgb,contiguous,myHistory[0].id);
 						send_flood_fill(finalx,finaly,mouse.rgb,contiguous);
 					}
-					
+
 				}
-				
+
 				if(mouse.tool=="eyedropper" || $('#canvas').css('cursor').indexOf('eyedropper')>=0 ){
 					eyedropColor(mouse.colorbelow);
 				}
 				if(mouse.tool=="zoom"){
 					zoomIn();
 				}
-				
+
 				if(mouse.tool=="magicwand"){
 					if(approveContinue()){	//helps keep peers in sync
 						if(!key.ctrl){
@@ -576,25 +576,25 @@ function canvas_events(){
 								//move selection(without the content moving)
 								myHistory[0].selectionstate = "move";
 							}
-							
-							
+
+
 						}else{
 							commitHistory(myHistory[0].id);
 							myHistory[0].selectionstate = "move";
-							
+
 							//if clearing section, keep backup of what was there so we can pass to historylist(so we can restore it).
 							var backupcanvas = document.createElement("canvas");
 							backupcanvas.width = project.width;
 							backupcanvas.height = project.height;
 							var backupcontext = backupcanvas.getContext("2d");
 							backupcontext.drawImage(project.canvaslayer[project.currentframe],0,0);
-						
+
 							myHistory[0].selectionsetclip = true;
 							selectClip(myHistory[0].id);
 							var type = "cut";
 							if(!key.alt){
 								myHistory[0].context.drawImage(myHistory[0].selectionclipcanvas,myHistory[0].selectionoffset.x,myHistory[0].selectionoffset.y);
-								
+
 								claimHistory(myHistory[0].id,myHistory[0].canvas);
 								myHistory[0].layers.push(new historylayerdata("Clip",myHistory[0].canvas,myHistory[0],true,backupcanvas) );
 								project.contextlayer[project.currentframe].globalCompositeOperation = 'destination-out';
@@ -603,18 +603,18 @@ function canvas_events(){
 							}else{
 								type = "copy";
 								myHistory[0].context.drawImage(myHistory[0].selectionclipcanvas,myHistory[0].selectionoffset.x,myHistory[0].selectionoffset.y);
-								
+
 								claimHistory(myHistory[0].id,myHistory[0].canvas);
 								myHistory[0].layers.push(new historylayerdata("Clip",myHistory[0].canvas,myHistory[0],true,backupcanvas) );
 								project.contextlayer[project.currentframe].drawImage(myHistory[0].canvas,0,0);
 							}
 							myHistory[0].context.clearRect(0, 0, myHistory[0].canvas.width, myHistory[0].canvas.height);
 							send_select_clip(type);
-					
+
 						}
 					}
 				}
-				
+
 				if(mouse.tool=="lasso" || mouse.tool=="marquee"){
 					if(approveContinue()){	//helps keep peers in sync
 						if(!key.ctrl){
@@ -678,22 +678,22 @@ function canvas_events(){
 						}else{
 							commitHistory(myHistory[0].id);
 							myHistory[0].selectionstate = "move";
-							
+
 							//if(myHistory[0].selectionclipped==false){
-							
+
 								//if clearing section, keep backup of what was there so we can pass to historylist(so we can restore it).
 								var backupcanvas = document.createElement("canvas");
 								backupcanvas.width = project.width;
 								backupcanvas.height = project.height;
 								var backupcontext = backupcanvas.getContext("2d");
 								backupcontext.drawImage(project.canvaslayer[project.currentframe],0,0);
-							
+
 								myHistory[0].selectionsetclip = true;
 								selectClip(myHistory[0].id);
 								var type = "cut";
 								if(!key.alt){
 									myHistory[0].context.drawImage(myHistory[0].selectionclipcanvas,myHistory[0].selectionoffset.x,myHistory[0].selectionoffset.y);
-									
+
 									claimHistory(myHistory[0].id,myHistory[0].canvas);
 									myHistory[0].layers.push(new historylayerdata("Clip",myHistory[0].canvas,myHistory[0],true,backupcanvas) );
 									project.contextlayer[project.currentframe].globalCompositeOperation = 'destination-out';
@@ -702,28 +702,28 @@ function canvas_events(){
 								}else{
 									type = "copy";
 									myHistory[0].context.drawImage(myHistory[0].selectionclipcanvas,myHistory[0].selectionoffset.x,myHistory[0].selectionoffset.y);
-									
+
 									claimHistory(myHistory[0].id,myHistory[0].canvas);
 									myHistory[0].layers.push(new historylayerdata("Clip",myHistory[0].canvas,myHistory[0],true,backupcanvas) );
 									project.contextlayer[project.currentframe].drawImage(myHistory[0].canvas,0,0);
 								}
 								myHistory[0].context.clearRect(0, 0, myHistory[0].canvas.width, myHistory[0].canvas.height);
 								send_select_clip(type);
-						
+
 							//}
 						}
 					}
 				}
 			}else{
-				if($('#canvas').css('cursor').indexOf('cursor-zoomin.png')>=0 )zoomIn();
-				else if($('#canvas').css('cursor').indexOf('cursor-zoomout.png')>=0 )zoomOut();
+				if($('#canvas').css('cursor').indexOf('img/cursor-zoomin.png')>=0 )zoomIn();
+				else if($('#canvas').css('cursor').indexOf('img/cursor-zoomout.png')>=0 )zoomOut();
 			}
 		}
 		else if(e.button === right){
 			mouse.right = true;
-			
+
 			if(key.spacebar==false && tool.preventdraw==false){
-			
+
 				if(mouse.tool=="zoom"){
 					zoomOut();
 				}
@@ -731,33 +731,33 @@ function canvas_events(){
 		}
 		else if(e.button === middle){
 			mouse.middle = true;
-			
+
 		}
-		
+
 		e.preventDefault();
 	}
-	
+
 	canvas.onmouseup = function(e){
 		var left, right, middle;
 		left = 0;
 		middle = 1;
 		right = 2;
-		
+
 		getMousePos(canvas, e);
 		resetPen();
 		mouse.direction=0;
-		
+
 		//if(mouse.pos.x!=mouse.lastpos.x || mouse.pos.y!=mouse.lastpos.y)mouse.dragged = false;
-			
+
 		if(e.button === left){
 			mouse.left = false;
-			
+
 			updatePen();
 			myHistory[0].setclip=true;
-			
+
 			if(tool.preventdraw==false && project.lock==false && animation.state==false){
 				if( $('#canvas').css('cursor')=='crosshair'){
-				
+
 					if(mouse.tool=="eraser"){
 						myHistory[0].layers.push(new historylayerdata("Eraser",myHistory[0].canvas,myHistory[0]) );
 						project.contextlayer[project.currentframe].globalCompositeOperation = 'destination-out';
@@ -766,7 +766,7 @@ function canvas_events(){
 						myHistory[0].context.clearRect(0, 0, myHistory[0].canvas.width, myHistory[0].canvas.height);
 						send_eraser_clear();
 					}else if(mouse.tool=="magiceraser" && tool.brushing==true){
-						tool.brushing=false; 
+						tool.brushing=false;
 						myHistory[0].layers.push(new historylayerdata("Magic Eraser",myBrush[0].previewcanvas,myHistory[0]) );
 						project.contextlayer[project.currentframe].drawImage(myBrush[0].previewcanvas,0,0);
 						myBrush[0].context.clearRect(0, 0, myBrush[0].canvas.width, myBrush[0].canvas.height);
@@ -778,7 +778,7 @@ function canvas_events(){
 						myHistory[0].context.clearRect(0, 0, myHistory[0].canvas.width, myHistory[0].canvas.height);
 						send_eraser_clear();
 					}else if(mouse.tool=="pencil"){
-					
+
 						myHistory[0].layers.push(new historylayerdata("Pencil",myHistory[0].canvas,myHistory[0]) );
 						project.contextlayer[project.currentframe].drawImage(myHistory[0].canvas,0,0);
 						myHistory[0].context.clearRect(0, 0, myHistory[0].canvas.width, myHistory[0].canvas.height);
@@ -787,7 +787,7 @@ function canvas_events(){
 						//contextlayer.fillRect( mouse.pos.x, mouse.pos.y, 1, 1 );
 						//send_pixel(mouse.pos.x,mouse.pos.y,'rgba(0,0,0,1)');
 					}else if(mouse.tool=="brush" && tool.brushing==true){
-						tool.brushing=false; 
+						tool.brushing=false;
 						myHistory[0].layers.push(new historylayerdata("Brush",myBrush[0].previewcanvas,myHistory[0]) );
 						project.contextlayer[project.currentframe].drawImage(myBrush[0].previewcanvas,0,0);
 						myBrush[0].context.clearRect(0, 0, myBrush[0].canvas.width, myBrush[0].canvas.height);
@@ -801,9 +801,9 @@ function canvas_events(){
 							send_bucket_clear();
 						//}
 					}
-				
+
 				}
-				
+
 				if(approveContinue()){	//helps keep peers in sync
 					if(mouse.tool=="lasso" || mouse.tool=="marquee"){
 						myHistory[0].selectionsetclip = false;
@@ -817,7 +817,7 @@ function canvas_events(){
 								});
 							}
 							if(myHistory[0].selectionclip.x!=myHistory[0].selectionclip.x2 && myHistory[0].selectionclip.y!=myHistory[0].selectionclip.y2){
-								
+
 								type = myHistory[0].selectiontype;//(key.shift?"add":(key.alt?"subtract":"new"));
 								if(type=="new"){
 									//myHistory[0].selectionoffset = {x:0,y:0};
@@ -841,7 +841,7 @@ function canvas_events(){
 							myHistory[0].selectionclip.y2 += myHistory[0].snap.y;
 							myHistory[0].snap.x =0;
 							myHistory[0].snap.y =0;
-							
+
 							send_select_move(myHistory[0].selectionoffset);
 							myHistory[0].selectionstate = "";
 						}else if(myHistory[0].selectionstate=="resize"){
@@ -872,7 +872,7 @@ function canvas_events(){
 							myHistory[0].selectionclip.y2 += myHistory[0].snap.y;
 							myHistory[0].snap.x =0;
 							myHistory[0].snap.y =0;
-							
+
 							send_select_move(myHistory[0].selectionoffset);
 							myHistory[0].selectionstate = "";
 						}else if(myHistory[0].selectionstate=="resize"){
@@ -892,9 +892,9 @@ function canvas_events(){
 		}
 		else if(e.button === middle){
 			mouse.middle = false;
-			
+
 		}
-		
+
 		if(key.spacebar==false)tool.preventdraw=false;
 		mouse.dragged=false;
 	}
@@ -905,16 +905,16 @@ function canvas_events(){
 		var input = $(document.activeElement).is("input");
 		if(input==false)canvas.focus();
 	};
-	
+
 	canvas.onmouseout = function (e) {
-		
+
 		resetPen();
 		myHistory[0].setclip=true;
 		mouse.direction=0;
-		
+
 		if(tool.preventdraw==false && project.lock==false && animation.state==false){
 			if( $('#canvas').css('cursor')=='crosshair'){
-				
+
 				if(mouse.tool=="eraser" && mouse.left==true){
 					myHistory[0].layers.push(new historylayerdata("Eraser",myHistory[0].canvas,myHistory[0]) );
 					project.contextlayer[project.currentframe].globalCompositeOperation = 'destination-out';
@@ -923,7 +923,7 @@ function canvas_events(){
 					myHistory[0].context.clearRect(0, 0, myHistory[0].canvas.width, myHistory[0].canvas.height);
 					send_eraser_clear();
 				}else if(mouse.tool=="magiceraser" && tool.brushing==true){
-					tool.brushing=false; 
+					tool.brushing=false;
 					myHistory[0].layers.push(new historylayerdata("Magic Eraser",myBrush[0].previewcanvas,myHistory[0]) );
 					project.contextlayer[project.currentframe].drawImage(myBrush[0].previewcanvas,0,0);
 					myBrush[0].context.clearRect(0, 0, myBrush[0].canvas.width, myBrush[0].canvas.height);
@@ -935,7 +935,7 @@ function canvas_events(){
 					myHistory[0].context.clearRect(0, 0, myHistory[0].canvas.width, myHistory[0].canvas.height);
 					send_eraser_clear();
 				}else if(mouse.tool=="pencil" && mouse.left==true){
-				
+
 					myHistory[0].layers.push(new historylayerdata("Pencil",myHistory[0].canvas,myHistory[0]) );
 					project.contextlayer[project.currentframe].drawImage(myHistory[0].canvas,0,0);
 					myHistory[0].context.clearRect(0, 0, myHistory[0].canvas.width, myHistory[0].canvas.height);
@@ -944,7 +944,7 @@ function canvas_events(){
 					//contextlayer.fillRect( mouse.pos.x, mouse.pos.y, 1, 1 );
 					//send_pixel(mouse.pos.x,mouse.pos.y,'rgba(0,0,0,1)');
 				}else if(mouse.tool=="brush" && tool.brushing==true){
-					tool.brushing=false; 
+					tool.brushing=false;
 					myHistory[0].layers.push(new historylayerdata("Brush",myBrush[0].previewcanvas,myHistory[0]) );
 					project.contextlayer[project.currentframe].drawImage(myBrush[0].previewcanvas,0,0);
 					myBrush[0].context.clearRect(0, 0, myBrush[0].canvas.width, myBrush[0].canvas.height);
@@ -958,9 +958,9 @@ function canvas_events(){
 						send_bucket_clear();
 					//}
 				}
-			
+
 			}
-			
+
 			if(approveContinue()){	//helps keep peers in sync
 				if((mouse.tool=="lasso" || mouse.tool=="marquee") && mouse.left==true){
 					myHistory[0].selectionsetclip = false;
@@ -974,7 +974,7 @@ function canvas_events(){
 							});
 						}
 						if(myHistory[0].selectionclip.x!=myHistory[0].selectionclip.x2 && myHistory[0].selectionclip.y!=myHistory[0].selectionclip.y2){
-							
+
 							type = myHistory[0].selectiontype;//(key.shift?"add":(key.alt?"subtract":"new"));
 							if(type=="new"){
 								//myHistory[0].selectionoffset = {x:0,y:0};
@@ -998,7 +998,7 @@ function canvas_events(){
 						myHistory[0].selectionclip.y2 += myHistory[0].snap.y;
 						myHistory[0].snap.x =0;
 						myHistory[0].snap.y =0;
-						
+
 						send_select_move(myHistory[0].selectionoffset);
 						myHistory[0].selectionstate = "";
 					}else if(myHistory[0].selectionstate=="resize"){
@@ -1029,7 +1029,7 @@ function canvas_events(){
 						myHistory[0].selectionclip.y2 += myHistory[0].snap.y;
 						myHistory[0].snap.x =0;
 						myHistory[0].snap.y =0;
-						
+
 						send_select_move(myHistory[0].selectionoffset);
 						myHistory[0].selectionstate = "";
 					}else if(myHistory[0].selectionstate=="resize"){
@@ -1043,46 +1043,46 @@ function canvas_events(){
 				}
 			}
 		}
-		
+
 		mouse.left = false;
 		mouse.right = false;
 		mouse.middle = false;
 		if(key.spacebar==false)tool.preventdraw=false;
-		
+
 	};
-	
+
 	canvas.onmousemove = function (e) {
-		
+
 		getMousePos(canvas, e);//windowToCanvas(canvas, e.clientX, e.clientY);
-		
-		
+
+
 		if(mouse.left){
 			updatePen();
 			mouse.dragged = true;
 		}
 		//send_my_position();
-		
+
 		if(mouse.focus==true){
 			mouse.focus = false;
 			canvas.focus();
 		}
-		
+
 		e.preventDefault();
 	};
 
 	canvas.onclick = function(e){
-		
-		
+
+
 	};
-	
+
 	//ONCLICK DOESNT DETECT RIGHT CLICKS BECAUSE RIGHTCLICKS CALL THE ONCONTEXTMENU EVENT INSTEAD.. preventdefault stops the menu from showing
 	canvas.oncontextmenu = function (e) {
-		
+
 		e.preventDefault();
 	};
 }
 
-/*function floodFill(c, ctx, point, COLOR)	//vals is imgdata, point is start point, seedcolor is color we're grouping, color is new color? 
+/*function floodFill(c, ctx, point, COLOR)	//vals is imgdata, point is start point, seedcolor is color we're grouping, color is new color?
 {
 	var imgData=ctx.getImageData(0, 0, c.width, c.height);
     //for (var i=0;i<imgData.data.length;i+=4)
@@ -1092,8 +1092,8 @@ function canvas_events(){
     //    imgData.data[i+2]= rgb[2] | imgData.data[i+2];
     //}
     //ctx.putImageData(imgData,0,0);
-	
-	
+
+
     var h = c.height;
     var w = c.width;
 
@@ -1101,7 +1101,7 @@ function canvas_events(){
     	return;
 
 	var SEED_COLOR = ctx.getImageData(point.x, point.y, 1, 1);
-		
+
     var stack = new Array();
     stack.push(point);
     while (stack.length > 0)
@@ -1112,10 +1112,10 @@ function canvas_events(){
     	if (y < 0 || y > h - 1 || x < 0 || x > w - 1)
     		continue;
     	var val = [ imgData.data[((y*w)+x)*4],imgData.data[(((y*w)+x)*4)+1],imgData.data[(((y*w)+x)*4)+2],imgData.data[(((y*w)+x)*4)+3] ];	//rgba of x,y
-		
-    	if (val[0] == SEED_COLOR.data[0] && 
-		val[1] == SEED_COLOR.data[1] && 
-		val[2] == SEED_COLOR.data[2] && 
+
+    	if (val[0] == SEED_COLOR.data[0] &&
+		val[1] == SEED_COLOR.data[1] &&
+		val[2] == SEED_COLOR.data[2] &&
 		val[3] == SEED_COLOR.data[3] )
     	{
     		imgData.data[(((y*w)+x)*4)] = COLOR.r;
@@ -1128,9 +1128,8 @@ function canvas_events(){
     		stack.push( {x:x, y:(y - 1)} );
     	}
     }
-	
+
     ctx.putImageData(imgData,0,0);
 	//ctx.drawImage(c,0,0);
 }
 */
-
