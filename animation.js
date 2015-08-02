@@ -6,21 +6,21 @@ function animationdata() {
 	this.timer;		//used for timing when to call function to progress animation to next frame
 	this.frame = 0;
 	this.counter = 0;
-	
+
 	this.start = function(){
 		this.frame = $("#frame_null").siblings(':eq('+animation.counter+')').attr('value');
 		this.state = true;
-		
+
 		if(this.frame==null || this.frame<0 || this.frame>project.frames-1){
 			this.state = false;
-			document.getElementById("frame_play").click(); 
+			document.getElementById("frame_play").click();
 			return;
 		}
 		if(project.visible[this.frame]==false && linkVisible()==false)animationCycle();
 		else
 			this.timer = setTimeout(function() { animationCycle(); }, document.getElementById($("#frame_null").siblings(':eq('+animation.counter+')').attr('id')).dataset.interval );
 	};
-	
+
 	this.stop = function(){
 		this.state = false;
 		clearTimeout(this.timer);
@@ -41,7 +41,7 @@ function linkVisible(){
 	return false;
 }
 
-function animationCycle() { 
+function animationCycle() {
 
 	var animframe = animation.frame;
 	var skip = 1;
@@ -51,12 +51,12 @@ function animationCycle() {
 			skip++;
 		}else animframe = -1;
 	}while(animframe!=-1);
-	
-	animation.counter -= skip; 
-	
-	if(animation.counter<0)animation.counter=project.frames-1; 
-	
-	animation.start(); 
+
+	animation.counter -= skip;
+
+	if(animation.counter<0)animation.counter=project.frames-1;
+
+	animation.start();
 }
 
 
@@ -65,41 +65,41 @@ function recordingdata() {
 }
 
 function playbackdata() {
-	this.state = false;		
-	this.timer;		
+	this.state = false;
+	this.timer;
 	this.speed = 30;
 	this.session= 0;
 	this.action= 0;
 	this.imagesloading=0;	//number of remaining images loading
 	this.keyframe = [];	//where each session starts
 	this.canvasdata = [];	//list of canvasdata(what the final result looks like)
-	
+
 	this.gif = null;	//used to record the playback to a gif if we want to
 	this.crop = { x:0,y:0, w:1, h:1 };
-	
+
 	this.start = function(){
 		this.state = true;
-		
+
 		if(this.action<0 || this.action>project.recording.session[this.session].actionlist.length-1){
 			this.state = false;
 			return;
 		}
-		
+
 		this.timer = setTimeout(function() { playbackCycle(); }, this.speed );
 	};
-	
+
 	this.stop = function(){
 		this.state = false;
 		clearTimeout(this.timer);
 	};
 }
 
-function playbackCycle() { 
+function playbackCycle() {
 	playbackDraw();
-	
+
 	if($("#playback_slider a:first").hasClass('ui-state-active')==false)$("#playback_slider").slider('value',project.playback.keyframe[project.playback.session]+project.playback.action);
-			
-	project.playback.action++; 
+
+	project.playback.action++;
 	if(project.playback.action>project.recording.session[project.playback.session].actionlist.length-1){
 		project.playback.session++;
 		project.playback.action=0;
@@ -109,17 +109,17 @@ function playbackCycle() {
 		project.playback.stop();
 		return;
 	}
-		
-	
-	if(project.playback.imagesloading==0 && myHistory[0].rotation.playback!=true && resizeLayersPause!=true)	project.playback.start(); 
+
+
+	if(project.playback.imagesloading==0 && myHistory[0].rotation.playback!=true && resizeLayersPause!=true)	project.playback.start();
 }
 
 function resetSessionFrames(s){
 	project.width = project.recording.session[s].width;
 	project.height = project.recording.session[s].height;
-	
+
 	project.frames = project.recording.session[s].canvasdata.length;
-	
+
 	project.canvaslayer = [];
 	project.contextlayer = new Array(project.frames);
 	project.thumbnails = new Array(project.frames);
@@ -130,37 +130,37 @@ function resetSessionFrames(s){
 		project.canvaslayer.push( document.createElement('canvas') );
 		project.canvaslayer[i].width = project.width;
 		project.canvaslayer[i].height = project.height;
-		project.contextlayer[i] = project.canvaslayer[i].getContext('2d');			
+		project.contextlayer[i] = project.canvaslayer[i].getContext('2d');
 		project.contextlayer[i] = reload_canvas( project.canvaslayer[i], project.contextlayer[i] );
-	
+
 		project.visible[i] = project.recording.session[s].framevisible.length>i ? project.recording.session[s].framevisible[i] : true;
-		$("#frame_"+i ).find('img').attr('src', (project.visible[i]==true? 'eye-open.png' : 'eye-shut.png') ).attr('title', (project.visible[i]==true? 'Visible' : 'Hidden') );
+		$("#frame_"+i ).find('img').attr('src', (project.visible[i]==true? 'img/eye-open.png' : 'img/eye-shut.png') ).attr('title', (project.visible[i]==true? 'Visible' : 'Hidden') );
 		project.opacity[i] = project.recording.session[s].frameopacity.length>i ? project.recording.session[s].frameopacity[i] : 1;
-			
+
 	}
-	
+
 	//project.visible = project.recording.session[s].framevisible;
 	//project.opacity = project.recording.session[s].frameopacity;
-	
+
 	project.setupFramelist();
-	
+
 	for(var i=0; i<project.frames; i++){
 		var theframe = $("#frame_"+i);
 		theframe.attr('data-interval',project.recording.session[s].frameinterval[i]);
 		theframe.find('.frame_interval').html(project.recording.session[s].frameinterval[i]*0.001);
-		theframe.find('.frame_visible').attr('src','eye-'+(project.recording.session[s].framevisible[i]==false?'shut':'open')+'.png');
-		theframe.find('.frame_linker').css('background-image','url(icon-'+(project.recording.session[s].framelinked[i]==false?'un':'')+'linked.png)');
+		theframe.find('.frame_visible').attr('src','img/eye-'+(project.recording.session[s].framevisible[i]==false?'shut':'open')+'.png');
+		theframe.find('.frame_linker').css('background-image','url(img/icon-'+(project.recording.session[s].framelinked[i]==false?'un':'')+'linked.png)');
 	}
-	
+
 	project.recording.session[s].frameorder.forEach(function(entry){
 		$("#frame_list").append( $('#frame_'+entry) );
 	});
-	
+
 	//canvas size may change, so be sure to refresh these
 	updatecanvas.width=project.width;
 	updatecanvas.height=project.height;
 	updatecontext = updatecanvas.getContext('2d');
-	
+
 	temp2canvas = document.createElement("canvas");
 	temp2canvas.width = project.width;
 	temp2canvas.height = project.height;
@@ -168,7 +168,7 @@ function resetSessionFrames(s){
 	temp2context = reload_canvas(temp2canvas, temp2context);
 }
 
-function playbackDraw() { 
+function playbackDraw() {
 	var data = jQuery.extend(true, {}, project.recording.session[project.playback.session].actionlist[project.playback.action]);
 	//var data = project.recording.session[project.playback.session].actionlist[project.playback.action];
 	//if(project.playback.action==0)console.log(data);
@@ -242,7 +242,7 @@ function playbackDraw() {
 			commitHistory(data.peer);
 			if(project.recording.session[project.playback.session].version=='1.0.0')
 				v1_0_0_magiceraser_line(data.sx, data.sy, data.ex, data.ey, data.groups, data.t, data.basergba, data.peer);
-			else 
+			else
 				magiceraser_line(data.sx, data.sy, data.ex, data.ey, data.groups, data.t, data.basergba, data.baseuprgba, data.peer);
 		}else if(data.type=="draw_pixel_line"){
 			//check if we should add new historylist for peer
@@ -287,7 +287,7 @@ function playbackDraw() {
 			commitHistory(data.peer);
 			if(project.recording.session[project.playback.session].version=='1.0.0')
 				v1_0_0_brush_line(data.sx, data.sy, data.ex, data.ey, data.groups, data.t, data.basergba, data.baseuprgba, data.peer);
-			else 
+			else
 				brush_line(data.sx, data.sy, data.ex, data.ey, data.groups, data.t, data.basergba, data.baseuprgba, data.peer);
 		}else if(data.type=="draw_flood_fill"){
 			//check if we should add new historylist for peer
@@ -423,18 +423,18 @@ function playbackDraw() {
 			var peerhistory = $.grep(historylist, function(e){ return e.id == data.peer; });
 			peerhistory[0].frame = data.frame;
 			commitHistory(data.peer);
-			
+
 			//if clearing section, keep backup of what was there so we can pass to historylist(so we can restore it).
 			var backupcanvas = document.createElement("canvas");
 			backupcanvas.width = project.width;
 			backupcanvas.height = project.height;
 			var backupcontext = backupcanvas.getContext("2d");
 			backupcontext.drawImage(project.canvaslayer[data.frame],0,0);
-						
+
 			selectClip(data.peer);
 			if(data.selecttype=="cut"){
 				peerhistory[0].context.drawImage(peerhistory[0].selectionclipcanvas,peerhistory[0].selectionoffset.x,peerhistory[0].selectionoffset.y);
-				
+
 				claimHistory(data.peer,peerhistory[0].canvas);
 				peerhistory[0].layers.push(new historylayerdata("",peerhistory[0].canvas,peerhistory[0],true,backupcanvas) );
 				project.contextlayer[data.frame].globalCompositeOperation = 'destination-out';
@@ -442,13 +442,13 @@ function playbackDraw() {
 				project.contextlayer[data.frame].globalCompositeOperation = 'source-over';
 			}else{
 				peerhistory[0].context.drawImage(peerhistory[0].selectionclipcanvas,peerhistory[0].selectionoffset.x,peerhistory[0].selectionoffset.y);
-				
+
 				claimHistory(data.peer,peerhistory[0].canvas);
 				peerhistory[0].layers.push(new historylayerdata("",peerhistory[0].canvas,peerhistory[0],true,backupcanvas) );
 				project.contextlayer[data.frame].drawImage(peerhistory[0].canvas,0,0);
 			}
 			peerhistory[0].context.clearRect(0, 0, peerhistory[0].canvas.width, peerhistory[0].canvas.height);
-							
+
 		}else if(data.type=="resize_clip"){
 			var peerhistory = $.grep(historylist, function(e){ return e.id == data.peer; });
 			peerhistory[0].frame = data.frame;
@@ -492,10 +492,10 @@ function playbackDraw() {
 		}else if(data.type=="toggle_visible"){
 			//var peerhistory = $.grep(historylist, function(e){ return e.id == c.peer; });
 			project.visible[data.frame] = data.visible;
-			$('#frame_null').siblings('[value="'+data.frame+'"]').find('.frame_visible').attr('src',(data.visible!=true?'eye-shut.png':'eye-open.png'));
+			$('#frame_null').siblings('[value="'+data.frame+'"]').find('.frame_visible').attr('src',(data.visible!=true?'img/eye-shut.png':'img/eye-open.png'));
 		}else if(data.type=="toggle_linked"){
 			//var peerhistory = $.grep(historylist, function(e){ return e.id == c.peer; });
-			$('#frame_null').siblings('[value="'+data.frame+'"]').find('.frame_linker').css('background-image','url(icon-'+(data.linked==false?'un':'')+'linked.png)');
+			$('#frame_null').siblings('[value="'+data.frame+'"]').find('.frame_linker').css('background-image','url(img/icon-'+(data.linked==false?'un':'')+'linked.png)');
 		}else if(data.type=="frame_opacity"){
 			//var peerhistory = $.grep(historylist, function(e){ return e.id == c.peer; });
 			project.opacity[data.frame] = data.opacity;
@@ -506,7 +506,7 @@ function playbackDraw() {
 			//var peerhistory = $.grep(historylist, function(e){ return e.id == c.peer; });
 			resizeCanvas(data.width,data.height,data.direction );
 		}else if(data.type=="start_rotation"){
-		
+
 			var peerhistory = $.grep(historylist, function(e){ return e.id == data.peer; });
 			peerhistory[0].rotation = data.rotation;
 			peerhistory[0].selectionclip = data.clip;
@@ -531,7 +531,7 @@ function playbackDraw() {
 			revertResize();
 		}else if(data.type=="load_clipart"){
 			var peerhistory = $.grep(historylist, function(e){ return e.id == data.peer; });
-			
+
 			var img = new Image()
 			img.onload = function(){
 				peerhistory[0].selectionclipcontext.clearRect(0,0, peerhistory[0].selectionclipcanvas.width, peerhistory[0].selectionclipcanvas.height);
@@ -540,16 +540,16 @@ function playbackDraw() {
 				peerhistory[0].selectionclipcontext.drawImage(this,0,0);
 				peerhistory[0].selectionmaskcanvas.width = this.width;
 				peerhistory[0].selectionmaskcanvas.height = this.height;
-				
+
 				selectClip(peerhistory[0].id);
 				peerhistory[0].selectionclip.x = peerhistory[0].selectionoffset.x;
 				peerhistory[0].selectionclip.y = peerhistory[0].selectionoffset.y;
 				peerhistory[0].selectionhandle.state = 0;
 				peerhistory[0].selectionstate = "";
-				
+
 			};
 			img.src = data.clipart;
-			
+
 		}else if(data.type=="unlock_waiting"){
 			project.waiting++;
 			if(project.waiting >= peerlist.length){
@@ -581,23 +581,23 @@ function addPeerCanvases(){
 
 function exportPlaybackGif(filename){
 	if(project.playback.gif==null)return;
-	
-		
+
+
 	project.playback.gif.on('finished', function(blob) {
 		//window.open(URL.createObjectURL(blob));
 		e = document.createEvent('MouseEvents'),
         a = document.createElement('a')
-		
+
         a.download = filename+'.gif'
         a.href = window.URL.createObjectURL(blob)
         a.dataset.downloadurl = ['image/gif', a.download, a.href].join(':')
         e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
         a.dispatchEvent(e)
-		
+
 		project.playback.gif._events={};
 		//console.save(blob, filename+'.gif', 'image/gif');
 	});
-	
+
 	project.playback.gif.on('progress', function(p) {
 		$("#record_progressbar").progressbar('value',Math.floor(p*100) );
 	});
@@ -611,7 +611,7 @@ function newFromPlayback(){
 		project.playback.stop();
 		project.recording.session[project.playback.session].actionlist.length = project.playback.action+1;
 		project.recording.session.length = project.playback.session+1;
-		
+
 		historylist.forEach(function(entry){
 			commitHistory(entry.id);
 			clearHistory(entry.id);
@@ -622,7 +622,7 @@ function newFromPlayback(){
 		myHistory= $.grep(historylist, function(e){ return e.id == 0; });
 		brushlayers.push(new brushlayerdata(0,0));
 		myBrush= $.grep(brushlayers, function(e){ return e.id == 0; });
-		
+
 		var canvasdata = [];
 		var intervaldata = new Array(project.frames);
 		var linkeddata = new Array(project.frames);
@@ -633,7 +633,7 @@ function newFromPlayback(){
 			linkeddata[project.canvaslayer.indexOf(entry)] = ( $("#frame_"+project.canvaslayer.indexOf(entry) ).find('.frame_linker').attr('style').indexOf('-linked')!==-1 ? true : false );
 			frameorder[project.canvaslayer.indexOf(entry)] = $("#frame_null").siblings(':eq('+project.canvaslayer.indexOf(entry)+')').attr('value');
 		});
-	
+
 		project.recording.session.push( {width:project.width, height:project.height, frameorder:frameorder, frameinterval:intervaldata, framevisible:project.visible, frameopacity:project.opacity, framelinked:linkeddata, canvasdata:canvasdata, peerlist:[0], version:'1.0.0', actionlist:['start']} );
 		project.lock = false;
 		$("#colorpicker_container").show();

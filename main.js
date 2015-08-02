@@ -24,13 +24,13 @@ function projectdata(f,w,h){
 	this.waiting = 0;	//the number of users left to be synced up
 	this.lock = false;	//used to ensure accurate canvas is kept when new user is connecting to everyone
 	this.invite = [];	//holds the peerlist sent by the invite, we'll check this list to see when to finish connection stuff
-	
+
 	this.undos = 25;	//limit for historylist states
 	this.frames = f;
 	this.width = w, this.height = h;
-	
+
 	this.clip = {x:0,y:0,w:0,h:0};
-	
+
 	this.currentframe = 0;
 
 	this.canvaslayer = [];
@@ -38,10 +38,10 @@ function projectdata(f,w,h){
 	this.visible = [f];		//whether layer is visible or not
 	this.opacity = new Array(f);		//level of opacity
 	this.showall = true;	//if should show all layers if they're visible, or to only show selected layer (showing only current layer useful for animation as hidden layers will not be played)
-	
+
 	//this.grid = {show:false,x:16,y:16};
 	this.grid = (typeof(Storage) !== "undefined" && checkJSON('grid')!=null ? JSON.parse(localStorage.grid) : {show:false,x:16,y:16} );
-	
+
 	this.console = {scrolltop:0,scrollheight:0};
 
 	this.recording = new recordingdata();
@@ -50,24 +50,24 @@ function projectdata(f,w,h){
 	this.recording.session[0].height = h;
 	this.playback.crop.w = w;
 	this.playback.crop.h = h;
-	
+
 	this.init = function(){
 		for(var i=0; i<this.frames; i++){
 			this.canvaslayer.push( document.createElement('canvas') );
 			this.canvaslayer[i].width = this.width;
 			this.canvaslayer[i].height = this.height;
-			this.contextlayer[i] = this.canvaslayer[i].getContext('2d');			
+			this.contextlayer[i] = this.canvaslayer[i].getContext('2d');
 			this.contextlayer[i] = reload_canvas( this.canvaslayer[i], this.contextlayer[i] );
-		
+
 			this.visible[i] = true;
 			this.opacity[i] = 1;
-			
+
 			this.recording.session[0].canvasdata.push( this.canvaslayer[i].toDataURL() );
 			this.recording.session[0].frameinterval.push( 300 );
 			this.recording.session[0].framelinked.push( false );
 			this.recording.session[0].framevisible.push( true );
 			this.recording.session[0].frameopacity.push( 100 );
-			
+
 			//add new element to the frame list
 			/*var l = $('#frame_list');
 			l.find('li:first').clone(true).appendTo(l);
@@ -84,7 +84,7 @@ function projectdata(f,w,h){
 		}
 		$( "#canvas_bg_color").css('background',tool.bg);
 	}
-	
+
 	this.thumbnails = [this.frames];
 	this.thumbnailscontext = [this.frames];
 	this.setupFramelist = function(){
@@ -98,8 +98,8 @@ function projectdata(f,w,h){
 			var frame = l.find('li:last');
 			frame.show().css({'padding-left':'16px'})
 			.append('<span style="position:absolute; top:0px; right:0px;">'+i+'</span>')
-			.append('<img src="eye-open.png" class="frame_visible" title="visible" style="position:absolute; top:0px; left:0px; border:0px;" onclick="this.src=(this.src.indexOf(\'open\')!=-1?\'eye-shut.png\':\'eye-open.png\'); this.title=(this.src.indexOf(\'open\')!=-1?\'visible\':\'hidden\'); project.visible[$(this).parent().attr(\'value\')]=(this.title.indexOf(\'visible\')!=-1?true:false); send_toggle_visible($(this).parent().attr(\'value\'),(this.title.indexOf(\'visible\')!=-1?true:false));">')
-			.append('<div class="frame_linker" style="position:absolute; top:-10px; left:28px; width:16px; height:16px; background: url(\'icon-unlinked.png\');" onclick="$(this).css(\'background-image\',\'url(icon-\'+($(this).attr(\'style\').indexOf(\'unlinked\')===-1 ? \'un\' : \'\' )+\'linked.png)\'); send_toggle_linked($(this).parent().attr(\'value\'),($(this).attr(\'style\').indexOf(\'unlinked\')===-1 ? true : false ) ); return false;"></div>');
+			.append('<img src="img/eye-open.png" class="frame_visible" title="visible" style="position:absolute; top:0px; left:0px; border:0px;" onclick="this.src=(this.src.indexOf(\'open\')!=-1?\'img/eye-shut.png\':\'img/eye-open.png\'); this.title=(this.src.indexOf(\'open\')!=-1?\'visible\':\'hidden\'); project.visible[$(this).parent().attr(\'value\')]=(this.title.indexOf(\'visible\')!=-1?true:false); send_toggle_visible($(this).parent().attr(\'value\'),(this.title.indexOf(\'visible\')!=-1?true:false));">')
+			.append('<div class="frame_linker" style="position:absolute; top:-10px; left:28px; width:16px; height:16px; background: url(\'img/icon-unlinked.png\');" onclick="$(this).css(\'background-image\',\'url(icon-\'+($(this).attr(\'style\').indexOf(\'unlinked\')===-1 ? \'img/un\' : \'img/\' )+\'linked.png)\'); send_toggle_linked($(this).parent().attr(\'value\'),($(this).attr(\'style\').indexOf(\'unlinked\')===-1 ? true : false ) ); return false;"></div>');
 			this.thumbnails[i] = document.createElement("canvas");
 			this.thumbnails[i].width=frame.width();
 			this.thumbnails[i].height=frame.height();
@@ -109,7 +109,7 @@ function projectdata(f,w,h){
 			.attr('value',i )
 			.siblings().removeClass('ui-state-active');
 			l.find('li[id=frame_0]').toggleClass('ui-state-active');
-			
+
 			frame.append('<span id="interval_'+i+'" class="frame_interval" value="'+i+'" style="position:absolute; bottom:0px; right:0px; white-space: nowrap; font-size:9px;">0.3</span>');
 				var interval = $("#interval_"+i);
 				interval.click( function(){ $('#interval_menu').show().position({
@@ -121,18 +121,18 @@ function projectdata(f,w,h){
 					 $('#interval_menu').hide();
 					});
 					document.getElementById("interval_menu").dataset.frame = $(this).attr('value');
-					return false; 
+					return false;
 				});
 			frame.insertAfter($('#frame_list').find('li:first'));
 			frame = document.getElementById("frame_"+i);
 			frame.dataset.interval = 300;
-		
-			$("#frame_"+i ).find('img').attr('src', (project.visible[i]==true? 'eye-open.png' : 'eye-shut.png') ).attr('title', (project.visible[i]==true? 'Visible' : 'Hidden') );
+
+			$("#frame_"+i ).find('img').attr('src', (project.visible[i]==true? 'img/eye-open.png' : 'img/eye-shut.png') ).attr('title', (project.visible[i]==true? 'Visible' : 'Hidden') );
 		}
-		
+
 		//toggleFrameOrientation();
 	}
-	
+
 	this.init();
 }
 
@@ -153,31 +153,31 @@ function brushlayerdata(id,frame){
 }
 
 var pencilsize = new Image();
-pencilsize.src = 'pencilsize.png';
+pencilsize.src = 'img/pencilsize.png';
 
 window.onload = init;
 
 function reset_project(f,w,h){
 	project.playback.stop();
 	project = new projectdata(f,w,h);
-	
+
 	updatecanvas.width=project.width;
 	updatecanvas.height=project.height;
 	updatecontext = updatecanvas.getContext('2d');
-	
+
 	context = reload_canvas(canvas, context);
 	palettecontext = reload_canvas(palettecanvas, palettecontext);
 	toolcontext = reload_canvas(toolcanvas, toolcontext);
-	
+
 	project.setupFramelist();
 	tool.offset = {x:(((canvas.width/tool.zoom)-w)*0.5)*tool.zoom,y:(((canvas.height/tool.zoom)-h)*0.5)*tool.zoom};
-	
+
 	temp2canvas = document.createElement("canvas");
 	temp2canvas.width = project.width;
 	temp2canvas.height = project.height;
 	temp2context = temp2canvas.getContext('2d');
 	temp2context = reload_canvas(temp2canvas, temp2context);
-	
+
 	//commitHistory(myHistory[0]);
 	clearHistory(myHistory[0].id);
 	historylist = [];
@@ -186,7 +186,7 @@ function reset_project(f,w,h){
 	brushlayers = [];
 	brushlayers.push(new brushlayerdata(0,0));
 	myBrush= $.grep(brushlayers, function(e){ return e.id == 0; });
-	
+
 	animation = new animationdata();
 }
 
@@ -202,31 +202,31 @@ function init()
 	$("#pencontrol_size, #pencontrol_opacity, #pencontrol_hardness, #pencontrol_levels").css('font-size','8px');
 	$("#preset1").click();
 	$("#connect_room").val(Math.floor(Math.random()*15));
-	
+
 	canvas = document.getElementById('canvas');
 	context = canvas.getContext('2d');
-	
+
 	minicanvas = document.getElementById('minicanvas');
 	minicontext = minicanvas.getContext('2d');
-	
+
 	//canvaslayer = document.createElement('canvas');		//this will be what we draw on. This canvaslayer will be drawn to the canvas
 	//canvaslayer.width=128;
 	//canvaslayer.height=128;
 	//contextlayer = canvaslayer.getContext('2d');
-		
+
 	pcanvas = document.getElementById('palettecanvas');	//for use with palettecanvas
 	//pcanvas.width=palettecanvas.width;
 	//pcanvas.height=palettecanvas.height;
 	pcontext = pcanvas.getContext('2d');
-	
+
 	palettecanvas = document.createElement('canvas');
 	palettecanvas.width=pcanvas.width;
 	palettecanvas.height=pcanvas.height;
 	palettecontext = palettecanvas.getContext('2d');
-	
+
 	toolcanvas = document.getElementById('toolcanvas');		//this will show how the properties customize the brush
 	toolcontext = toolcanvas.getContext('2d');
-	
+
 	/*brushcanvas = document.createElement('canvas');		//This will draw/calculate brush strokes/lines so that the lines don't clump up if using opacity.
 	brushcanvas.width=canvaslayer.width;
 	brushcanvas.height=canvaslayer.height;
@@ -235,43 +235,43 @@ function init()
 	brushpreviewcanvas.width=canvaslayer.width;
 	brushpreviewcanvas.height=canvaslayer.height;
 	brushpreviewcontext = brushpreviewcanvas.getContext('2d');*/
-	
+
 	updatecanvas = document.createElement('canvas');		//this will be used for updating historylist of peers
 	updatecanvas.width=project.width;
 	updatecanvas.height=project.height;
 	updatecontext = updatecanvas.getContext('2d');
-	
-		
+
+
 	//canvas.addEventListener("mousemove",mouse_move() );
 
 	canvas_events();
 	palettecanvas_events();
 	minicanvas_events();
-	
+
 	context = reload_canvas(canvas, context);
 	minicontext = reload_canvas(minicanvas, minicontext);
 	//contextlayer = reload_canvas(canvaslayer, contextlayer);
 	palettecontext = reload_canvas(palettecanvas, palettecontext);
 	toolcontext = reload_canvas(toolcanvas, toolcontext);
-	
+
 	project.setupFramelist();
 	historylist.push(new historydata(0,0));
 	myHistory= $.grep(historylist, function(e){ return e.id == 0; });
 	brushlayers.push(new brushlayerdata(0,0));
 	myBrush= $.grep(brushlayers, function(e){ return e.id == 0; });
-	
+
 	$("#zoom_text").text((tool.zoom*100)+"%");
 	$("#secondary_zoom_text").text((tool.zoom*100)+"%");
 	toggleFrameOrientation();
 	setAppSize();
-	
+
 	mouse.currentColor = 1;
 	if(typeof(Storage) !== "undefined" && typeof(localStorage.secondaryColor) !== "undefined" )eyedropColor(JSON.parse(localStorage.secondaryColor));
 	else eyedropColor({r:255,g:255,b:255});
 	mouse.currentColor = 0;
 	if(typeof(Storage) !== "undefined" && typeof(localStorage.primaryColor) !== "undefined" )eyedropColor(JSON.parse(localStorage.primaryColor));
 	else eyedropColor({r:0,g:0,b:0});
-	
+
 	tempcanvas = document.createElement("canvas");
 	tempcanvas.width = myHistory[0].resizecanvas.width;
 	tempcanvas.height = myHistory[0].resizecanvas.height;
@@ -281,11 +281,11 @@ function init()
 	temp2canvas.height = project.height;
 	temp2context = temp2canvas.getContext('2d');
 	temp2context = reload_canvas(temp2canvas, temp2context);
-	
+
 	//$("#app_container").hide();
-	
+
 	tool.offset = {x:(((canvas.width/tool.zoom)-project.width)*0.5)*tool.zoom,y:(((canvas.height/tool.zoom)-project.height)*0.5)*tool.zoom};
-	
+
 	setInterval(draw, SECONDSBETWEENFRAMES * 1000);
 }
 
@@ -306,7 +306,7 @@ function setAppSize(){
 		$("#console").css('height','100%');
 		loadwidth = parseInt(window.getComputedStyle(document.getElementById('app_container')).getPropertyValue("width"))-195;
 	}
-		
+
 	var loadheight = parseInt(window.getComputedStyle(document.getElementById('app_container')).getPropertyValue("height"))-170;
 	$('#canvas_container').css('width',loadwidth);
 	$('#canvas_container').css('height',loadheight);
@@ -333,19 +333,19 @@ function setAppSize(){
 	dropInsideContainer($("#window_slider"),$("#history_container"));
 	dropInsideContainer($("#window_slider2"),$("#frame_container"));
 	if(typeof(Storage) !== "undefined" && typeof(localStorage.scan_palette_dropdown) !== "undefined" ) $('#scan_palette_dropdown').prop('selectedIndex',localStorage.scan_palette_dropdown);
-	
-	
+
+
 }
 
 function draw(){
 	minicontext.fillStyle = 'rgb(20,20,20)';
 	minicontext.fillRect(0,0,minicanvas.width,minicanvas.height);
 	minicontext.clearRect(tool.secondary_offset.x, tool.secondary_offset.y, (tool.secondary_view!=4?project.width*tool.secondary_zoom:tile.dim.w*project.grid.x*tool.secondary_zoom), (tool.secondary_view!=4?project.height*tool.secondary_zoom:tile.dim.h*project.grid.y*tool.secondary_zoom));
-	
+
 	context.fillStyle = 'rgb(20,20,20)';
 	context.fillRect(0,0,canvas.width,canvas.height);
 	context.clearRect(tool.offset.x, tool.offset.y, project.width*tool.zoom, project.height*tool.zoom);
-	
+
 	pcontext.clearRect(0,0,pcanvas.width,pcanvas.height);
 	//context.save();
 	//context.rect(0,0,50,50);
@@ -353,8 +353,8 @@ function draw(){
 	//draw stuff that needs clipping
 	//context.restore();
 	if(mouse.pos.x!=mouse.lastpos.x || mouse.pos.y!=mouse.lastpos.y){
-		
-		
+
+
 		//if left button is down and using pencil tool, draw pixels from old position to current position, and also send this instruction to peers.
 		if(mouse.left){
 			if(approveContinue() && key.spacebar==false && tool.preventdraw==false && project.lock==false && animation.state==false){
@@ -364,10 +364,10 @@ function draw(){
 				var lastfinaly = mouse.lastfinalpos.y; //Math.floor((mouse.lastpos.y - tool.offset.y)/tool.zoom);
 				var t = {size:tool.size,opacity:tool.opacity,hardness:tool.hardness,levels:tool.levels,pressure:tool.pressure,tilt:tool.tilt,pen:tool.pen,dither:tool.dither};
 				if(mouse.canvas==palettecanvas){ finalx=mouse.pos.x; finaly=mouse.pos.y; lastfinalx=mouse.lastpos.x; lastfinaly=mouse.lastpos.y;}
-				
-				
+
+
 				if( $('#canvas').css('cursor')=='crosshair'){
-					
+
 					if(key.shift==true && mouse.direction==0){
 						if(Math.abs(mouse.finalpos.x - mouse.lastfinalpos.x) > Math.abs(mouse.finalpos.y - mouse.lastfinalpos.y) ){
 							mouse.direction=1;
@@ -389,13 +389,13 @@ function draw(){
 						finalx=mouse.lastfinalpos.x;
 						lastfinalx=mouse.lastfinalpos.x;
 					}else if(key.shift==false)mouse.direction=0;
-					
+
 					//used in relation to holding shift, draw straight line from last position
 					if(mouse.tool=="eraser" || mouse.tool=="magiceraser" || mouse.tool=="pencil" || mouse.tool=="brush"){
 						mouse.lastclick.x = mouse.finalpos.x;
 						mouse.lastclick.y = mouse.finalpos.y;
 					}
-					
+
 					if(mouse.tool=="eraser"){
 						if(mouse.canvas==palettecanvas){
 							if(tool.lockcolordex==false)erase_line(palettecontext,lastfinalx,lastfinaly,finalx,finaly,mouse.color,t,"palette");
@@ -443,7 +443,7 @@ function draw(){
 					}
 
 				}
-				
+
 				if(mouse.tool=="hand"){
 					if(mouse.canvas == canvas){
 						tool.offset.x +=  mouse.pos.x - mouse.lastpos.x;
@@ -489,7 +489,7 @@ function draw(){
 						myHistory[0].selectionclip.x2 += finalx - lastfinalx;
 						myHistory[0].selectionclip.y2 += finaly - lastfinaly;
 					}else if(myHistory[0].selectionstate=="resize" && myHistory[0].selectionhandle.state == 2){
-						if(	myHistory[0].resize.oldx2 != myHistory[0].selectionclip.x2 || 
+						if(	myHistory[0].resize.oldx2 != myHistory[0].selectionclip.x2 ||
 							myHistory[0].resize.oldy2 != myHistory[0].selectionclip.y2){
 							myHistory[0].resize.oldx = myHistory[0].selectionclip.x;
 							myHistory[0].resize.oldy = myHistory[0].selectionclip.y;
@@ -503,7 +503,7 @@ function draw(){
 							myHistory[0].selectionoffset.x = myHistory[0].resize.oldoffsetx;
 							myHistory[0].selectionoffset.y = myHistory[0].resize.oldoffsety;
 						}
-						
+
 						if(myHistory[0].rotation.degree!=0){
 							if(myHistory[0].selectionhandle.x!=0)myHistory[0].resize.x += (myHistory[0].rotation.w-myHistory[0].rotation.lastw)*(myHistory[0].selectionhandle.y==-1 ? -1 : 1);
 							if(myHistory[0].selectionhandle.y!=0)myHistory[0].resize.y += (myHistory[0].rotation.h-myHistory[0].rotation.lasth)*(myHistory[0].selectionhandle.y==-1 ? -1 : 1);
@@ -518,8 +518,8 @@ function draw(){
 								var temph = myHistory[0].selectionclip.oh;
 								if(myHistory[0].selectionhandle.x==-1 && myHistory[0].selectionhandle.y==-1){
 									//myHistory[0].selectionoffset.x = myHistory[0].selectionclip.x - myHistory[0].resize.x;
-									myHistory[0].rotation.w = calcDistance(myHistory[0].rotation.originalcorners[2],myHistory[0].rotation.originalcorners[3],myHistory[0].rotation.originalcorners[4],myHistory[0].rotation.originalcorners[5]) - myHistory[0].rotation.w; 
-									myHistory[0].rotation.h = calcDistance(myHistory[0].rotation.originalcorners[0],myHistory[0].rotation.originalcorners[1],myHistory[0].rotation.originalcorners[4],myHistory[0].rotation.originalcorners[5]) - myHistory[0].rotation.h; 
+									myHistory[0].rotation.w = calcDistance(myHistory[0].rotation.originalcorners[2],myHistory[0].rotation.originalcorners[3],myHistory[0].rotation.originalcorners[4],myHistory[0].rotation.originalcorners[5]) - myHistory[0].rotation.w;
+									myHistory[0].rotation.h = calcDistance(myHistory[0].rotation.originalcorners[0],myHistory[0].rotation.originalcorners[1],myHistory[0].rotation.originalcorners[4],myHistory[0].rotation.originalcorners[5]) - myHistory[0].rotation.h;
 									if(key.alt){
 										myHistory[0].selectionoffset.x = myHistory[0].selectionclip.x + Math.floor((Math.cos(myHistory[0].rotation.radian)*(tempw-myHistory[0].rotation.w)*(myHistory[0].selectionhandle.x!=0?0.5:0))+(Math.cos(myHistory[0].rotation.radian+toRadians(90))*(temph-myHistory[0].rotation.h)*(myHistory[0].selectionhandle.y!=0?0.5:0)));
 										myHistory[0].selectionoffset.y = myHistory[0].selectionclip.y + Math.floor((Math.sin(myHistory[0].rotation.radian)*(tempw-myHistory[0].rotation.w)*(myHistory[0].selectionhandle.x!=0?0.5:0))+(Math.sin(myHistory[0].rotation.radian+toRadians(90))*(temph-myHistory[0].rotation.h)*(myHistory[0].selectionhandle.y!=0?0.5:0)));
@@ -530,8 +530,8 @@ function draw(){
 									//console.log(myHistory[0].selectionclip.ow+","+myHistory[0].selectionclip.oh);
 								}else if(myHistory[0].selectionhandle.x==-1){
 									//myHistory[0].selectionoffset.x = myHistory[0].selectionclip.x - myHistory[0].resize.x;
-									myHistory[0].rotation.w = calcDistance(myHistory[0].rotation.originalcorners[2],myHistory[0].rotation.originalcorners[3],myHistory[0].rotation.originalcorners[4],myHistory[0].rotation.originalcorners[5]) - myHistory[0].rotation.w; 
-									//myHistory[0].rotation.h = calcDistance(myHistory[0].rotation.originalcorners[0],myHistory[0].rotation.originalcorners[1],myHistory[0].rotation.originalcorners[4],myHistory[0].rotation.originalcorners[5]) - myHistory[0].rotation.h; 
+									myHistory[0].rotation.w = calcDistance(myHistory[0].rotation.originalcorners[2],myHistory[0].rotation.originalcorners[3],myHistory[0].rotation.originalcorners[4],myHistory[0].rotation.originalcorners[5]) - myHistory[0].rotation.w;
+									//myHistory[0].rotation.h = calcDistance(myHistory[0].rotation.originalcorners[0],myHistory[0].rotation.originalcorners[1],myHistory[0].rotation.originalcorners[4],myHistory[0].rotation.originalcorners[5]) - myHistory[0].rotation.h;
 									if(key.alt){
 										myHistory[0].selectionoffset.x = myHistory[0].selectionclip.x + Math.floor((Math.cos(myHistory[0].rotation.radian)*(tempw-myHistory[0].rotation.w)*(myHistory[0].selectionhandle.x!=0?0.5:0))+(Math.cos(myHistory[0].rotation.radian+toRadians(90))*(temph-myHistory[0].rotation.h)*(myHistory[0].selectionhandle.y!=0?0.5:0)));
 										myHistory[0].selectionoffset.y = myHistory[0].selectionclip.y + Math.floor((Math.sin(myHistory[0].rotation.radian)*(tempw-myHistory[0].rotation.w)*(myHistory[0].selectionhandle.x!=0?0.5:0))+(Math.sin(myHistory[0].rotation.radian+toRadians(90))*(temph-myHistory[0].rotation.h)*(myHistory[0].selectionhandle.y!=0?0.5:0)));
@@ -543,8 +543,8 @@ function draw(){
 									//myHistory[0].selectionoffset.y = myHistory[0].rotation.sy - Math.floor(Math.sin(myHistory[0].rotation.ey)*myHistory[0].rotation.y);
 								}else if(myHistory[0].selectionhandle.y==-1){
 									//myHistory[0].selectionoffset.y = myHistory[0].selectionclip.y - myHistory[0].resize.y;
-									//myHistory[0].rotation.w = calcDistance(myHistory[0].rotation.originalcorners[2],myHistory[0].rotation.originalcorners[3],myHistory[0].rotation.originalcorners[4],myHistory[0].rotation.originalcorners[5]) - myHistory[0].rotation.w; 
-									myHistory[0].rotation.h = calcDistance(myHistory[0].rotation.originalcorners[0],myHistory[0].rotation.originalcorners[1],myHistory[0].rotation.originalcorners[4],myHistory[0].rotation.originalcorners[5]) - myHistory[0].rotation.h; 
+									//myHistory[0].rotation.w = calcDistance(myHistory[0].rotation.originalcorners[2],myHistory[0].rotation.originalcorners[3],myHistory[0].rotation.originalcorners[4],myHistory[0].rotation.originalcorners[5]) - myHistory[0].rotation.w;
+									myHistory[0].rotation.h = calcDistance(myHistory[0].rotation.originalcorners[0],myHistory[0].rotation.originalcorners[1],myHistory[0].rotation.originalcorners[4],myHistory[0].rotation.originalcorners[5]) - myHistory[0].rotation.h;
 									if(key.alt){
 										myHistory[0].selectionoffset.x = myHistory[0].selectionclip.x + Math.floor((Math.cos(myHistory[0].rotation.radian)*(tempw-myHistory[0].rotation.w)*(myHistory[0].selectionhandle.x!=0?0.5:0))+(Math.cos(myHistory[0].rotation.radian+toRadians(90))*(temph-myHistory[0].rotation.h)*(myHistory[0].selectionhandle.y!=0?0.5:0)));
 										myHistory[0].selectionoffset.y = myHistory[0].selectionclip.y + Math.floor((Math.sin(myHistory[0].rotation.radian)*(tempw-myHistory[0].rotation.w)*(myHistory[0].selectionhandle.x!=0?0.5:0))+(Math.sin(myHistory[0].rotation.radian+toRadians(90))*(temph-myHistory[0].rotation.h)*(myHistory[0].selectionhandle.y!=0?0.5:0)));
@@ -564,16 +564,16 @@ function draw(){
 									}
 								}
 							//}
-							
+
 							if(myHistory[0].rotation.w < 0)myHistory[0].rotation.flipv = myHistory[0].rotation.lastflipv*-1;
 							else myHistory[0].rotation.flipv = myHistory[0].rotation.lastflipv;
 							if(myHistory[0].rotation.h < 0)myHistory[0].rotation.fliph = myHistory[0].rotation.lastfliph*-1;
 							else myHistory[0].rotation.fliph = myHistory[0].rotation.lastfliph;
-							
+
 							if(myHistory[0].selectionhandle.x!=0)myHistory[0].selectionclip.w = Math.abs(myHistory[0].rotation.w);//+(myHistory[0].rotation.w<0?myHistory[0].selectionclip.ow:0);
 							if(myHistory[0].selectionhandle.y!=0)myHistory[0].selectionclip.h = Math.abs(myHistory[0].rotation.h);//+(myHistory[0].rotation.h<0?myHistory[0].selectionclip.oh:0);
 								//console.log(myHistory[0].selectionclip.ow+","+myHistory[0].selectionclip.oh);
-								
+
 							if(key.shift){
 								var oldh = myHistory[0].selectionclip.h;
 								var ratio = (myHistory[0].selectionclip.oh)/(myHistory[0].selectionclip.ow);
@@ -594,11 +594,11 @@ function draw(){
 							myHistory[0].rotation.corners[3] = myHistory[0].rotation.sy + (myHistory[0].rotation.ry*myHistory[0].selectionclip.h);
 							myHistory[0].rotation.corners[4] = myHistory[0].rotation.sx + (myHistory[0].rotation.ex*myHistory[0].selectionclip.w)+(myHistory[0].rotation.rx*myHistory[0].selectionclip.h);
 							myHistory[0].rotation.corners[5] = myHistory[0].rotation.sy + (myHistory[0].rotation.ey*myHistory[0].selectionclip.w)+(myHistory[0].rotation.ry*myHistory[0].selectionclip.h);
-							
+
 						}else{
 							if(myHistory[0].selectionhandle.x!=0)myHistory[0].resize.x += (finalx - lastfinalx)*(myHistory[0].selectionhandle.x==-1 ? -1 : 1);
 							if(myHistory[0].selectionhandle.y!=0)myHistory[0].resize.y += (finaly - lastfinaly)*(myHistory[0].selectionhandle.y==-1 ? -1 : 1);
-							
+
 							if(myHistory[0].selectionhandle.x==-1){
 								myHistory[0].selectionoffset.x = myHistory[0].selectionclip.x - myHistory[0].resize.x;
 								//myHistory[0].resize.x += (finalx - lastfinalx)*(myHistory[0].selectionhandle.x==-1 ? -1 : 1);
@@ -627,8 +627,8 @@ function draw(){
 						var x0 =(finalx*tool.zoom)+tool.offset.x;
 						var y0 =(finaly*tool.zoom)+tool.offset.y;
 						var angle = calcAngle(myHistory[0].rotation.x,myHistory[0].rotation.y,x0,y0);
-						myHistory[0].rotation.degree = angle[0]; 
-						myHistory[0].rotation.radian = angle[1]; 
+						myHistory[0].rotation.degree = angle[0];
+						myHistory[0].rotation.radian = angle[1];
 						rotateClipFast(myHistory[0].id);
 					}
 				}else if(mouse.tool=="magicwand"){
@@ -672,8 +672,8 @@ function draw(){
 				project.clip.h = (tool.offset.y/tool.zoom >= 0 ? Math.max(canvas.height - tool.offset.y/tool.zoom,0) : Math.max(canvas.height + tool.offset.y/tool.zoom,0) );
 				*/
 			}
-			
-			
+
+
 		}else if(mouse.middle==true){
 			if(mouse.canvas == canvas){
 				tool.offset.x +=  mouse.pos.x - mouse.lastpos.x;
@@ -685,26 +685,26 @@ function draw(){
 				$("#minicanvas_bg").css('background-position',(tool.secondary_offset.x%16)+'px '+(tool.secondary_offset.y%16)+'px');
 			}
 		}
-		
+
 		mouse.lastpos.x = mouse.pos.x;
 		mouse.lastpos.y = mouse.pos.y;
 		mouse.lastfinalpos.x = mouse.finalpos.x;
 		mouse.lastfinalpos.y = mouse.finalpos.y;
 		//send_my_position();
 	}
-	
+
 	if(animation.state==false){
 		//context.drawImage(imageObj, 0,0,imageObj.width*2,imageObj.height*2);
 		//contextlayer.fillStyle = "rgba(0,0,0,1)";
 		//contextlayer.fillRect( mouse.pos.x, mouse.pos.y, 1, 1 );
-		
+
 		pcontext.drawImage(palettecanvas, 0,0,pcanvas.width,pcanvas.height);
-		
+
 		project.thumbnailscontext.forEach(function(entry){
 			entry.clearRect(0,0,project.thumbnails[project.thumbnailscontext.indexOf(entry)].width,project.thumbnails[project.thumbnailscontext.indexOf(entry)].height);
 			entry.drawImage(project.canvaslayer[project.thumbnailscontext.indexOf(entry)],0,0,project.width,project.height,0,0,project.thumbnails[project.thumbnailscontext.indexOf(entry)].width,project.thumbnails[project.thumbnailscontext.indexOf(entry)].height);
 		});
-		
+
 		//first this is for primary viewport, afterwards, we'll do the secondary viewport.
 		var start = project.frames-1 , end = -1;
 		if(tool.view==2){	//linked
@@ -741,14 +741,14 @@ function draw(){
 			for(var i=project.canvaslayer.length-1; i>-1; i--){
 				var theframe = $("#frame_null").siblings(':eq('+i+')');
 				var animframe = theframe.attr('value');
-				
+
 				if(animframe==project.currentframe){
 					tool.sheet.current = sheetcount;
 					tool.sheet.oy = -Math.floor(sheetcount/tool.sheet.x)*project.height;
 					tool.sheet.ox = -(sheetcount-(Math.floor(sheetcount/tool.sheet.x)*tool.sheet.x))*project.width;
 				}
 				if(animframe!=-1)tool.sheet.list[animframe] = sheetcount;
-				
+
 				do{
 					if( $("#frame_null").siblings().length==project.frames && $("#frame_null").siblings('[value="'+animframe+'"]').find('.frame_linker').attr('style').indexOf('-linked')!==-1 ){
 						animframe = $("#frame_null").siblings('[value="'+animframe+'"]').prev().attr('value');
@@ -761,22 +761,22 @@ function draw(){
 						i--;
 					}else animframe = -1;
 				}while(animframe!=-1);
-				
-				sheetcount++;	//track the number of spaces in the sheet, with linked frames accounted for				
+
+				sheetcount++;	//track the number of spaces in the sheet, with linked frames accounted for
 			}
 		}
-		
+
 		for(var frame_i=start; frame_i>end; frame_i--){
 			var framenum = $("#frame_null").siblings(':eq('+frame_i+')').attr('value');
-			
+
 			if(tool.view==1){//project.showall==false){
 				framenum=project.currentframe;
 				frame_i = 0;
 			}
-				
+
 			if(project.visible[framenum]==true && framenum<project.canvaslayer.length && framenum>-1){
 				temp2context.clearRect(0,0,project.width,project.height);
-				
+
 				if(project.visible[framenum]==true)temp2context.drawImage(project.canvaslayer[framenum],0,0);
 				//context.drawImage(brushcanvas, 0,0);
 				//context.drawImage(myBrush[0].previewcanvas, 0,0);
@@ -784,10 +784,10 @@ function draw(){
 				brushlayers.forEach(function(entry){
 					if(entry.frame==project.currentframe)temp2context.drawImage(entry.previewcanvas,0,0);
 				});
-				
+
 				historylist.forEach(function(entry){
 					//if(entry.frame==project.currentframe)context.drawImage(entry.canvas,project.clip.x,project.clip.y,project.clip.w,project.clip.h,tool.offset.x+(project.clip.x*tool.zoom),tool.offset.y+(project.clip.y*tool.zoom),project.clip.w*tool.zoom,project.clip.h*tool.zoom);
-					
+
 					if(entry.frame==framenum){
 						if(entry.draw==false || entry.erase==true)temp2context.globalCompositeOperation = 'destination-out';
 						temp2context.drawImage(entry.canvas,0,0);
@@ -798,7 +798,7 @@ function draw(){
 						for(var i=0; i<entry.layers.length; i++){
 							updatecontext.drawImage(entry.layers[i].maskcanvas, 0,0);
 					}*/
-					
+
 					if(entry.selected!=-1 && entry.selected < entry.layers.length){
 						for(var i=entry.layers.length-1; i>entry.selected; i--){
 							if(entry.layers[i].frame==framenum){
@@ -807,13 +807,13 @@ function draw(){
 								context.globalCompositeOperation = 'source-over';
 								context.drawImage(entry.layers[i].canvas,project.clip.x,project.clip.y,project.clip.w,project.clip.h,tool.offset.x+(project.clip.x*tool.zoom),tool.offset.y+(project.clip.y*tool.zoom),project.clip.w*tool.zoom,project.clip.h*tool.zoom);
 								*/
-								
+
 								/*context.globalCompositeOperation = 'destination-out';
 								context.drawImage(entry.layers[i].maskcanvas,0,0,project.width,project.height,tool.offset.x,tool.offset.y,project.width*tool.zoom,project.height*tool.zoom);
 								context.globalCompositeOperation = 'source-over';
 								context.drawImage(entry.layers[i].canvas,0,0,project.width,project.height,tool.offset.x,tool.offset.y,project.width*tool.zoom,project.height*tool.zoom);
 								*/
-								//apparently we can't drawimage in firefox with negative numbers or sizes bigger than the destination size.. or something, so we cut it to fit 
+								//apparently we can't drawimage in firefox with negative numbers or sizes bigger than the destination size.. or something, so we cut it to fit
 								var clipx = Math.min(project.width, Math.max(0,entry.layers[i].clip.x));
 								var clipy = Math.min(project.height, Math.max(0,entry.layers[i].clip.y));
 								var clipw = entry.layers[i].clip.w + (entry.layers[i].clip.x-clipx)+1;
@@ -837,10 +837,10 @@ function draw(){
 							}
 						}
 					}
-					
-					
+
+
 				});
-				
+
 				if( project.playback.state==true && $('#record_button').is(':checked') && project.playback.action % $('#record_keyframe').val()==0 && $('#record_count').attr('data-capture')=='true' ){
 					if(project.playback.gif==null){
 						project.playback.gif = new GIF({
@@ -861,7 +861,7 @@ function draw(){
 						tempgifcontext.fillRect(0,0,tempgifcanvas.width,tempgifcanvas.height);
 						//tempgifcontext.drawImage(temp2canvas,0,0,temp2canvas.width,temp2canvas.height,0,0,tempgifcanvas.width,tempgifcanvas.height);
 						tempgifcontext.drawImage(temp2canvas,project.playback.crop.x,project.playback.crop.y,project.playback.crop.w,project.playback.crop.h,0,0,tempgifcanvas.width,tempgifcanvas.height);
-						
+
 						project.playback.gif.options.width = tempgifcanvas.width;
 						project.playback.gif.options.height = tempgifcanvas.height;
 						project.playback.gif.addFrame(tempgifcontext, {copy: true});
@@ -873,7 +873,7 @@ function draw(){
 				}else if( project.playback.state==true && $('#record_button').is(':checked') && project.playback.action % $('#record_keyframe').val()!=0 && $('#record_count').attr('data-capture')=='false' ){
 					$('#record_count').attr('data-capture','true');
 				}
-				
+
 				context.globalAlpha=project.opacity[framenum];
 				if(tool.view!=3)context.drawImage(temp2canvas,0,0,project.width,project.height,tool.offset.x,tool.offset.y,project.width*tool.zoom,project.height*tool.zoom);
 				else{
@@ -890,19 +890,19 @@ function draw(){
 				}
 				context.globalAlpha=1;
 				//context.drawImage(temp2canvas,0,0,project.width,project.height);
-				
+
 				//var tempcanvas = document.createElement("canvas");
 				tempcanvas.width = myHistory[0].resizecanvas.width;
 				tempcanvas.height = myHistory[0].resizecanvas.height;
 				//var tempcontext = tempcanvas.getContext('2d');
-				
+
 
 				historylist.forEach(function(entry){
 					//context.fillStyle="blue";
 					//context.fillRect(tool.offset.x+(entry.selectionclip.x*tool.zoom),tool.offset.y+(entry.selectionclip.y*tool.zoom),(entry.selectionclip.x2-entry.selectionclip.x)*tool.zoom,(entry.selectionclip.y2-entry.selectionclip.y)*tool.zoom);
 					//context.fillRect(tool.offset.x+(entry.selectionclip.x*tool.zoom),tool.offset.y+(entry.selectionclip.y*tool.zoom),entry.selectioncanvas.width,entry.selectioncanvas.height);
 					if(entry.frame==framenum){
-						
+
 						//snap to grid
 						if(key.ctrl && myHistory[0].selectionstate == "move" && myHistory[0].id == entry.id){
 							entry.snap.x = 0; entry.snap.y = 0;
@@ -913,8 +913,8 @@ function draw(){
 							entry.snap.x = -( Math.abs(x) < Math.abs(x2) ? x : x2 );
 							entry.snap.y = -( Math.abs(y) < Math.abs(y2) ? y : y2 );
 						}
-						
-						
+
+
 						if(myHistory[0].id != entry.id || entry.rotation.degree==0){
 							var scalex = (entry.selectionclipcanvas.width+entry.resize.x)/entry.selectionclipcanvas.width;
 							var scaley = (entry.selectionclipcanvas.height+entry.resize.y)/entry.selectionclipcanvas.height;
@@ -924,7 +924,7 @@ function draw(){
 							entry.trace.forEach(function(entrypoint){
 								context.moveTo(tool.offset.x+(((entrypoint.x*scalex)+entry.snap.x+entry.selectionoffset.x)*tool.zoom),tool.offset.y+(((entrypoint.y*scaley)+entry.snap.y+entry.selectionoffset.y)*tool.zoom) );
 								context.lineTo(tool.offset.x+(((entrypoint.x*scalex)+entrypoint.w+entry.snap.x+entry.selectionoffset.x)*tool.zoom),tool.offset.y+(((entrypoint.y*scaley)+entrypoint.h+entry.snap.y+entry.selectionoffset.y)*tool.zoom) );
-								
+
 							});
 							context.lineWidth = 1;
 							context.strokeStyle = 'white';
@@ -935,7 +935,7 @@ function draw(){
 						//if(entry.checkercount==0){entry.checkercount=100;}
 						//context.drawImage((entry.checkercount<50?entry.selectioncanvas:entry.selection2canvas),0,0,entry.selectioncanvas.width,entry.selectioncanvas.height,tool.offset.x+((entry.snap.x+entry.selectionoffset.x-1)*tool.zoom),tool.offset.y+((entry.snap.y+entry.selectionoffset.y-1)*tool.zoom),entry.selectioncanvas.width*tool.zoom,entry.selectioncanvas.height*tool.zoom);
 						if(entry.selectionclipped==true){
-						
+
 							if(myHistory[0].id != entry.id)context.drawImage(entry.selectionclipcanvas,0,0,entry.selectionclipcanvas.width,entry.selectionclipcanvas.height,tool.offset.x+(entry.selectionoffset.x*tool.zoom),tool.offset.y+(entry.selectionoffset.y*tool.zoom),entry.selectionclipcanvas.width*tool.zoom,entry.selectionclipcanvas.height*tool.zoom);
 							else{
 								if(entry.selectionhandle.state == 2 && entry.rotation.degree==0){
@@ -944,7 +944,7 @@ function draw(){
 									tempcontext.scale(1,1);
 									context.drawImage(tempcanvas,0,0,entry.resizecanvas.width,entry.resizecanvas.height,tool.offset.x+((entry.selectionoffset.x+(entry.selectionclipcanvas.width+entry.resize.x<0?entry.selectionclipcanvas.width+entry.resize.x:0))*tool.zoom),tool.offset.y+((entry.selectionoffset.y+(entry.selectionclipcanvas.height+entry.resize.y<0?entry.selectionclipcanvas.height+entry.resize.y:0))*tool.zoom),Math.abs(entry.selectionclipcanvas.width+entry.resize.x)*tool.zoom,Math.abs(entry.selectionclipcanvas.height+entry.resize.y)*tool.zoom);
 								}else context.drawImage(entry.selectionclipcanvas,0,0,entry.selectionclipcanvas.width,entry.selectionclipcanvas.height,tool.offset.x+((entry.snap.x+entry.selectionoffset.x)*tool.zoom),tool.offset.y+((entry.snap.y+entry.selectionoffset.y)*tool.zoom),(entry.selectionclipcanvas.width+(entry.rotation.degree==0?entry.resize.x:0))*tool.zoom,(entry.selectionclipcanvas.height+(entry.rotation.degree==0?entry.resize.y:0))*tool.zoom);
-								
+
 								if(entry.rotation.degree!=0){
 									entry.rotation.lastw = entry.rotation.w;
 									entry.rotation.lasth = entry.rotation.h;
@@ -954,31 +954,31 @@ function draw(){
 									entry.rotation.dp = dotProduct((mouse.finalpos.x - (entry.selectionclip.x+entry.rotation.sx)),(mouse.finalpos.y - (entry.selectionclip.y+entry.rotation.sy)),entry.rotation.rx,entry.rotation.ry);
 									p = calcProjection(entry.rotation.dp,entry.rotation.rx,entry.rotation.ry,true);
 									entry.rotation.h = calcDistance(0,0,p[0],p[1]) * (dotProduct(p[0],p[1],entry.rotation.rx,entry.rotation.ry )<0?-1:1);
-									
+
 									/*context.fillStyle = "blue";
 									context.font = "bold 16px Arial";
-									context.textAlign="left"; 
+									context.textAlign="left";
 									context.fillText(entry.rotation.w+","+entry.rotation.h, canvas.width*0.1, canvas.height*0.5);*/
-								
+
 								}
-								
+
 								//var handle = {x:0,y:0};
 								//figure out which handle to show
 								if( entry.selectionhandle.state != 2 && entry.rotation.degree==0){
 									if( mouse.finalpos.x < myHistory[0].selectionoffset.x+((myHistory[0].clip.x2 - myHistory[0].clip.x) / 3) )myHistory[0].selectionhandle.x = -1;
-									else if( mouse.finalpos.x > myHistory[0].selectionoffset.x+(((myHistory[0].clip.x2 - myHistory[0].clip.x) / 3)*2) )myHistory[0].selectionhandle.x = 1; 
+									else if( mouse.finalpos.x > myHistory[0].selectionoffset.x+(((myHistory[0].clip.x2 - myHistory[0].clip.x) / 3)*2) )myHistory[0].selectionhandle.x = 1;
 									else myHistory[0].selectionhandle.x = 0;
 									if( mouse.finalpos.y < myHistory[0].selectionoffset.y+((myHistory[0].clip.y2 - myHistory[0].clip.y) / 3) )myHistory[0].selectionhandle.y = -1;
-									else if( mouse.finalpos.y > myHistory[0].selectionoffset.y+(((myHistory[0].clip.y2 - myHistory[0].clip.y) / 3)*2) )myHistory[0].selectionhandle.y = 1; 
+									else if( mouse.finalpos.y > myHistory[0].selectionoffset.y+(((myHistory[0].clip.y2 - myHistory[0].clip.y) / 3)*2) )myHistory[0].selectionhandle.y = 1;
 									else myHistory[0].selectionhandle.y = 0;
 								}else{
 									//var tool.offset.x+((entry.selectionoffset.x+entry.rotation.corners[0])*tool.zoom)
 									if( entry.selectionhandle.state != 2 ){
 										if( entry.rotation.w < myHistory[0].selectionclip.w / 3 )myHistory[0].selectionhandle.x = -1;
-										else if( entry.rotation.w > (myHistory[0].selectionclip.w / 3)*2 )myHistory[0].selectionhandle.x = 1; 
+										else if( entry.rotation.w > (myHistory[0].selectionclip.w / 3)*2 )myHistory[0].selectionhandle.x = 1;
 										else myHistory[0].selectionhandle.x = 0;
 										if( entry.rotation.h < myHistory[0].selectionclip.h / 3 )myHistory[0].selectionhandle.y = -1;
-										else if( entry.rotation.h > (myHistory[0].selectionclip.h / 3)*2 )myHistory[0].selectionhandle.y = 1; 
+										else if( entry.rotation.h > (myHistory[0].selectionclip.h / 3)*2 )myHistory[0].selectionhandle.y = 1;
 										else myHistory[0].selectionhandle.y = 0;
 									}
 									if( myHistory[0].selectionhandle.x == -1 &&
@@ -1044,17 +1044,17 @@ function draw(){
 									}*/
 								}
 								if( entry.rotation.degree==0){
-									handle = {x:tool.offset.x+((entry.selectionoffset.x+entry.selectionclipcanvas.width+entry.resize.x)*tool.zoom) - (myHistory[0].selectionhandle.x==-1 ? ((entry.selectionclipcanvas.width+entry.resize.x)*tool.zoom)+8 : (myHistory[0].selectionhandle.x==0 ? (((entry.selectionclipcanvas.width+entry.resize.x)*0.5)*tool.zoom)+4 : 0) ) , 
+									handle = {x:tool.offset.x+((entry.selectionoffset.x+entry.selectionclipcanvas.width+entry.resize.x)*tool.zoom) - (myHistory[0].selectionhandle.x==-1 ? ((entry.selectionclipcanvas.width+entry.resize.x)*tool.zoom)+8 : (myHistory[0].selectionhandle.x==0 ? (((entry.selectionclipcanvas.width+entry.resize.x)*0.5)*tool.zoom)+4 : 0) ) ,
 									y:tool.offset.y+((entry.selectionoffset.y+entry.selectionclipcanvas.height+entry.resize.y)*tool.zoom) - (myHistory[0].selectionhandle.y==-1 ? ((entry.selectionclipcanvas.height+entry.resize.y)*tool.zoom)+8 : (myHistory[0].selectionhandle.y==0 ? (((entry.selectionclipcanvas.height+entry.resize.y)*0.5)*tool.zoom)+4 : 0) )};
 								}
-								
-								var rotatehandle = {x:tool.offset.x+((entry.selectionoffset.x+entry.selectionclipcanvas.width)*tool.zoom) - ((entry.selectionclipcanvas.width*0.5)*tool.zoom)+4 , 
+
+								var rotatehandle = {x:tool.offset.x+((entry.selectionoffset.x+entry.selectionclipcanvas.width)*tool.zoom) - ((entry.selectionclipcanvas.width*0.5)*tool.zoom)+4 ,
 								y:tool.offset.y+((entry.selectionoffset.y+entry.selectionclipcanvas.height)*tool.zoom) - ((entry.selectionclipcanvas.height*0.5)*tool.zoom)+4 };
 								entry.rotation.x = rotatehandle.x;
 								entry.rotation.y = rotatehandle.y;
 								rotatehandle.x += Math.cos(entry.rotation.radian)*((entry.selectionclip.w*0.75)*tool.zoom);
 								rotatehandle.y += Math.sin(entry.rotation.radian)*((entry.selectionclip.w*0.75)*tool.zoom);
-								
+
 								if( entry.selectionhandle.state == 0 &&
 									mouse.pos.x >= handle.x &&
 									mouse.pos.x <= handle.x+8 &&
@@ -1065,7 +1065,7 @@ function draw(){
 									mouse.pos.x <= handle.x+8 &&
 									mouse.pos.y >= handle.y &&
 									mouse.pos.y <= handle.y+8) )entry.selectionhandle.state = 0;
-								
+
 								context.beginPath();
 								context.rect(handle.x,handle.y,8,8);
 								//context.rect(tool.offset.x+((entry.selectionoffset.x+entry.selectionclipcanvas.width)*tool.zoom),tool.offset.y+((entry.selectionoffset.y+entry.selectionclipcanvas.height)*tool.zoom),8,8);
@@ -1073,7 +1073,7 @@ function draw(){
 								if(entry.selectionhandle.state == 1)context.strokeStyle = 'yellow';
 								//context.setLineDash([]);
 								context.stroke();
-								
+
 								if( entry.rotation.state == 0 &&
 									mouse.pos.x >= rotatehandle.x-6 &&
 									mouse.pos.x <= rotatehandle.x+6 &&
@@ -1084,7 +1084,7 @@ function draw(){
 									mouse.pos.x <= rotatehandle.x+6 &&
 									mouse.pos.y >= rotatehandle.y-6 &&
 									mouse.pos.y <= rotatehandle.y+6) )entry.rotation.state = 0;
-								
+
 								context.beginPath();
 								context.arc(rotatehandle.x,rotatehandle.y,6,0,2*Math.PI);
 								//context.rect(rotatehandle.x,rotatehandle.y,8,8);
@@ -1093,7 +1093,7 @@ function draw(){
 								if(entry.rotation.state == 1)context.strokeStyle = 'yellow';
 								//context.setLineDash([]);
 								context.stroke();
-								
+
 								if(entry.rotation.degree!=0){
 									context.save();
 									context.beginPath();
@@ -1113,12 +1113,12 @@ function draw(){
 									context.stroke();
 									context.restore();
 								}
-								
+
 							}
 						}
 					}
-					
-					
+
+
 					if(entry.frame==framenum && myHistory[0].selectionpoints.length>0 && myHistory[0].rotation.degree==0){
 						context.save();
 						context.beginPath();
@@ -1126,7 +1126,7 @@ function draw(){
 						context.moveTo(tool.offset.x+(myHistory[0].selectionpoints[0].x*tool.zoom),tool.offset.y+(myHistory[0].selectionpoints[0].y*tool.zoom));
 						for(var i=1; i<myHistory[0].selectionpoints.length; i++){
 							context.lineTo(tool.offset.x+(myHistory[0].selectionpoints[i].x*tool.zoom),tool.offset.y+(myHistory[0].selectionpoints[i].y*tool.zoom));
-							
+
 						}
 						if(mouse.tool=="marquee")context.closePath();
 						context.lineWidth = 1;
@@ -1134,12 +1134,12 @@ function draw(){
 						context.stroke();
 						context.restore();
 					}
-					
+
 				});
-			
+
 			}
 		}
-		
+
 		start = project.frames-1 , end = -1;
 		if(tool.secondary_view==2){	//linked
 			var begin = $("#frame_null").siblings().index( $("#frame_null").siblings('[value="'+project.currentframe+'"]') );
@@ -1175,14 +1175,14 @@ function draw(){
 			for(var i=project.canvaslayer.length-1; i>-1; i--){
 				var theframe = $("#frame_null").siblings(':eq('+i+')');
 				var animframe = theframe.attr('value');
-				
+
 				if(animframe==project.currentframe){
 					tool.secondary_sheet.current = sheetcount;
 					tool.secondary_sheet.oy = -Math.floor(sheetcount/tool.secondary_sheet.x)*project.height;
 					tool.secondary_sheet.ox = -(sheetcount-(Math.floor(sheetcount/tool.secondary_sheet.x)*tool.secondary_sheet.x))*project.width;
 				}
 				if(animframe!=-1)tool.secondary_sheet.list[animframe] = sheetcount;
-				
+
 				do{
 					if( $("#frame_null").siblings().length==project.frames && $("#frame_null").siblings('[value="'+animframe+'"]').find('.frame_linker').attr('style').indexOf('-linked')!==-1 ){
 						animframe = $("#frame_null").siblings('[value="'+animframe+'"]').prev().attr('value');
@@ -1195,19 +1195,19 @@ function draw(){
 						i--;
 					}else animframe = -1;
 				}while(animframe!=-1);
-				
-				sheetcount++;	//track the number of spaces in the sheet, with linked frames accounted for				
+
+				sheetcount++;	//track the number of spaces in the sheet, with linked frames accounted for
 			}
 		}
-		
+
 		for(var frame_i=start; frame_i>end; frame_i--){		//this is for the secondary viewport, and thus doesn't need to display any historylist
 			var framenum = $("#frame_null").siblings(':eq('+frame_i+')').attr('value');
-			
+
 			if(tool.secondary_view==1){//project.showall==false){
 				framenum=project.currentframe;
 				frame_i = 0;
 			}
-				
+
 			if(project.visible[framenum]==true && framenum<project.canvaslayer.length && framenum>-1){
 				temp2context.clearRect(0,0,project.width,project.height);
 				if(project.visible[framenum]==true){
@@ -1267,7 +1267,7 @@ function draw(){
 						if(entry.draw==false || entry.erase==true)temp2context.globalCompositeOperation = 'source-over';
 					}
 				});
-				
+
 				minicontext.globalAlpha=project.opacity[framenum];
 				if(tool.secondary_view!=3)minicontext.drawImage(temp2canvas,0,0,project.width,project.height,tool.secondary_offset.x,tool.secondary_offset.y,project.width*tool.secondary_zoom,project.height*tool.secondary_zoom);
 				else{
@@ -1282,17 +1282,17 @@ function draw(){
 					minicontext.stroke();
 				}
 				minicontext.globalAlpha=1;
-				
+
 			}
 		}
-		
+
 		var imgData ;
 		if(mouse.canvas!=palettecanvas)imgData = context.getImageData(mouse.pos.x,mouse.pos.y,1,1);
 		else imgData = pcontext.getImageData(mouse.pos.x,mouse.pos.y,1,1);
 		if(
 			mouse.colorbelow.r != imgData.data[0] ||
 			mouse.colorbelow.g != imgData.data[1] ||
-			mouse.colorbelow.b != imgData.data[2] 
+			mouse.colorbelow.b != imgData.data[2]
 		){
 			mouse.prevcolorbelow.r = mouse.colorbelow.r;
 			mouse.prevcolorbelow.g = mouse.colorbelow.g;
@@ -1326,7 +1326,7 @@ function draw(){
 			context.lineWidth = 1;
 			context.strokeStyle = 'white';
 			context.stroke();
-			
+
 			context.beginPath();
 			//context.setLineDash([1,3]);
 			for(var x=0; x<col; x++){
@@ -1346,15 +1346,15 @@ function draw(){
 			context.stroke();
 			context.restore();
 		}
-		
+
 		if(tool.edge.length>0 && (mouse.tool=="eraser" || mouse.tool=="magiceraser" || mouse.tool=="pencil" || mouse.tool=="brush" || mouse.tool=="bucket") ){
 			var tzoom = (mouse.context==palettecontext?1:(mouse.context==context?tool.zoom:tool.secondary_zoom));
 			var toolx = Math.floor(mouse.pos.x / tzoom) *tzoom;
 			var tooly = Math.floor(mouse.pos.y / tzoom) *tzoom;
-			
+
 			var ctx = (mouse.context==palettecontext?pcontext:(mouse.context==context?context:minicontext));
 			var z = (mouse.context==palettecontext?1:(mouse.context==context?tool.zoom:tool.secondary_zoom));
-			
+
 			ctx.beginPath();
 			tool.edge.forEach(function(entry){
 				if(tool.edge.indexOf(entry)==0)
@@ -1363,7 +1363,7 @@ function draw(){
 					ctx.lineTo((entry.x*z)+toolx+(tool.offset.x%z)-((toolcanvas.width*0.5)*z),(entry.y*z)+tooly+(tool.offset.y%z)-((toolcanvas.height*0.5)*z));
 			});
 			ctx.lineTo((tool.edge[0].x*z)+toolx+(tool.offset.x%z)-((toolcanvas.width*0.5)*z),(tool.edge[0].y*z)+tooly+(tool.offset.y%z)-((toolcanvas.height*0.5)*z));
-		
+
 			//ctx.setLineDash([]);
 			ctx.lineWidth = 1;
 			//ctx.strokeStyle = 'rgb('+(255-mouse.colorbelow.r)+','+(255-mouse.colorbelow.g)+','+(255-mouse.colorbelow.b)+')';
@@ -1372,7 +1372,7 @@ function draw(){
 		}else if(mouse.tool=="tile" || mouse.tool=="erasetile"){
 			var ctx = (mouse.context==palettecontext?pcontext:(mouse.context==context?context:minicontext));
 			var z = (mouse.context==palettecontext?1:(mouse.context==context?tool.zoom:tool.secondary_zoom));
-			
+
 			if(!mouse.left){
 				var w = (mouse.canvas==minicanvas ? tile.dim.w-1 : Math.floor(project.width/project.grid.x) );
 				var h = (mouse.canvas==minicanvas ? tile.dim.h-1 : Math.floor(project.height/project.grid.y) );
@@ -1381,14 +1381,14 @@ function draw(){
 			}
 			if(mouse.left && $('#canvas').css('cursor')=='crosshair' && mouse.canvas==canvas){tile.set.x = tile.x; tile.set.y = tile.y;}
 			var offset = (mouse.canvas==minicanvas?tool.secondary_offset:tool.offset);
-			
+
 			ctx.beginPath();
 			ctx.rect(offset.x+(tile.x*project.grid.x*z),offset.y+(tile.y*project.grid.y*z),project.grid.x*z,project.grid.y*z);
 			//ctx.setLineDash([]);
 			ctx.lineWidth = 1;
 			ctx.strokeStyle = 'rgb('+(255-mouse.colorbelow.r)+','+(255-mouse.colorbelow.g)+','+(255-mouse.colorbelow.b)+')';
 			ctx.stroke();
-			
+
 			ctx = context;
 			ctx.beginPath();
 			ctx.rect(tool.offset.x+(tile.set.x*project.grid.x*tool.zoom)-1,tool.offset.y+(tile.set.y*project.grid.y*tool.zoom)-1,(project.grid.x*tool.zoom)+2,(project.grid.y*tool.zoom)+2);
@@ -1397,7 +1397,7 @@ function draw(){
 			ctx.strokeStyle = 'rgb('+(255-mouse.colorbelow.r)+','+(255-mouse.colorbelow.g)+','+(255-mouse.colorbelow.b)+')';
 			ctx.stroke();
 		}
-		
+
 		if( project.playback.state==true){
 			context.beginPath();
 			context.rect(tool.offset.x+(project.playback.crop.x*tool.zoom),tool.offset.y+(project.playback.crop.y*tool.zoom),project.playback.crop.w*tool.zoom,project.playback.crop.h*tool.zoom);
@@ -1409,7 +1409,7 @@ function draw(){
 		//var toolx = Math.floor(mouse.pos.x / tool.zoom) *tool.zoom;
 		//var tooly = Math.floor(mouse.pos.y / tool.zoom) *tool.zoom;
 		//context.drawImage(toolcanvas,0,0,toolcanvas.width,toolcanvas.height,toolx+(tool.offset.x%tool.zoom)-((toolcanvas.width*0.5)*tool.zoom),tooly+(tool.offset.y%tool.zoom)-((toolcanvas.height*0.5)*tool.zoom),toolcanvas.width*tool.zoom,toolcanvas.height*tool.zoom);
-		
+
 	}else{
 		//animation drawing stuff
 		var animframe = animation.frame;
@@ -1418,7 +1418,7 @@ function draw(){
 				context.globalAlpha=project.opacity[animframe];
 				context.drawImage(project.canvaslayer[animframe],0,0,project.width,project.height,tool.offset.x,tool.offset.y,project.width*tool.zoom,project.height*tool.zoom);
 				context.globalAlpha=1;
-				
+
 				minicontext.globalAlpha=project.opacity[animframe];
 				minicontext.drawImage(project.canvaslayer[animframe],0,0,project.width,project.height,tool.secondary_offset.x,tool.secondary_offset.y,project.width*tool.secondary_zoom,project.height*tool.secondary_zoom);
 				minicontext.globalAlpha=1;
@@ -1428,12 +1428,12 @@ function draw(){
 			}else animframe = -1;
 		}while(animframe!=-1);
 	}
-	
+
 	if(project.lock==true && project.playback.state==false){
 		if(project.playback.keyframe.length==0){
 			context.fillStyle = "blue";
 			context.font = "bold 16px Arial";
-			context.textAlign="center"; 
+			context.textAlign="center";
 			context.fillText("Canvas locked while new Painter connects to everyone!", canvas.width*0.5, canvas.height*0.5);
 		}
 	}
@@ -1443,7 +1443,7 @@ function send_my_position(){
 	var msg = {type:'mouse_position',x:mouse.pos.x, y:mouse.pos.y};
     eachActiveConnection(function(c) {
         c.send(msg);
-		
+
     });
 }
 
@@ -1451,7 +1451,7 @@ function send_pixel(mx,my,rgba){
 	var msg = {type:'draw_pixel', x:mx, y:my, color:rgba};
     eachActiveConnection(function(c) {
         c.send(msg);
-		
+
     });
 }
 
@@ -1870,4 +1870,3 @@ function reload_canvas(c, ctx){
 	ctx.mozImageSmoothingEnabled = false;
 	return ctx;
 }
-

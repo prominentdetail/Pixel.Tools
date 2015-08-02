@@ -1,9 +1,9 @@
-<!DOCTYPE HTML> 
-<html lang="en"> 
+<!DOCTYPE HTML>
+<html lang="en">
 <head>
 <title>Pixel-Art Editor</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
-<meta http-equiv="Content-Language" content="en-us"> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Language" content="en-us">
 
 <!--<link href="blank.css" rel="stylesheet" type="text/css">-->
 
@@ -46,7 +46,7 @@
 
 <script type="text/javascript" src="v1_0_0.js"></script>
 
-		
+
 <style>
 	body, html {
 		height: 100%;
@@ -61,7 +61,7 @@
 		color: #eeeeee;
 		text-shadow: -1px -1px 0 #222222;
 	}
-	
+
 	.bottomtext{
 		text-align: left;
 		font-family: 'Noto Serif', sans-serif;
@@ -74,12 +74,12 @@
 		border: solid 1px #333333;
 		background: #242424;
 	}
-	
+
 	.my-header{
 		font-family: 'Noto Serif', sans-serif;
 		font-size:12px;
 		font-weight: 400;
-		font-style: italic; 
+		font-style: italic;
 		color: #eeeeee;
 		text-shadow: -1px -1px 0 #222222;
 		padding:2px;
@@ -94,7 +94,7 @@
 		background: linear-gradient(to bottom, #7f7f7f 0%,#595959 100%);
 		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7f7f7f', endColorstr='#595959',GradientType=0 );
 	}
-	
+
 	.my-toolbar{
 		border: solid 1px #777777;
 		background: #7f7f7f;
@@ -106,7 +106,7 @@
 		background: linear-gradient(to right, #7f7f7f 0%,#595959 100%);
 		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7f7f7f', endColorstr='#595959',GradientType=1 );
 	}
-	
+
 	.ui-state-default.transparentbutton{
 		background:transparent;
 		border:#222222;
@@ -114,16 +114,16 @@
 	.ui-state-hover.transparentbutton{
 		background: url("jqueryui/css/darkertheme/images/ui-bg_highlight-soft_33_003147_1x100.png") 50% 50% repeat-x;
 	}
-	
+
 	.ui-slider .ui-slider-handle{
-		width:8px; 
-		height:8px; 
+		width:8px;
+		height:8px;
 		margin-left: -4px;
 		position:absolute;
-		top: 0px; 
+		top: 0px;
 	}
 
-	.southwest{ position:absolute; left:0px; bottom:0px; width:9px; height:9px; background:url("icon-sw.png") no-repeat;}
+	.southwest{ position:absolute; left:0px; bottom:0px; width:9px; height:9px; background:url("img/icon-sw.png") no-repeat;}
 	.handle { background: #353566; position: absolute; left: 0; top: 0; bottom: 0; padding:8px; }
 	.ui-selecting .handle { background: #444477; }
 	.ui-selected .handle { background: #4444bb; }
@@ -136,7 +136,7 @@
 		-webkit-border-radius:4px;
 		-moz-border-radius:4px;
 		border-radius:4px;
-		
+
 		background: #333333;
 		color:#ffffff;
 		border:solid 1px #666666;
@@ -144,7 +144,7 @@
 		display: inline-block;
 		cursor:pointer;
 	}
-	
+
 	.infotab {
 		padding:3px;
 		margin: 0px 1px 6px 0px;
@@ -164,8 +164,8 @@
 		border-width: 0px 0px 0px 1px;
 		height:100%;
 	}
-	
-	canvas { 
+
+	canvas {
 		cursor: crosshair;
 		user-select: none;
 		-webkit-user-select: none;
@@ -177,7 +177,7 @@
 		image-rendering: -o-crisp-edges;            // OS X & Windows Opera (12.02+)
 		image-rendering: optimize-contrast;         // Possible future browsers.
 		-ms-interpolation-mode: nearest-neighbor;   // IE
-	
+
 	}
 
 
@@ -191,9 +191,9 @@
 function connect(c) {
 
   if (c.label === 'chat') {
-  
+
 	connlist.push(c.id);		//The id of established connection between two peers
-	
+
 	var findpeer = $.grep(peerlist, function(e){ return e == c.peer; });
 	if(findpeer.length==0 && c.metadata.from!=peer.id){
 		//console.log(c.metadata.invitation+","+c.metadata.message);
@@ -214,33 +214,33 @@ function connect(c) {
 				connectToDraw(entry);
 				connectTo(entry);
 			});
-			$("#popup_container").hide();	
-			$("#popup_title").hide();	
-			$("#popup_submit").children('span:first').html('Submit');		
-			$("#popup_cancel").children('span:first').html('Cancel');			
+			$("#popup_container").hide();
+			$("#popup_title").hide();
+			$("#popup_submit").children('span:first').html('Submit');
+			$("#popup_cancel").children('span:first').html('Cancel');
 		});
 		$("#popup_cancel").unbind( "click" );
 		$("#popup_cancel").children('span:first').html('Decline');
 		$("#popup_cancel").click(function(){
-			$("#popup_container").hide();	
-			$("#popup_title").hide();		
-			$("#popup_submit").children('span:first').html('Submit');		
-			$("#popup_cancel").children('span:first').html('Cancel');			
+			$("#popup_container").hide();
+			$("#popup_title").hide();
+			$("#popup_submit").children('span:first').html('Submit');
+			$("#popup_cancel").children('span:first').html('Cancel');
 		});
 	}
-	
+
 	c.on('data', function(data) {
 		if(data.type=="message"){
 			$('#msgbox').append('<div style="direction:ltr;"><span class="peer">' + c.peer + '</span>: ' + data.text +
 			'</div>');
 		}
 	});
-	
+
 	c.on('close', function() {
 		//alert(c.peer + ' has left the lobby.');
 		$('#msgbox').append('<div style="direction:ltr;"><span class="peer">' + c.peer + '</span>' + ' has left the lobby.' +
 			'</div>');
-			
+
 		var peerhistory = $.grep(historylist, function(e){ return e.id == c.peer; });
 		if(peerhistory.length>0)historylist.splice(historylist.indexOf(peerhistory[0]),1);
 		var peerlayer = $.grep(brushlayers, function(e){ return e.id == c.peer; });
@@ -248,18 +248,18 @@ function connect(c) {
 
 		delete connectedPeers[c.peer];
 		connlist.splice(connlist.indexOf(c.id),1);
-	  
+
 	});
-	
+
 	connectedPeers[c.peer] = 1;
-	
+
   }else if (c.label === 'draw') {
     /*var chatbox = $('<div></div>').addClass('connection').addClass('active').attr('id', c.peer);
     var header = $('<h1></h1>').html('Chat with <strong>' + c.peer + '</strong>');
     var messages = $('<div><em>Peer connected.</em></div>').addClass('messages');
     chatbox.append(header);
     chatbox.append(messages);
- 
+
     // Select connection handler.
     chatbox.on('click', function() {
       if ($(this).attr('class').indexOf('active') === -1) {
@@ -271,26 +271,26 @@ function connect(c) {
     $('.filler').hide();
     $('#connections').append(chatbox);
 	*/
-	
-	
+
+
 	peerlist.push(c.peer);		//the id of the connecting peer
 	connlist.push(c.id);		//The id of established connection between two peers
 	//console.log(c.peer+","+c.id);
 	var userlist = document.getElementById('userlist');
 	userlist.innerHTML = 'Painting with ' + peerlist.join(", ");
 	//userlist.innerHTML = userlist.innerHTML + ' ' + c.peer;
-	
+
 	historylist.push(new historydata(c.peer,0) );
-	
+
 	//New peer is connected, so now lock my app until all other peers connected to me have also connected to the new peer.
 	//This will ensure that the new peer retrieves an accurate image of the canvas. Then I'll be able to draw again.
 	prelockCleanup();
 	project.lock = true;
 	//also record new peer event in our live recording (adding peer to recording will make sure their historylist/layers get created during playback).
 	project.recording.session[project.recording.session.length-1].peerlist.push(c.peer);
-	
+
 	c.on('open', function(id) {
-	
+
 		if(c.metadata.from!=peer.id){
 			//commit our historylist then clear it.
 			//var selected = myHistory[0].selected;
@@ -303,18 +303,18 @@ function connect(c) {
 			//make sure any peers connected to me has an updated historylist of mine now that it has been cleared.
 			send_clearHistory();
 			//send current canvas (whichever user is last connected should end up sending the most accurate picture)
-			
+
 			var canvasdata = [];
 			project.canvaslayer.forEach(function(entry){
 				canvasdata.push( entry.toDataURL() );
 			});
-			
+
 			var sortarray = $( "#frame_list" ).sortable('toArray', {attribute: 'value'});
 			sortarray.shift();
-			sortarray = sortarray.map(function (x) { 
-				return parseInt(x, 10); 
+			sortarray = sortarray.map(function (x) {
+				return parseInt(x, 10);
 			});
-			
+
 			var framedata = new Array(project.frames);
 			for(var i=0; i<project.frames; i++){
 				framedata[i] = {interval:300, visible:true, opacity:1, linked: false};
@@ -324,11 +324,11 @@ function connect(c) {
 				framedata[i].opacity = project.opacity[theframe.attr('value')];
 				framedata[i].linked = (theframe.find('.frame_linker').attr('style').indexOf('-linked')!==-1 ? true : false );
 			}
-	
+
 			var conns = peer.connections[c.metadata.from];
 			for (var i = 0, ii = conns.length; i < ii; i += 1) {
 			  var conn = conns[i];
-			  
+
 			  if(connlist.indexOf(conn.id)!=-1 ){
 				var msg = {type:'refresh_canvas', canvas:canvasdata, order:sortarray, frame:framedata };
 				conn.send( msg );
@@ -336,7 +336,7 @@ function connect(c) {
 			}
 		}
 	});
-	
+
 	c.on('data', function(data) {
 		if(data.type!="message" && data.type!="refresh_canvas" && data.type!="unlock_me"){
 			//record this event in our session(for playback)
@@ -345,7 +345,7 @@ function connect(c) {
 			var msgcopy = jQuery.extend(true, {}, msg);
 			project.recording.session[project.recording.session.length-1].actionlist.push( msgcopy );
 		}
-		
+
 		if(data.type=="message"){
 			$('#msgbox').append('<div style="direction:ltr;"><span class="peer">' + c.peer + '</span>: ' + data.text +
 			'</div>');
@@ -371,7 +371,7 @@ function connect(c) {
 				data.canvas.forEach(function(entry){
 					project.recording.session[0].canvasdata.push(entry );
 				});
-				
+
 				project.recording.session[0].frameinterval = new Array(project.frames);
 				project.recording.session[0].framelinked = new Array(project.frames);
 				//apply frame data to our frames so they match peers
@@ -380,28 +380,28 @@ function connect(c) {
 					theframe.attr('data-interval',entry.interval);
 					theframe.find('.frame_interval').html(entry.interval*0.001);
 					project.recording.session[0].frameinterval[theframe.attr('value')]=entry.interval;
-					theframe.find('.frame_visible').attr('src','eye-'+(entry.visible==false?'shut':'open')+'.png');
-					theframe.find('.frame_linker').css('background-image','url(icon-'+(entry.linked==false?'un':'')+'linked.png)');
+					theframe.find('.frame_visible').attr('src','img/eye-'+(entry.visible==false?'shut':'open')+'.png');
+					theframe.find('.frame_linker').css('background-image','url(img/icon-'+(entry.linked==false?'un':'')+'linked.png)');
 					project.recording.session[0].framelinked[theframe.attr('value')]=entry.linked;
 					project.visible[theframe.attr('value')] = entry.visible;
 					project.opacity[theframe.attr('value')] = entry.opacity;
 				});
 				project.recording.session[0].framevisible = project.visible;
 				project.recording.session[0].frameopacity = project.opacity;
-				
+
 				project.lock=false;
-				
+
 				$("#progressbar").progressbar( "option", {
 					value: 100
 				});
 				$("#connecting_info").text('Connected! Project is unlocked.');
-				
+
 				var msg = {type:'unlock_me' };
 				eachActiveConnection(function(entry) {
-					entry.send(msg);					
+					entry.send(msg);
 				});
 			}
-			
+
 		}else if(data.type=="unlock_me"){
 			project.lock = false;
 			$("#progressbar").progressbar( "option", {
@@ -622,18 +622,18 @@ function connect(c) {
 			var peerhistory = $.grep(historylist, function(e){ return e.id == c.peer; });
 			peerhistory[0].frame = data.frame;
 			commitHistory(c.peer);
-			
+
 			//if clearing section, keep backup of what was there so we can pass to historylist(so we can restore it).
 			var backupcanvas = document.createElement("canvas");
 			backupcanvas.width = project.width;
 			backupcanvas.height = project.height;
 			var backupcontext = backupcanvas.getContext("2d");
 			backupcontext.drawImage(project.canvaslayer[data.frame],0,0);
-						
+
 			selectClip(c.peer);
 			if(data.selecttype=="cut"){
 				peerhistory[0].context.drawImage(peerhistory[0].selectionclipcanvas,peerhistory[0].selectionoffset.x,peerhistory[0].selectionoffset.y);
-				
+
 				claimHistory(c.peer,peerhistory[0].canvas);
 				peerhistory[0].layers.push(new historylayerdata("",peerhistory[0].canvas,peerhistory[0],true,backupcanvas) );
 				project.contextlayer[data.frame].globalCompositeOperation = 'destination-out';
@@ -641,13 +641,13 @@ function connect(c) {
 				project.contextlayer[data.frame].globalCompositeOperation = 'source-over';
 			}else{
 				peerhistory[0].context.drawImage(peerhistory[0].selectionclipcanvas,peerhistory[0].selectionoffset.x,peerhistory[0].selectionoffset.y);
-				
+
 				claimHistory(c.peer,peerhistory[0].canvas);
 				peerhistory[0].layers.push(new historylayerdata("",peerhistory[0].canvas,peerhistory[0],true,backupcanvas) );
 				project.contextlayer[data.frame].drawImage(peerhistory[0].canvas,0,0);
 			}
 			peerhistory[0].context.clearRect(0, 0, peerhistory[0].canvas.width, peerhistory[0].canvas.height);
-							
+
 		}else if(data.type=="resize_clip"){
 			var peerhistory = $.grep(historylist, function(e){ return e.id == c.peer; });
 			peerhistory[0].frame = data.frame;
@@ -690,10 +690,10 @@ function connect(c) {
 		}else if(data.type=="toggle_visible"){
 			//var peerhistory = $.grep(historylist, function(e){ return e.id == c.peer; });
 			project.visible[data.frame] = data.visible;
-			$('#frame_null').siblings('[value="'+data.frame+'"]').find('.frame_visible').attr('src',(data.visible!=true?'eye-shut.png':'eye-open.png'));
+			$('#frame_null').siblings('[value="'+data.frame+'"]').find('.frame_visible').attr('src',(data.visible!=true?'img/eye-shut.png':'img/eye-open.png'));
 		}else if(data.type=="toggle_linked"){
 			//var peerhistory = $.grep(historylist, function(e){ return e.id == c.peer; });
-			$('#frame_null').siblings('[value="'+data.frame+'"]').find('.frame_linker').css('background-image','url(icon-'+(data.linked==false?'un':'')+'linked.png)');
+			$('#frame_null').siblings('[value="'+data.frame+'"]').find('.frame_linker').css('background-image','url(img/icon-'+(data.linked==false?'un':'')+'linked.png)');
 		}else if(data.type=="frame_opacity"){
 			//var peerhistory = $.grep(historylist, function(e){ return e.id == c.peer; });
 			project.opacity[data.frame] = data.opacity;
@@ -704,7 +704,7 @@ function connect(c) {
 			//var peerhistory = $.grep(historylist, function(e){ return e.id == c.peer; });
 			resizeCanvas(data.width,data.height,data.direction );
 		}else if(data.type=="start_rotation"){
-		
+
 			var peerhistory = $.grep(historylist, function(e){ return e.id == c.peer; });
 			peerhistory[0].rotation = data.rotation;
 			peerhistory[0].selectionclip = data.clip;
@@ -730,7 +730,7 @@ function connect(c) {
 			revertResize();
 		}else if(data.type=="load_clipart"){
 			var peerhistory = $.grep(historylist, function(e){ return e.id == c.peer; });
-			
+
 			var img = new Image()
 			img.onload = function(){
 				peerhistory[0].selectionclipcontext.clearRect(0,0, peerhistory[0].selectionclipcanvas.width, peerhistory[0].selectionclipcanvas.height);
@@ -739,18 +739,18 @@ function connect(c) {
 				peerhistory[0].selectionclipcontext.drawImage(this,0,0);
 				peerhistory[0].selectionmaskcanvas.width = this.width;
 				peerhistory[0].selectionmaskcanvas.height = this.height;
-				
+
 				selectClip(peerhistory[0].id);
 				peerhistory[0].selectionclip.x = peerhistory[0].selectionoffset.x;
 				peerhistory[0].selectionclip.y = peerhistory[0].selectionoffset.y;
 				peerhistory[0].selectionhandle.state = 0;
 				peerhistory[0].selectionstate = "";
-				
+
 				//send message back to clipart originator
 				var conns = peer.connections[c.peer];
 				for (var i = 0, ii = conns.length; i < ii; i += 1) {
 					var conn = conns[i];
-				  
+
 					if(connlist.indexOf(conn.id)!=-1 && conn.label=='draw'){
 						var msg = {type:'unlock_waiting' };
 						conn.send( msg );
@@ -758,7 +758,7 @@ function connect(c) {
 				}
 			};
 			img.src = data.clipart;
-			
+
 		}else if(data.type=="unlock_waiting"){
 			project.waiting++;
 			if(project.waiting >= peerlist.length){
@@ -767,14 +767,14 @@ function connect(c) {
 				send_select_move(myHistory[0].selectionoffset);
 			}
 		}
-		
-		
-		
-							
-		
+
+
+
+
+
 	});
-		
-		
+
+
     c.on('close', function() {
 	  //alert(c.peer + ' has left the session.');
 	  $('#msgbox').append('<div style="direction:ltr;"><span class="peer">' + c.peer + '</span>' + ' has left the session.' +
@@ -798,7 +798,7 @@ function connect(c) {
 
 		});
 	});
-	
+
   } else if (c.label === 'file') {
     c.on('data', function(data) {
       // If we're getting a file, create a URL for it.
@@ -811,7 +811,7 @@ function connect(c) {
       }
     });
   }
-  
+
 }
 
 $(document).ready(function() {
@@ -828,19 +828,19 @@ $(document).ready(function() {
 	.css({
 	  'font-size' : '10px'
 	});
-	
+
 	$( "button").button().css({
 		'font-family': '"Noto Serif", sans-serif',
 		'text-shadow': '-1px -1px 0 #222222',
-	});	
+	});
 	$( "input[type=submit], button").not('.smallicon').button().css({
 		'font-family': '"Noto Serif", sans-serif',
 		'text-shadow': '-1px -1px 0 #222222',
 		'font-size':'10px',
 		'letter-spacing':'1px',
 		'font-weight': 400
-	});	
-	
+	});
+
 	$('input[type=text]').addClass("ui-corner-all").css({
           'font-size' : '12px',
 		  'color':'#eeeeee',
@@ -849,7 +849,7 @@ $(document).ready(function() {
 		  'padding' : '3px',
 		  'vertical-align':'middle'
 	});
-	
+
 	$('#connect_room').css({
 		'padding':'3px',
 		'margin': '2px',
@@ -857,7 +857,7 @@ $(document).ready(function() {
 		'-webkit-border-radius':'4px',
 		'-moz-border-radius':'4px',
 		'border-radius':'4px',
-		
+
 		'background': '#333333',
 		'color':'#888',
 		'border':'none',
@@ -865,7 +865,7 @@ $(document).ready(function() {
 		'display': 'inline-block',
 		'cursor':'pointer'
 	});
-	
+
 	$( "#chat_toggle").button({
 		text: false,
 		icons: {
@@ -891,7 +891,7 @@ $(document).ready(function() {
 		}
 		setAppSize();
 	});
-		
+
 	$( ".pickertextbox" ).spinner({
 		max: 256,
 		min: -1,
@@ -943,12 +943,12 @@ $(document).ready(function() {
 		'margin-top': '1px',
 		'margin-right': '17px'
 	});
-	
-	
+
+
 	$( "#canvas_container" ).draggable({ handle: "span:first" });
 	//$( "#colorpicker_container, #properties_container " )
 	//.draggable({ handle: "span" , snap: "#canvas_container", snapMode: "outer" });
-	
+
 	$( "#canvas" ).resizable({
 		stop: function(event, ui) {
 			canvas.width = ui.size.width;
@@ -1008,11 +1008,11 @@ $(document).ready(function() {
 		'top':'2px',
 		'overflow':'hidden'
 	});
-	
+
 	$( "#red" ).slider( "value", 255 );
 	$( "#green" ).slider( "value", 140 );
 	$( "#blue" ).slider( "value", 60 );
-	
+
 	$( "#rgb_hsl_radio" ).buttonset().css({
 		'padding':'2px',
         'font-size' : '12px'
@@ -1051,7 +1051,7 @@ $(document).ready(function() {
 	}).click(function(){
 		$('#file_load_colordex').click();
 	}).css('width','14px').find('.ui-button-text').css({'padding':'0px 0px 0px 0px','font-size' : '12px'});
-		
+
 	$( "#save_colordex" ).button({
 		text: false,
 		icons: {
@@ -1068,16 +1068,16 @@ $(document).ready(function() {
 		$("#popup_submit").unbind( "click" );
 		$("#popup_submit").click(function(){
 			saveColordex($('#colordex_save_dialog_name').val() );
-			$("#popup_container").hide();	
-			$("#popup_title").hide();				
+			$("#popup_container").hide();
+			$("#popup_title").hide();
 		});
 		$("#popup_cancel").unbind( "click" );
 		$("#popup_cancel").click(function(){
-			$("#popup_container").hide();	
-			$("#popup_title").hide();				
+			$("#popup_container").hide();
+			$("#popup_title").hide();
 		});
 	}).css('width','14px').find('.ui-button-text').css({'padding':'0px 0px 0px 0px','font-size' : '12px'});
-		
+
 	$( "#lock_colordex" ).button({
 		text: false,
 		icons: {
@@ -1097,18 +1097,18 @@ $(document).ready(function() {
 			tool.lockcolordex = false;
 		}
 	}).attr('checked', false).button('refresh').next('label').css('width','14px').find('.ui-button-text').css({'padding':'0px 0px 0px 0px','font-size' : '12px'});
-		
+
 	$( "#colordex_radio" ).button().prop('checked',false).click(function(){
-		if(typeof(Storage) !== "undefined") localStorage.colordex = ($(this).next('label').attr('aria-pressed')=='true'?'false':'true'); 
+		if(typeof(Storage) !== "undefined") localStorage.colordex = ($(this).next('label').attr('aria-pressed')=='true'?'false':'true');
 		$( "#colordex_container" ).toggle("blind");
 		if( $(this).next('label').attr('aria-pressed')=='true'){
-			
+
 			//$(this).attr('checked', false);
 		}
 	}).next().find('.ui-button-text').click(function(){$(this).parent().click();}).css({'user-select':'none','padding':'0px 4px 0px 4px',
         'font-size' : '12px'});
 	if(typeof(Storage) !== "undefined" && localStorage.colordex=='true')$( "#colordex_radio" ).prop('checked',false).click();
-	
+
 	$( "#palette_radio" ).button().prop('checked',false).click(function(){
 		if(typeof(Storage) !== "undefined") localStorage.palettetoggle = ($(this).next('label').attr('aria-pressed')=='true'?'false':'true');
 		$( "#palette_bounds" ).width( $( "#canvas" ).width() - $( "#colorpicker_container" ).width() );
@@ -1119,20 +1119,20 @@ $(document).ready(function() {
 	}).next().find('.ui-button-text').click(function(){$(this).parent().click();}).css({'user-select':'none','padding':'0px 4px 0px 4px',
         'font-size' : '12px'});
 	if(typeof(Storage) !== "undefined" && localStorage.palettetoggle=='true')$( "#palette_radio" ).prop('checked',false).click();
-	
+
 	$( "#scan_palette" ).button().click(function(){
 		if(typeof(tool.colorscan) !== "undefined") tool.colorscan.terminate();
 		colorScan();
 	});
-	
+
 	$( "#contiguous" ).button().prop('checked',false).click(function(){
-		if(typeof(Storage) !== "undefined") localStorage.contiguous = ($(this).next('label').attr('aria-pressed')=='true'?'false':'true');//JSON.stringify($(this).attr('checkbox')) ; 
+		if(typeof(Storage) !== "undefined") localStorage.contiguous = ($(this).next('label').attr('aria-pressed')=='true'?'false':'true');//JSON.stringify($(this).attr('checkbox')) ;
 		if( $(this).next('label').attr('aria-pressed')){
 		}
 	}).next().find('.ui-button-text').css({'padding':'0px 4px 0px 4px',
         'font-size' : '12px'});
 	if(typeof(Storage) !== "undefined" && localStorage.contiguous=='true')$( "#contiguous" ).prop('checked',false).click();
-	
+
 	$( "#brush_presets" ).buttonset().css({
 		'padding':'2px',
         'font-size' : '12px'
@@ -1150,15 +1150,15 @@ $(document).ready(function() {
 			$("#tool_opacity").slider('value',tool.preset[$(this).attr("value")].opacity);
 			$("#tool_hardness").slider('value',tool.preset[$(this).attr("value")].hardness);
 			$("#tool_levels").slider('value',tool.preset[$(this).attr("value")].levels);
-			$("#pencontrol_size").attr("title",(tool.pen.s=="pressure"?"Pen Pressure":tool.pen.s=="tilt"?"Pen Tilt":tool.pen.s=="direction"?"Pen Direction":"None") ).css("background-image","url(icon-"+(tool.pen.s=="pressure"?"pressure":tool.pen.s=="tilt"?"tilt":tool.pen.s=="direction"?"direction":"none") +".png)");
-			$("#pencontrol_opacity").attr("title",(tool.pen.o=="pressure"?"Pen Pressure":tool.pen.o=="tilt"?"Pen Tilt":tool.pen.o=="direction"?"Pen Direction":"None") ).css("background-image","url(icon-"+(tool.pen.o=="pressure"?"pressure":tool.pen.o=="tilt"?"tilt":tool.pen.o=="direction"?"direction":"none") +".png)");
-			$("#pencontrol_hardness").attr("title",(tool.pen.h=="pressure"?"Pen Pressure":tool.pen.h=="tilt"?"Pen Tilt":tool.pen.h=="direction"?"Pen Direction":"None") ).css("background-image","url(icon-"+(tool.pen.h=="pressure"?"pressure":tool.pen.h=="tilt"?"tilt":tool.pen.h=="direction"?"direction":"none") +".png)");
-			$("#pencontrol_levels").attr("title",(tool.pen.l=="pressure"?"Pen Pressure":tool.pen.l=="tilt"?"Pen Tilt":tool.pen.l=="direction"?"Pen Direction":"None") ).css("background-image","url(icon-"+(tool.pen.l=="pressure"?"pressure":tool.pen.l=="tilt"?"tilt":tool.pen.l=="direction"?"direction":"none") +".png)");
-			
+			$("#pencontrol_size").attr("title",(tool.pen.s=="pressure"?"Pen Pressure":tool.pen.s=="tilt"?"Pen Tilt":tool.pen.s=="direction"?"Pen Direction":"None") ).css("background-image","url(img/icon-"+(tool.pen.s=="pressure"?"pressure":tool.pen.s=="tilt"?"tilt":tool.pen.s=="direction"?"direction":"none") +".png)");
+			$("#pencontrol_opacity").attr("title",(tool.pen.o=="pressure"?"Pen Pressure":tool.pen.o=="tilt"?"Pen Tilt":tool.pen.o=="direction"?"Pen Direction":"None") ).css("background-image","url(img/icon-"+(tool.pen.o=="pressure"?"pressure":tool.pen.o=="tilt"?"tilt":tool.pen.o=="direction"?"direction":"none") +".png)");
+			$("#pencontrol_hardness").attr("title",(tool.pen.h=="pressure"?"Pen Pressure":tool.pen.h=="tilt"?"Pen Tilt":tool.pen.h=="direction"?"Pen Direction":"None") ).css("background-image","url(img/icon-"+(tool.pen.h=="pressure"?"pressure":tool.pen.h=="tilt"?"tilt":tool.pen.h=="direction"?"direction":"none") +".png)");
+			$("#pencontrol_levels").attr("title",(tool.pen.l=="pressure"?"Pen Pressure":tool.pen.l=="tilt"?"Pen Tilt":tool.pen.l=="direction"?"Pen Direction":"None") ).css("background-image","url(img/icon-"+(tool.pen.l=="pressure"?"pressure":tool.pen.l=="tilt"?"tilt":tool.pen.l=="direction"?"direction":"none") +".png)");
+
 		}
 	}).next('label').removeClass('ui-state-active').children('.ui-button-text').css({'padding':'0px 4px 0px 4px'});
 	$( "#preset1" ).next('label').attr('aria-pressed',true);
-	
+
 	//toolbar
 	$( "#toolbar" ).buttonset().css('margin-right',0).draggable().find('button').click(function(e){
 		if(approveContinue()){	//helps keep peers in sync
@@ -1208,7 +1208,7 @@ $(document).ready(function() {
 
 	loadIconsOnButtons('toolbar');
 	$("#bucket_settings").hide();
-	
+
 	$( "#menu_icons button" ).button({
 		text: false,
 		icons: {
@@ -1224,12 +1224,12 @@ $(document).ready(function() {
 		'width':'',
 		'padding':'0px'
 	});
-	
+
 	$( "#settings").click(function(){
 			$("#menu_edit_list li[name='settings']").click();
 	});
 	loadIconsOnButtons('menu_icons_img');
-	
+
 	if(typeof(Storage) !== "undefined" && checkJSON('grid')!=null )project.grid = JSON.parse(localStorage.grid);
 	if(project.grid.show==true){
 		$( "#grid").attr('checked',true).next('label').addClass('ui-state-active').attr('aria-pressed',true);
@@ -1238,13 +1238,13 @@ $(document).ready(function() {
 		$( "#grid" ).next('label').removeClass('ui-state-active').attr('aria-pressed','false');
 		$( "#grid").button('refresh');
 	}
-	
+
 	$("#playback_slider").slider( {
 		orientation: "horizontal",
 		range: "min",
 		max: 255,
 		value: 127,
-		disabled:false 
+		disabled:false
 	}).css({
 		'border-radius':'0',
 		'margin':'2px',
@@ -1263,7 +1263,7 @@ $(document).ready(function() {
 		'top':'0px',
 		'overflow':'hidden'
 	});
-	
+
 	$( "#playback_start" ).button({
 		text: false,
 		icons: {
@@ -1332,7 +1332,7 @@ $(document).ready(function() {
 	})
 	.click(function() {
 		if(project.playback.state==true){
-			project.playback.action=0; 
+			project.playback.action=0;
 			project.playback.stop();
 			$("#playback_slider").slider('value',project.playback.keyframe[project.playback.session]);
 			$( this ).prev().button("option", {
@@ -1373,12 +1373,12 @@ $(document).ready(function() {
 			};
 			img.src = entry;
 		});
-		
+
 	}).parent().buttonset();
-	
+
 	$( "#playback_speed" ).spinner({
-		max: 1001,	
-		min: -1,	
+		max: 1001,
+		min: -1,
 		spin: function( event, ui ) {
 			project.playback.speed = $(this).spinner('value');
 		},
@@ -1396,12 +1396,12 @@ $(document).ready(function() {
 	})
 	$( "#playback_container" ).hide();
 	$( "#record_container" ).hide();
-	
+
 	$( "#record_progressbar" ).progressbar({value:0});
-	
+
 	$( "#record_speed" ).spinner({
-		max: 10001,	
-		min: 0,	
+		max: 10001,
+		min: 0,
 		spin: function( event, ui ) {
 			max = $(this).spinner('option', 'max'),
 			min = $(this).spinner('option', 'min');
@@ -1426,10 +1426,10 @@ $(document).ready(function() {
 		this.value = val > max-1 ? max-1 : val < min+1 ? min+1 : val;
 		//slider_or_spinner = false;
 	});
-	
+
 	$( "#record_keyframe" ).spinner({
-		max: 1001,	
-		min: 1,	
+		max: 1001,
+		min: 1,
 		spin: function( event, ui ) {
 			max = $(this).spinner('option', 'max'),
 			min = $(this).spinner('option', 'min');
@@ -1454,7 +1454,7 @@ $(document).ready(function() {
 		this.value = val > max-1 ? max-1 : val < min+1 ? min+1 : val;
 		//slider_or_spinner = false;
 	});
-	
+
 	$( ".recordspinner" ).spinner().css({
 		'border': 'show',
 		'color': '#cccccc',
@@ -1471,12 +1471,12 @@ $(document).ready(function() {
 		'margin-top': '1px',
 		'margin-right': '17px'
 	});
-	
+
 	$( "#record_button" ).button({text:true}).attr('checked',false).button('refresh').click(function(){
 		$( this ).button('refresh');
 		 $(this).next('label').text(this.checked ? "On" : "Off");
 	}).next('label').attr('aria-pressed',true).css('width','24px').find('.ui-button-text').css({'padding':'0px 0px 0px 0px','font-size' : '12px'});
-	
+
 	$( "#record_reset" ).button().click(function(){
 		project.playback.gif=null;
 		$("#record_count").html(0);
@@ -1496,7 +1496,7 @@ $(document).ready(function() {
 		'-webkit-border-radius':'4px',
 		'-moz-border-radius':'4px',
 		'border-radius':'4px',
-		
+
 		'background': '#333333',
 		'color':'#888',
 		'border':'none',
@@ -1526,15 +1526,15 @@ $(document).ready(function() {
 			project.playback.crop.y = $("#record_dialog_y").spinner("value");
 			project.playback.crop.w = $("#record_dialog_width").spinner("value");
 			project.playback.crop.h = $("#record_dialog_height").spinner("value");
-			$("#popup_container").hide();	
-			$("#popup_title").hide();							
+			$("#popup_container").hide();
+			$("#popup_title").hide();
 		});
 		$("#popup_cancel").unbind( "click" );
 		$("#popup_cancel").click(function(){
-			$("#popup_container").hide();	
-			$("#popup_title").hide();				
+			$("#popup_container").hide();
+			$("#popup_title").hide();
 		});
-		
+
 		$( ".record_dialog_spinner" ).spinner({
 			max: project.width,	//canvas size limit is 8192 pixels I think, but we don't need all those..
 			min: 0,		//canvas must be greater than 0, so we set this to 0 since we'll be adding one to it
@@ -1564,7 +1564,7 @@ $(document).ready(function() {
 			slider_or_spinner = false;
 		});
 	}).css('width','14px').find('.ui-button-text').css({'padding':'0px 0px 0px 0px','font-size' : '12px'});
-	
+
 	$( "#tool_size, #tool_opacity, #tool_hardness, #tool_levels" ).slider({
 		orientation: "horizontal",
 		range: "min",
@@ -1577,7 +1577,7 @@ $(document).ready(function() {
 			else if($(this).attr("id")=="tool_opacity"){tool.opacity = ui.value; tool.preset[num].opacity = tool.opacity;}
 			else if($(this).attr("id")=="tool_hardness"){tool.hardness = ui.value; tool.preset[num].hardness = tool.hardness;}
 			else if($(this).attr("id")=="tool_levels"){tool.levels = ui.value; tool.preset[num].levels = tool.levels;}
-			
+
 			refreshTool(tool);
 		},
 		change: function(){
@@ -1587,11 +1587,11 @@ $(document).ready(function() {
 			else if($(this).attr("id")=="tool_opacity"){tool.opacity = $(this).slider("option", "value"); tool.preset[num].opacity = tool.opacity;}
 			else if($(this).attr("id")=="tool_hardness"){tool.hardness = $(this).slider("option", "value"); tool.preset[num].hardness = tool.hardness;}
 			else if($(this).attr("id")=="tool_levels"){tool.levels = $(this).slider("option", "value"); tool.preset[num].levels = tool.levels;}
-			
+
 			refreshTool(tool);
 		},
 		stop: function(){
-			if(typeof(Storage) !== "undefined") localStorage.brushpreset = JSON.stringify(tool.preset) ; 
+			if(typeof(Storage) !== "undefined") localStorage.brushpreset = JSON.stringify(tool.preset) ;
 		}
 	}).css({
 		'margin':'2px',
@@ -1612,13 +1612,13 @@ $(document).ready(function() {
 		'top':'2px',
 		'overflow':'hidden'
 	});
-	
+
 	$( "#tool_size" ).slider({
 		step: 0.5,
 		min: 0.5,
 		max: 100,
 		value: tool.preset[1].size
-	});	
+	});
 	$( "#tool_opacity" ).slider({
 		min: 0,
 		max: 255,
@@ -1634,7 +1634,7 @@ $(document).ready(function() {
 		max: 10,
 		value: tool.preset[1].levels
 	});
-	
+
 	$("#pencontrol_size, #pencontrol_opacity, #pencontrol_hardness, #pencontrol_levels").button({
 		text: false,
 		icons: {
@@ -1643,43 +1643,43 @@ $(document).ready(function() {
 	}).click(function(){
 		var num = $("#brush_presets input:checked").attr('value');
 		if($(this).attr("title")=="None"){
-			if($(this).attr("id")=="pencontrol_size")tool.pen.s="pressure"; 
-			if($(this).attr("id")=="pencontrol_opacity")tool.pen.o="pressure"; 
-			if($(this).attr("id")=="pencontrol_hardness")tool.pen.h="pressure"; 
-			if($(this).attr("id")=="pencontrol_levels")tool.pen.l="pressure"; 
-			$(this).attr("title","Pen Pressure").css("background-image","url(icon-pressure.png)");
+			if($(this).attr("id")=="pencontrol_size")tool.pen.s="pressure";
+			if($(this).attr("id")=="pencontrol_opacity")tool.pen.o="pressure";
+			if($(this).attr("id")=="pencontrol_hardness")tool.pen.h="pressure";
+			if($(this).attr("id")=="pencontrol_levels")tool.pen.l="pressure";
+			$(this).attr("title","Pen Pressure").css("background-image","url(img/icon-pressure.png)");
 		}
 		else if($(this).attr("title")=="Pen Pressure"){
-			if($(this).attr("id")=="pencontrol_size")tool.pen.s="tilt"; 
-			if($(this).attr("id")=="pencontrol_opacity")tool.pen.o="tilt"; 
-			if($(this).attr("id")=="pencontrol_hardness")tool.pen.h="tilt"; 
-			if($(this).attr("id")=="pencontrol_levels")tool.pen.l="tilt"; 
-			$(this).attr("title","Pen Tilt").css("background-image","url(icon-tilt.png)");
+			if($(this).attr("id")=="pencontrol_size")tool.pen.s="tilt";
+			if($(this).attr("id")=="pencontrol_opacity")tool.pen.o="tilt";
+			if($(this).attr("id")=="pencontrol_hardness")tool.pen.h="tilt";
+			if($(this).attr("id")=="pencontrol_levels")tool.pen.l="tilt";
+			$(this).attr("title","Pen Tilt").css("background-image","url(img/icon-tilt.png)");
 		}
 		else if($(this).attr("title")=="Pen Tilt"){
-			if($(this).attr("id")=="pencontrol_size")tool.pen.s="direction"; 
-			if($(this).attr("id")=="pencontrol_opacity")tool.pen.o="direction"; 
-			if($(this).attr("id")=="pencontrol_hardness")tool.pen.h="direction"; 
-			if($(this).attr("id")=="pencontrol_levels")tool.pen.l="direction"; 
-			$(this).attr("title","Pen Direction").css("background-image","url(icon-direction.png)");
+			if($(this).attr("id")=="pencontrol_size")tool.pen.s="direction";
+			if($(this).attr("id")=="pencontrol_opacity")tool.pen.o="direction";
+			if($(this).attr("id")=="pencontrol_hardness")tool.pen.h="direction";
+			if($(this).attr("id")=="pencontrol_levels")tool.pen.l="direction";
+			$(this).attr("title","Pen Direction").css("background-image","url(img/icon-direction.png)");
 		}
 		else if($(this).attr("title")=="Pen Direction"){
-			if($(this).attr("id")=="pencontrol_size")tool.pen.s="none"; 
-			if($(this).attr("id")=="pencontrol_opacity")tool.pen.o="none"; 
-			if($(this).attr("id")=="pencontrol_hardness")tool.pen.h="none"; 
-			if($(this).attr("id")=="pencontrol_levels")tool.pen.l="none"; 
-			$(this).attr("title","None").css("background-image","url(icon-none.png)");
+			if($(this).attr("id")=="pencontrol_size")tool.pen.s="none";
+			if($(this).attr("id")=="pencontrol_opacity")tool.pen.o="none";
+			if($(this).attr("id")=="pencontrol_hardness")tool.pen.h="none";
+			if($(this).attr("id")=="pencontrol_levels")tool.pen.l="none";
+			$(this).attr("title","None").css("background-image","url(img/icon-none.png)");
 		}
 		tool.preset[num].pen = tool.pen;
-		if(typeof(Storage) !== "undefined") localStorage.brushpreset = JSON.stringify(tool.preset) ; 
-		
+		if(typeof(Storage) !== "undefined") localStorage.brushpreset = JSON.stringify(tool.preset) ;
+
 	});
 	loadIconsOnButtons("pencontrols");
-	$("#pencontrol_size").attr("title",(tool.preset[1].pen.s=='none'?"None":(tool.preset[1].pen.s=='pressure'?'Pren Pressure':(tool.preset[1].pen.s=='tilt'?'Pen Tilt':'Pen Direction'))) ).css("background-image","url(icon-"+tool.preset[1].pen.s+".png)");
-	$("#pencontrol_opacity").attr("title",(tool.preset[1].pen.o=='none'?"None":(tool.preset[1].pen.o=='pressure'?'Pren Pressure':(tool.preset[1].pen.o=='tilt'?'Pen Tilt':'Pen Direction'))) ).css("background-image","url(icon-"+tool.preset[1].pen.o+".png)");
-	$("#pencontrol_hardness").attr("title",(tool.preset[1].pen.h=='none'?"None":(tool.preset[1].pen.h=='pressure'?'Pren Pressure':(tool.preset[1].pen.h=='tilt'?'Pen Tilt':'Pen Direction'))) ).css("background-image","url(icon-"+tool.preset[1].pen.h+".png)");
-	$("#pencontrol_levels").attr("title",(tool.preset[1].pen.l=='none'?"None":(tool.preset[1].pen.l=='pressure'?'Pren Pressure':(tool.preset[1].pen.l=='tilt'?'Pen Tilt':'Pen Direction'))) ).css("background-image","url(icon-"+tool.preset[1].pen.l+".png)");
-	 
+	$("#pencontrol_size").attr("title",(tool.preset[1].pen.s=='none'?"None":(tool.preset[1].pen.s=='pressure'?'Pren Pressure':(tool.preset[1].pen.s=='tilt'?'Pen Tilt':'Pen Direction'))) ).css("background-image","url(img/icon-"+tool.preset[1].pen.s+".png)");
+	$("#pencontrol_opacity").attr("title",(tool.preset[1].pen.o=='none'?"None":(tool.preset[1].pen.o=='pressure'?'Pren Pressure':(tool.preset[1].pen.o=='tilt'?'Pen Tilt':'Pen Direction'))) ).css("background-image","url(img/icon-"+tool.preset[1].pen.o+".png)");
+	$("#pencontrol_hardness").attr("title",(tool.preset[1].pen.h=='none'?"None":(tool.preset[1].pen.h=='pressure'?'Pren Pressure':(tool.preset[1].pen.h=='tilt'?'Pen Tilt':'Pen Direction'))) ).css("background-image","url(img/icon-"+tool.preset[1].pen.h+".png)");
+	$("#pencontrol_levels").attr("title",(tool.preset[1].pen.l=='none'?"None":(tool.preset[1].pen.l=='pressure'?'Pren Pressure':(tool.preset[1].pen.l=='tilt'?'Pen Tilt':'Pen Direction'))) ).css("background-image","url(img/icon-"+tool.preset[1].pen.l+".png)");
+
 	$( "#frame_list" ).sortable({
 		handle: ".handle",
 		placeholder: 'ui-state-highlight',
@@ -1712,8 +1712,8 @@ $(document).ready(function() {
 			$(ui.item).css({width:48,height:48});
 			var sortarray = $(this).sortable('toArray', {attribute: 'value'});
 			sortarray.shift();
-			sortarray = sortarray.map(function (x) { 
-				return parseInt(x, 10); 
+			sortarray = sortarray.map(function (x) {
+				return parseInt(x, 10);
 			});
 			send_frame_order(sortarray);
 		},
@@ -1721,8 +1721,8 @@ $(document).ready(function() {
             var selected = $('#frame_list').children('.ui-selected, .ui-state-hover').clone();
 			return $('<div id="helper"></div>').append(selected);
         }
-	}).selectable({ 
-		filter: "li", 
+	}).selectable({
+		filter: "li",
 		cancel: ".handle, img, .frame_linker, .frame_interval",
 		selecting : function(event,ui){
 			$(ui.selecting).siblings().removeClass('ui-state-active');
@@ -1743,7 +1743,7 @@ $(document).ready(function() {
 	}).children().hover(
 		function () {
 			$(this).addClass('ui-state-hover');
-		}, 
+		},
 		function () {
 			$(this).removeClass('ui-state-hover');
 		}
@@ -1769,7 +1769,7 @@ $(document).ready(function() {
 		'height' : '48px',
 		'font-size': '14px'
 	}).first().hide();
-	
+
 	$("#frame_transparency").slider({
 		orientation: "horizontal",
 		range: "min",
@@ -1780,10 +1780,10 @@ $(document).ready(function() {
 		stop: function(event,ui){
 			project.opacity[project.currentframe] = ui.value;
 			send_frame_opacity(project.currentframe,ui.value );
-			//if(typeof(Storage) !== "undefined") localStorage.brushpreset = JSON.stringify(tool.preset) ; 
+			//if(typeof(Storage) !== "undefined") localStorage.brushpreset = JSON.stringify(tool.preset) ;
 		}
 	}).css({'margin':'4px'});
-		
+
 	$(" #history_container, #frame_container" )
 	.draggable({ handle: "span:first" , snap: "#canvas_container", snapMode: "outer" ,
 		start : function(event, ui) {
@@ -1807,7 +1807,7 @@ $(document).ready(function() {
 			}
 		}
 	});
-	
+
 	$( "#frame_container span[id='frame_resizer']" ).resizable({
 		handles: 'se',
 		minHeight:-1000,
@@ -1837,7 +1837,7 @@ $(document).ready(function() {
 	}).children().addClass('ui-icon ui-icon-triangle-2-e-w').css({
 		'margin-right':'6px'
 	});
-	
+
 	$( "#interval_menu" ).hide().menu({
 		select: function(event, ui) {
 			if(ui.item.text()=="0"){
@@ -1891,17 +1891,17 @@ $(document).ready(function() {
 						send_frame_interval($(this).attr('value'),$("#interval_spinner").spinner("value") * 1000);
 					}).attr('data-interval',($("#interval_spinner").spinner("value") * 1000) ).find('.frame_interval').html( $("#interval_spinner").spinner("value") );
 					send_frame_interval(document.getElementById("interval_menu").dataset.frame,$("#interval_spinner").spinner("value") * 1000);
-					$("#popup_container").hide();	
-					$("#popup_title").hide();				
+					$("#popup_container").hide();
+					$("#popup_title").hide();
 				});
 				$("#popup_cancel").unbind( "click" );
 				$("#popup_cancel").click(function(){
-					$("#popup_container").hide();	
-					$("#popup_title").hide();				
+					$("#popup_container").hide();
+					$("#popup_title").hide();
 				});
-				
+
 				$( ".interval_spinner" ).spinner({
-					max: 101,	
+					max: 101,
 					min: -1,
 					step: 0.01,
 					spin: function( event, ui ) {
@@ -1944,7 +1944,7 @@ $(document).ready(function() {
 		'padding':0,
 		'margin':0
 	}).hide().find('.ui-button-text').css('padding',0);
-			
+
 	$("#frame_showall").button({
 		text: false,
 		icons: {
@@ -1966,7 +1966,7 @@ $(document).ready(function() {
 			project.showall = false;
 		}
 	}).next('label').addClass('ui-state-active').attr('aria-pressed',true).css('width','14px').find('.ui-button-text').css({'padding':'0px 0px 0px 0px','font-size' : '12px'});
-	
+
 	$("#frame_play").button({
 		text: false,
 		icons: {
@@ -1991,9 +1991,9 @@ $(document).ready(function() {
 		'padding':0,
 		'margin':0
 	}).find('.ui-button-text').css('padding',0);
-	
+
 	//$( "#window_slider" ).draggable({ handle: "div", containment: 'parent' });
-	$( "#window_slider" ).resizable({ 
+	$( "#window_slider" ).resizable({
 		containment: "parent",
 		minWidth: 90,
 		maxWidth: 90,
@@ -2008,12 +2008,12 @@ $(document).ready(function() {
 			*/
 		}
 	});
-	$( "#window_slider2" ).resizable({ 
+	$( "#window_slider2" ).resizable({
 		containment: "parent",
 		minWidth: 90,
 		maxWidth: 90,
 		start: function(event, ui) {
-			
+
 		},
 		resize: function(event, ui) {
 			var tempheight = $(this).outerHeight() + $( "#window_slider" ).outerHeight();
@@ -2029,13 +2029,13 @@ $(document).ready(function() {
 			*/
 		}
 	});
-	
-	
+
+
 	$( "#history_container span:last" ).resizable({
 		minHeight:-1000,
 		start: function(event, ui) {
 			$("#history_box").attr('value',($("#history_box").height() - ui.size.height));
-			
+
 		},
 		resize: function(event, ui) {
 			$("#history_box").height(parseInt($("#history_box").attr('value'))+parseInt(ui.size.height));
@@ -2043,7 +2043,7 @@ $(document).ready(function() {
 			$(this).width('');
 		}
 	});
-	
+
 	$( "#history_list" ).css({
 		'list-style-type': 'none',
 		'margin': 0,
@@ -2051,7 +2051,7 @@ $(document).ready(function() {
 	}).children().hover(
 		function () {
 			$(this).addClass('ui-state-hover');
-		}, 
+		},
 		function () {
 			$(this).removeClass('ui-state-hover');
 		}
@@ -2068,7 +2068,7 @@ $(document).ready(function() {
 		'padding': '0.4em',
 		'font-size': '14px'
 	}).first().hide();
-	
+
 	$( "#historyresize_list" ).css({
 		'list-style-type': 'none',
 		'margin': 0,
@@ -2076,7 +2076,7 @@ $(document).ready(function() {
 	}).children().hover(
 		function () {
 			$(this).addClass('ui-state-hover');
-		}, 
+		},
 		function () {
 			$(this).removeClass('ui-state-hover');
 		}
@@ -2086,7 +2086,7 @@ $(document).ready(function() {
 			$(this).toggleClass('ui-state-active');
 			//myHistory[0].selected = $(this).attr('value');
 			//send_history_select(myHistory[0].selected);
-			
+
 			$("#popup_title").html('Undo Resize');
 			$("#popup_content").html('<div id="undo_resize_dialog">\
 					Are you sure you want to revert to the previous size?<br>\
@@ -2098,22 +2098,22 @@ $(document).ready(function() {
 			$("#popup_submit").click(function(){
 				revertResize();
 				send_undo_resize();
-				$("#popup_container").hide();	
-				$("#popup_title").hide();				
+				$("#popup_container").hide();
+				$("#popup_title").hide();
 			});
 			$("#popup_cancel").unbind( "click" );
 			$("#popup_cancel").click(function(){
-				$("#popup_container").hide();	
-				$("#popup_title").hide();				
+				$("#popup_container").hide();
+				$("#popup_title").hide();
 			});
-			
+
 		}
 	).css({
 		'margin': '3px',
 		'padding': '0.4em',
 		'font-size': '14px'
 	}).first().hide();
-	
+
 	$("#msgbox").bind("DOMSubtreeModified",function(){
 		var div = document.getElementById("msgbox");
 		if(project.console.scrolltop + $(this).height() == project.console.scrollheight || project.console.scrollheight==0){
@@ -2127,7 +2127,7 @@ $(document).ready(function() {
 		project.console.scrolltop = div.scrollTop;
 		project.console.scrollheight = div.scrollHeight;
 	});
-	
+
 	$( "#menu_file" ).parent().children()
 	.button()
 	.click(function() {
@@ -2181,18 +2181,18 @@ $(document).ready(function() {
 					$("#colorpicker_container").show();
 					$("#playback_container").hide();
 					$("#record_container").hide();
-					$("#popup_container").hide();	
-					$("#popup_title").hide();		
-					if(typeof(Storage) !== "undefined") localStorage.new_dialog_width = JSON.stringify($("#file_new_dialog_width").spinner("value")) ; 
-					if(typeof(Storage) !== "undefined") localStorage.new_dialog_height = JSON.stringify($("#file_new_dialog_height").spinner("value")) ; 					
-					if(typeof(Storage) !== "undefined") localStorage.new_dialog_frames = JSON.stringify($("#file_new_dialog_frames").spinner("value")) ; 					
+					$("#popup_container").hide();
+					$("#popup_title").hide();
+					if(typeof(Storage) !== "undefined") localStorage.new_dialog_width = JSON.stringify($("#file_new_dialog_width").spinner("value")) ;
+					if(typeof(Storage) !== "undefined") localStorage.new_dialog_height = JSON.stringify($("#file_new_dialog_height").spinner("value")) ;
+					if(typeof(Storage) !== "undefined") localStorage.new_dialog_frames = JSON.stringify($("#file_new_dialog_frames").spinner("value")) ;
 				});
 				$("#popup_cancel").unbind( "click" );
 				$("#popup_cancel").click(function(){
-					$("#popup_container").hide();	
-					$("#popup_title").hide();				
+					$("#popup_container").hide();
+					$("#popup_title").hide();
 				});
-				
+
 				$( ".file_new_dialog_spinner" ).spinner({
 					max: 2561,	//canvas size limit is 8192 pixels I think, but we don't need all those..
 					min: 0,		//canvas must be greater than 0, so we set this to 0 since we'll be adding one to it
@@ -2245,7 +2245,7 @@ $(document).ready(function() {
 						{text: "Cancel", click: function() {$(this).dialog("close")}}
 					]
 				});*/
-				
+
 			}
 			if(ui.item.text()=="Png"){
 				$("#popup_title").html('Png');
@@ -2266,15 +2266,15 @@ $(document).ready(function() {
 					//setTimeout(function(){ exportPng( savePNG ) }, 1000);
 					exportPng( {filename:$('#filename').val(), type:$('#png_composition_select').val(), startframe:$( "#png_range" ).slider( "values", 0 ), endframe:$( "#png_range" ).slider( "values", 1 ), columns:$('#png_columns').spinner( "value"), rows:$('#png_rows').spinner( "value"), direction:$('#png_direction').val() } );
 					//exportPng( {filename:$('#file_export_dialog_name').val(), type:$('#png_composition_select').val(), startframe:$( "#png_range" ).slider( "values", 0 ), endframe:$( "#png_range" ).slider( "values", 1 ), columns:$('#png_columns').spinner( "value"), rows:$('#png_rows').spinner( "value"), direction:$('#png_direction').val() } );
-					$("#popup_container").hide();	
-					$("#popup_title").hide();				
+					$("#popup_container").hide();
+					$("#popup_title").hide();
 				});
 				$("#popup_cancel").unbind( "click" );
 				$("#popup_cancel").click(function(){
-					$("#popup_container").hide();	
-					$("#popup_title").hide();				
+					$("#popup_container").hide();
+					$("#popup_title").hide();
 				});
-				
+
 				$('#file_export_dialog .file_export_input[type=text]').addClass("ui-corner-all").css({
 					  'background' : '#444444',
 					  'border-width' : '1px',
@@ -2350,7 +2350,7 @@ $(document).ready(function() {
 							'-webkit-border-radius':'4px',
 							'-moz-border-radius':'4px',
 							'border-radius':'4px',
-							
+
 							'background': '#333333',
 							'color':'#888',
 							'border':'none',
@@ -2366,7 +2366,7 @@ $(document).ready(function() {
 					'-webkit-border-radius':'4px',
 					'-moz-border-radius':'4px',
 					'border-radius':'4px',
-					
+
 					'background': '#333333',
 					'color':'#888',
 					'border':'none',
@@ -2386,16 +2386,16 @@ $(document).ready(function() {
 				$("#popup_submit").unbind( "click" );
 				$("#popup_submit").click(function(){
 					exportGif($('#filename').val()+'.gif', $('#gifcolorpicker').val()  );
-					$("#popup_container").hide();	
-					$("#popup_title").hide();				
+					$("#popup_container").hide();
+					$("#popup_title").hide();
 				});
 				$("#popup_cancel").unbind( "click" );
 				$("#popup_cancel").click(function(){
-					$("#popup_container").hide();	
-					$("#popup_title").hide();				
+					$("#popup_container").hide();
+					$("#popup_title").hide();
 				});
-				
-				
+
+
 			}
 			if(ui.item.text()=="Undo"){
 				if(myHistory[0].selected>0){
@@ -2443,15 +2443,15 @@ $(document).ready(function() {
 				$("#popup_submit").unbind( "click" );
 				$("#popup_submit").click(function(){
 					convertSpritesheet( {columns:$('#png_columns').spinner( "value"), rows:$('#png_rows').spinner( "value"), direction:$('#png_direction').val(), interval:$('#spritesheet_interval').val() } );
-					$("#popup_container").hide();	
-					$("#popup_title").hide();				
+					$("#popup_container").hide();
+					$("#popup_title").hide();
 				});
 				$("#popup_cancel").unbind( "click" );
 				$("#popup_cancel").click(function(){
-					$("#popup_container").hide();	
-					$("#popup_title").hide();				
+					$("#popup_container").hide();
+					$("#popup_title").hide();
 				});
-				
+
 				$( ".png_sheet_spinner" ).spinner({
 					max: 1023,	//canvas size limit is 8192 pixels I think, but we don't need all those..
 					min: 0,		//canvas must be greater than 0, so we set this to 0 since we'll be adding one to it
@@ -2491,7 +2491,7 @@ $(document).ready(function() {
 					'-webkit-border-radius':'4px',
 					'-moz-border-radius':'4px',
 					'border-radius':'4px',
-					
+
 					'background': '#333333',
 					'color':'#888',
 					'border':'none',
@@ -2539,15 +2539,15 @@ $(document).ready(function() {
 						h = Math.max(1,Math.floor(tile.dim.h*(h*0.01)));
 					}
 					resizeMap(w,h,$( "#map_size_dialog" ).data('direction') );
-					$("#popup_container").hide();	
-					$("#popup_title").hide();				
+					$("#popup_container").hide();
+					$("#popup_title").hide();
 				});
 				$("#popup_cancel").unbind( "click" );
 				$("#popup_cancel").click(function(){
-					$("#popup_container").hide();	
-					$("#popup_title").hide();				
+					$("#popup_container").hide();
+					$("#popup_title").hide();
 				});
-				
+
 				$( "#imagesize_unit" ).button().click(function(){
 					if($(this).text()=='Tiles'){
 						$(this).text('Percent');
@@ -2557,7 +2557,7 @@ $(document).ready(function() {
 						$( "span.imagesize_unit_text" ).text('tiles');
 					}
 				}).find('.ui-button-text').css({'padding':'0px 4px 0px 4px','font-size' : '12px'});
-				
+
 				$( "#imagesize_proportionate" ).button().prop('checked',false).click(function(){
 					if( $(this).next('label').attr('aria-pressed')=='true'){
 						//$(this).attr('checked', false);
@@ -2565,7 +2565,7 @@ $(document).ready(function() {
 				}).next().find('.ui-button-text').click(function(){$(this).parent().click();}).css({'user-select':'none','padding':'0px 4px 0px 4px',
 					'font-size' : '12px'});
 
-					
+
 				$( "#map_size_dialog" ).data('direction',{x:0,y:0} );
 				$( ".map_size_dialog_spinner" ).spinner({
 					max: 2561,	//canvas size limit is 8192 pixels I think, but we don't need all those..
@@ -2581,7 +2581,7 @@ $(document).ready(function() {
 							$( this ).spinner( "value", max-1 );
 							return false;
 						}
-						
+
 						if($(this).is(':focus') && $("#imagesize_proportionate").next('label').attr('aria-pressed')=='true' ){
 							if($('#imagesize_unit').text()=='Tiles'){
 								if($(this).attr('id')=='map_size_dialog_width'){
@@ -2612,7 +2612,7 @@ $(document).ready(function() {
 					if (!val.match(/^\d+$/)) val = min+1; //we want only number, no alpha
 					this.value = val > max-1 ? max-1 : val < min+1 ? min+1 : val;
 					slider_or_spinner = false;
-					
+
 					if($(this).is(':focus') && $("#imagesize_proportionate").next('label').attr('aria-pressed')=='true' ){
 						if($('#imagesize_unit').text()=='Tiles'){
 							if($(this).attr('id')=='map_size_dialog_width'){
@@ -2641,29 +2641,29 @@ $(document).ready(function() {
 					   case 1:
 						   idname = 'ui-icon-arrowthick-1-n';
 						   break;
-					   case 2: 
+					   case 2:
 						   idname = 'ui-icon-arrowthick-1-ne';
 						   break;
-					   case 3: 
+					   case 3:
 						   idname = 'ui-icon-arrowthick-1-w';
 						   break;
-					   case 4: 
+					   case 4:
 						   idname = '';
 						   break;
-					   case 5: 
+					   case 5:
 						   idname = 'ui-icon-arrowthick-1-e';
 						   break;
-					   case 6: 
+					   case 6:
 						   idname = 'ui-icon-arrowthick-1-sw';
 						   break;
-					   case 7: 
+					   case 7:
 						   idname = 'ui-icon-arrowthick-1-s';
 						   break;
-					   case 8: 
+					   case 8:
 						   idname = 'ui-icon-arrowthick-1-se';
 						   break;
 
-					   default: 
+					   default:
 						   idname = '';
 						   break;
 					}
@@ -2756,7 +2756,7 @@ $(document).ready(function() {
 							$( "#map_size_dialog" ).data('direction',{x:-1,y:-1} );
 							break;
 
-					   default: 
+					   default:
 						   idname = '';
 						   break;
 					}
@@ -2780,14 +2780,14 @@ $(document).ready(function() {
 				$("#popup_title").show();
 				$("#popup_submit").unbind( "click" );
 				$("#popup_submit").click(function(){
-				
+
 					resizeLayers = new resizeLayersData();
 					resizeLayers.getOrder();
 					project.canvaslayer.forEach(function(entry){
 						resizeLayers.layer.push(entry.toDataURL() );
 					});
 					send_save_resize();
-							
+
 					var w=$('#image_size_dialog_width').val(), h=$('#image_size_dialog_height').val();
 					if($('#imagesize_unit').text()=='Percent'){
 						w = Math.max(1,Math.floor(project.width*(w*0.01)));
@@ -2796,19 +2796,19 @@ $(document).ready(function() {
 					send_history_select(myHistory[0].selected);
 					send_resize_image(w,h );
 					resizeImage(w,h );
-					
+
 					addResizeUndo();
 					send_add_resize_undo();
-					
-					$("#popup_container").hide();	
-					$("#popup_title").hide();				
+
+					$("#popup_container").hide();
+					$("#popup_title").hide();
 				});
 				$("#popup_cancel").unbind( "click" );
 				$("#popup_cancel").click(function(){
-					$("#popup_container").hide();	
-					$("#popup_title").hide();				
+					$("#popup_container").hide();
+					$("#popup_title").hide();
 				});
-				
+
 				$( "#imagesize_unit" ).button().click(function(){
 					if($(this).text()=='Pixel'){
 						$(this).text('Percent');
@@ -2818,7 +2818,7 @@ $(document).ready(function() {
 						$( "span.imagesize_unit_text" ).text('px');
 					}
 				}).find('.ui-button-text').css({'padding':'0px 4px 0px 4px','font-size' : '12px'});
-				
+
 				$( "#imagesize_proportionate" ).button().prop('checked',false).click(function(){
 					if( $(this).next('label').attr('aria-pressed')=='true'){
 						//$(this).attr('checked', false);
@@ -2826,7 +2826,7 @@ $(document).ready(function() {
 				}).next().find('.ui-button-text').click(function(){$(this).parent().click();}).css({'user-select':'none','padding':'0px 4px 0px 4px',
 					'font-size' : '12px'});
 
-		
+
 				$( ".image_size_dialog_spinner" ).spinner({
 					max: 2561,	//canvas size limit is 8192 pixels I think, but we don't need all those..
 					min: 0,		//canvas must be greater than 0, so we set this to 0 since we'll be adding one to it
@@ -2841,7 +2841,7 @@ $(document).ready(function() {
 							$( this ).spinner( "value", max-1 );
 							return false;
 						}
-						
+
 						if($(this).is(':focus') && $("#imagesize_proportionate").next('label').attr('aria-pressed')=='true' ){
 							if($('#imagesize_unit').text()=='Pixel'){
 								if($(this).attr('id')=='image_size_dialog_width'){
@@ -2871,7 +2871,7 @@ $(document).ready(function() {
 					if (!val.match(/^\d+$/)) val = min+1; //we want only number, no alpha
 					this.value = val > max-1 ? max-1 : val < min+1 ? min+1 : val;
 					slider_or_spinner = false;
-					
+
 					if($(this).is(':focus') && $("#imagesize_proportionate").next('label').attr('aria-pressed')=='true' ){
 						if($('#imagesize_unit').text()=='Pixel'){
 							if($(this).attr('id')=='image_size_dialog_width'){
@@ -2925,14 +2925,14 @@ $(document).ready(function() {
 				$("#popup_title").show();
 				$("#popup_submit").unbind( "click" );
 				$("#popup_submit").click(function(){
-				
+
 					resizeLayers = new resizeLayersData();
 					resizeLayers.getOrder();
 					project.canvaslayer.forEach(function(entry){
 						resizeLayers.layer.push(entry.toDataURL() );
 					});
 					send_save_resize();
-							
+
 					var w=$('#canvas_size_dialog_width').val(), h=$('#canvas_size_dialog_height').val();
 					if($('#imagesize_unit').text()=='Percent'){
 						w = Math.max(1,Math.floor(project.width*(w*0.01)));
@@ -2941,19 +2941,19 @@ $(document).ready(function() {
 					send_history_select(myHistory[0].selected);
 					send_resize_canvas(w,h,$( "#canvas_size_dialog" ).data('direction') );
 					resizeCanvas(w,h,$( "#canvas_size_dialog" ).data('direction') );
-					
+
 					addResizeUndo();
 					send_add_resize_undo();
-					
-					$("#popup_container").hide();	
-					$("#popup_title").hide();				
+
+					$("#popup_container").hide();
+					$("#popup_title").hide();
 				});
 				$("#popup_cancel").unbind( "click" );
 				$("#popup_cancel").click(function(){
-					$("#popup_container").hide();	
-					$("#popup_title").hide();				
+					$("#popup_container").hide();
+					$("#popup_title").hide();
 				});
-				
+
 				$( "#imagesize_unit" ).button().click(function(){
 					if($(this).text()=='Pixel'){
 						$(this).text('Percent');
@@ -2963,7 +2963,7 @@ $(document).ready(function() {
 						$( "span.imagesize_unit_text" ).text('px');
 					}
 				}).find('.ui-button-text').css({'padding':'0px 4px 0px 4px','font-size' : '12px'});
-				
+
 				$( "#imagesize_proportionate" ).button().prop('checked',false).click(function(){
 					if( $(this).next('label').attr('aria-pressed')=='true'){
 						//$(this).attr('checked', false);
@@ -2971,7 +2971,7 @@ $(document).ready(function() {
 				}).next().find('.ui-button-text').click(function(){$(this).parent().click();}).css({'user-select':'none','padding':'0px 4px 0px 4px',
 					'font-size' : '12px'});
 
-					
+
 				$( "#canvas_size_dialog" ).data('direction',{x:0,y:0} );
 				$( ".canvas_size_dialog_spinner" ).spinner({
 					max: 2561,	//canvas size limit is 8192 pixels I think, but we don't need all those..
@@ -2987,7 +2987,7 @@ $(document).ready(function() {
 							$( this ).spinner( "value", max-1 );
 							return false;
 						}
-						
+
 						if($(this).is(':focus') && $("#imagesize_proportionate").next('label').attr('aria-pressed')=='true' ){
 							if($('#imagesize_unit').text()=='Pixel'){
 								if($(this).attr('id')=='canvas_size_dialog_width'){
@@ -3018,7 +3018,7 @@ $(document).ready(function() {
 					if (!val.match(/^\d+$/)) val = min+1; //we want only number, no alpha
 					this.value = val > max-1 ? max-1 : val < min+1 ? min+1 : val;
 					slider_or_spinner = false;
-					
+
 					if($(this).is(':focus') && $("#imagesize_proportionate").next('label').attr('aria-pressed')=='true' ){
 						if($('#imagesize_unit').text()=='Pixel'){
 							if($(this).attr('id')=='canvas_size_dialog_width'){
@@ -3047,29 +3047,29 @@ $(document).ready(function() {
 					   case 1:
 						   idname = 'ui-icon-arrowthick-1-n';
 						   break;
-					   case 2: 
+					   case 2:
 						   idname = 'ui-icon-arrowthick-1-ne';
 						   break;
-					   case 3: 
+					   case 3:
 						   idname = 'ui-icon-arrowthick-1-w';
 						   break;
-					   case 4: 
+					   case 4:
 						   idname = '';
 						   break;
-					   case 5: 
+					   case 5:
 						   idname = 'ui-icon-arrowthick-1-e';
 						   break;
-					   case 6: 
+					   case 6:
 						   idname = 'ui-icon-arrowthick-1-sw';
 						   break;
-					   case 7: 
+					   case 7:
 						   idname = 'ui-icon-arrowthick-1-s';
 						   break;
-					   case 8: 
+					   case 8:
 						   idname = 'ui-icon-arrowthick-1-se';
 						   break;
 
-					   default: 
+					   default:
 						   idname = '';
 						   break;
 					}
@@ -3162,7 +3162,7 @@ $(document).ready(function() {
 							$( "#canvas_size_dialog" ).data('direction',{x:-1,y:-1} );
 							break;
 
-					   default: 
+					   default:
 						   idname = '';
 						   break;
 					}
@@ -3181,13 +3181,13 @@ $(document).ready(function() {
 				$("#popup_submit").unbind( "click" );
 				$("#popup_submit").click(function(){
 					removeRecords();
-					$("#popup_container").hide();	
-					$("#popup_title").hide();				
+					$("#popup_container").hide();
+					$("#popup_title").hide();
 				});
 				$("#popup_cancel").unbind( "click" );
 				$("#popup_cancel").click(function(){
-					$("#popup_container").hide();	
-					$("#popup_title").hide();				
+					$("#popup_container").hide();
+					$("#popup_title").hide();
 				});
 			}else if(ui.item.text()=="Remove Records") openDisabled('Remove Records');
 			if(ui.item.text()=="Settings"){
@@ -3202,16 +3202,16 @@ $(document).ready(function() {
 				$("#popup_title").show();
 				$("#popup_submit").unbind( "click" );
 				$("#popup_submit").click(function(){
-					if(typeof(Storage) !== "undefined") localStorage.grid = JSON.stringify(project.grid) ; 
-					$("#popup_container").hide();	
-					$("#popup_title").hide();				
+					if(typeof(Storage) !== "undefined") localStorage.grid = JSON.stringify(project.grid) ;
+					$("#popup_container").hide();
+					$("#popup_title").hide();
 				});
 				$("#popup_cancel").unbind( "click" );
 				$("#popup_cancel").click(function(){
-					$("#popup_container").hide();	
-					$("#popup_title").hide();				
+					$("#popup_container").hide();
+					$("#popup_title").hide();
 				});
-				
+
 				$( "#invert_mouse_wheel_radio" ).button().prop('checked',false).click(function(){
 					if(typeof(Storage) !== "undefined") localStorage.invertmousewheel = ($(this).next('label').attr('aria-pressed')=='true'?'false':'true');
 					if( $(this).next('label').attr('aria-pressed')=='true'){
@@ -3220,7 +3220,7 @@ $(document).ready(function() {
 				}).next().find('.ui-button-text').click(function(){$(this).parent().click();}).css({'user-select':'none','padding':'0px 4px 0px 4px',
 					'font-size' : '12px'});
 				if(typeof(Storage) !== "undefined" && localStorage.invertmousewheel=='true')$( "#invert_mouse_wheel_radio" ).prop('checked',false).click();
-				
+
 				$('#bg_color').change(function(){
 					$("#canvas_bg_color").css( "background", $(this).val() );
 					$("#minicanvas_bg_color").css( "background", $(this).val() );
@@ -3297,40 +3297,40 @@ $(document).ready(function() {
 						$("#popup_title").show();
 						$("#popup_submit").unbind( "click" );
 						$("#popup_submit").click(function(){
-							
+
 							resizeLayers = new resizeLayersData();
 							resizeLayers.getOrder();
 							project.canvaslayer.forEach(function(entry){
 								resizeLayers.layer.push(entry.toDataURL() );
 							});
 							send_save_resize();
-	
+
 							var tempclip = myHistory[0].selectionclip;
 							send_history_select(myHistory[0].selected);
 							send_resize_canvas(myHistory[0].selectionclip.x2, myHistory[0].selectionclip.y2, {x:1,y:1} );
 							resizeCanvas(myHistory[0].selectionclip.x2, myHistory[0].selectionclip.y2, {x:1,y:1} );
 							send_resize_canvas(tempclip.x2-tempclip.x, tempclip.y2-tempclip.y, {x:-1,y:-1} );
 							resizeCanvas(tempclip.x2-tempclip.x, tempclip.y2-tempclip.y, {x:-1,y:-1} );
-							
+
 							addResizeUndo();
 							send_add_resize_undo();
-							
-							$("#popup_container").hide();	
-							$("#popup_title").hide();				
+
+							$("#popup_container").hide();
+							$("#popup_title").hide();
 						});
 						$("#popup_cancel").unbind( "click" );
 						$("#popup_cancel").click(function(){
-							$("#popup_container").hide();	
-							$("#popup_title").hide();				
+							$("#popup_container").hide();
+							$("#popup_title").hide();
 						});
-					}			
+					}
 				}
 				if(ui.item.text()=="Cut"){
 					copySelection(myHistory[0].id);
 					send_copy_selection();
 					if(approveContinue()){
 						if(myHistory[0].selectionclipped == false){
-						
+
 							commitHistory(myHistory[0].id);
 							//if clearing section, keep backup of what was there so we can pass to historylist(so we can restore it).
 							var backupcanvas = document.createElement("canvas");
@@ -3338,22 +3338,22 @@ $(document).ready(function() {
 							backupcanvas.height = project.height;
 							var backupcontext = backupcanvas.getContext("2d");
 							backupcontext.drawImage(project.canvaslayer[project.currentframe],0,0);
-						
+
 							myHistory[0].selectionsetclip = true;
 							selectClip(myHistory[0].id);
 							var type = "cut";
-							
+
 							myHistory[0].context.drawImage(myHistory[0].selectionclipcanvas,myHistory[0].selectionoffset.x,myHistory[0].selectionoffset.y);
-							
+
 							claimHistory(myHistory[0].id,myHistory[0].canvas);
 							myHistory[0].layers.push(new historylayerdata("Delete",myHistory[0].canvas,myHistory[0],true,backupcanvas) );
 							project.contextlayer[project.currentframe].globalCompositeOperation = 'destination-out';
 							project.contextlayer[project.currentframe].drawImage(myHistory[0].canvas,0,0);
 							project.contextlayer[project.currentframe].globalCompositeOperation = 'source-over';
-						
+
 							myHistory[0].context.clearRect(0, 0, myHistory[0].canvas.width, myHistory[0].canvas.height);
 							send_select_clip(type);
-							
+
 							selectClearClip(myHistory[0].id);
 							send_select_clear();
 							//make sure selection is not selecting anything
@@ -3379,7 +3379,7 @@ $(document).ready(function() {
 				if(ui.item.text()=="Clear"){
 					if(approveContinue()){
 						if(myHistory[0].selectionclipped == false){
-						
+
 							commitHistory(myHistory[0].id);
 							//if clearing section, keep backup of what was there so we can pass to historylist(so we can restore it).
 							var backupcanvas = document.createElement("canvas");
@@ -3387,22 +3387,22 @@ $(document).ready(function() {
 							backupcanvas.height = project.height;
 							var backupcontext = backupcanvas.getContext("2d");
 							backupcontext.drawImage(project.canvaslayer[project.currentframe],0,0);
-						
+
 							myHistory[0].selectionsetclip = true;
 							selectClip(myHistory[0].id);
 							var type = "cut";
-							
+
 							myHistory[0].context.drawImage(myHistory[0].selectionclipcanvas,myHistory[0].selectionoffset.x,myHistory[0].selectionoffset.y);
-							
+
 							claimHistory(myHistory[0].id,myHistory[0].canvas);
 							myHistory[0].layers.push(new historylayerdata("Delete",myHistory[0].canvas,myHistory[0],true,backupcanvas) );
 							project.contextlayer[project.currentframe].globalCompositeOperation = 'destination-out';
 							project.contextlayer[project.currentframe].drawImage(myHistory[0].canvas,0,0);
 							project.contextlayer[project.currentframe].globalCompositeOperation = 'source-over';
-						
+
 							myHistory[0].context.clearRect(0, 0, myHistory[0].canvas.width, myHistory[0].canvas.height);
 							send_select_clip(type);
-							
+
 							selectClearClip(myHistory[0].id);
 							send_select_clear();
 							//make sure selection is not selecting anything
@@ -3418,14 +3418,14 @@ $(document).ready(function() {
 					}
 				}
 			}
-			
+
 		}
 	})
 	.css({
 		'z-index':'100',
 		'position': 'absolute'
 	});
-	
+
 	$( "#zoom_text" ).button().click(function() {
 		//$( this ).next().toggle();
 		var menu = $( "#zoom_list").toggle().position({
@@ -3448,7 +3448,7 @@ $(document).ready(function() {
 				zoomSet(ui.item.text().substr(0,1));
 		}
 	});
-	
+
 	$( "#secondary_zoom_text" ).button().click(function() {
 		//$( this ).next().toggle();
 		var menu = $( "#secondary_zoom_list").toggle().position({
@@ -3471,8 +3471,8 @@ $(document).ready(function() {
 				zoomSetSecondary(ui.item.text().substr(0,1));
 		}
 	});
-	
-	
+
+
 	$( "#save_map_image" ).button({
 		text: false,
 		icons: {
@@ -3481,7 +3481,7 @@ $(document).ready(function() {
 	}).click(function(){
 		saveMapImage($("#filename").val() );
 	}).css('width','14px').find('.ui-button-text').css({'padding':'0px 0px 0px 0px','font-size' : '12px'});
-		
+
 	$( "#load_map" ).button({
 		text: false,
 		icons: {
@@ -3490,7 +3490,7 @@ $(document).ready(function() {
 	}).click(function(){
 		$('#file_load_map').click();
 	}).css('width','14px').find('.ui-button-text').css({'padding':'0px 0px 0px 0px','font-size' : '12px'});
-		
+
 	$( "#load_map_tmx" ).button({
 		text: false,
 		icons: {
@@ -3499,7 +3499,7 @@ $(document).ready(function() {
 	}).click(function(){
 		$('#file_load_maptmx').click();
 	}).css('width','14px').find('.ui-button-text').css({'padding':'0px 0px 0px 0px','font-size' : '12px'});
-		
+
 	$( "#save_map" ).button({
 		text: false,
 		icons: {
@@ -3516,16 +3516,16 @@ $(document).ready(function() {
 		$("#popup_submit").unbind( "click" );
 		$("#popup_submit").click(function(){
 			saveMap($('#map_save_dialog_name').val() );
-			$("#popup_container").hide();	
-			$("#popup_title").hide();				
+			$("#popup_container").hide();
+			$("#popup_title").hide();
 		});
 		$("#popup_cancel").unbind( "click" );
 		$("#popup_cancel").click(function(){
-			$("#popup_container").hide();	
-			$("#popup_title").hide();				
+			$("#popup_container").hide();
+			$("#popup_title").hide();
 		});
 	}).css('width','14px').find('.ui-button-text').css({'padding':'0px 0px 0px 0px','font-size' : '12px'});
-		
+
 	$( "#save_map_tmx" ).button({
 		text: false,
 		icons: {
@@ -3542,51 +3542,51 @@ $(document).ready(function() {
 		$("#popup_submit").unbind( "click" );
 		$("#popup_submit").click(function(){
 			saveMapTmx($('#map_save_dialog_name').val() );
-			$("#popup_container").hide();	
-			$("#popup_title").hide();				
+			$("#popup_container").hide();
+			$("#popup_title").hide();
 		});
 		$("#popup_cancel").unbind( "click" );
 		$("#popup_cancel").click(function(){
-			$("#popup_container").hide();	
-			$("#popup_title").hide();				
+			$("#popup_container").hide();
+			$("#popup_title").hide();
 		});
 	}).css('width','14px').find('.ui-button-text').css({'padding':'0px 0px 0px 0px','font-size' : '12px'});
-		
-	
+
+
 	$("#display_type").val( (typeof(Storage) !== "undefined" && typeof(localStorage.view) !== "undefined" ? localStorage.view : 0 ) );
 	$("#secondary_display_type").val( (typeof(Storage) !== "undefined" && typeof(localStorage.secondary_view) !== "undefined" ? localStorage.secondary_view : 0 ) );
-	
+
 	$("#mini_container").css('display',(typeof(Storage) !== "undefined" && typeof(localStorage.mini_container) !== "undefined" ? localStorage.mini_container : 'none' ) );
 	$("#map_settings").css('display',(tool.secondary_view==4 ? '' : 'none' ) );
 	$("#map_layer_dropdown>option:eq("+tile.layer+")").prop('selected',true)
-	$('#map_visible_img').attr('src',(tile.layers[tile.layer].visible==false?'eye-shut.png':'eye-open.png'));
+	$('#map_visible_img').attr('src',(tile.layers[tile.layer].visible==false?'img/eye-shut.png':'img/eye-open.png'));
 	$("#tab_overview").click();
 	$('.scroll-pane').jScrollPane({
 		autoReinitialise: true,
 		hideFocus: true
 	});
 	$('#filename').val('image');
-	
+
 	//prevent crashes when hitting back button and then forward button(we need to remove the chosen file from the input because hitting back doesn't, and some reason this causes crashes)
 	var oldInput = document.getElementById('import_file') ;
 	var newInput = document.createElement('input');
 	newInput.id    = oldInput.id ;
 	newInput.type  = oldInput.type ;
 	newInput.name  = oldInput.name ;
-	oldInput.parentNode.replaceChild(newInput, oldInput); 
+	oldInput.parentNode.replaceChild(newInput, oldInput);
 	oldInput = document.getElementById('open_file') ;
 	newInput = document.createElement('input');
 	newInput.id    = oldInput.id ;
 	newInput.type  = oldInput.type ;
 	newInput.name  = oldInput.name ;
-	oldInput.parentNode.replaceChild(newInput, oldInput); 
+	oldInput.parentNode.replaceChild(newInput, oldInput);
 	oldInput = document.getElementById('playback_file') ;
 	newInput = document.createElement('input');
 	newInput.id    = oldInput.id ;
 	newInput.type  = oldInput.type ;
 	newInput.name  = oldInput.name ;
-	oldInput.parentNode.replaceChild(newInput, oldInput); 
-	
+	oldInput.parentNode.replaceChild(newInput, oldInput);
+
 	$("#menu_file_list form, #form_load_colordex, #form_load_map, #form_load_maptmx, #form_clipart").hide();
 	document.getElementById('open_file').addEventListener('change', loadFile, false);
 	document.getElementById('import_file').addEventListener('change', importFile, false);
@@ -3595,10 +3595,10 @@ $(document).ready(function() {
 	document.getElementById('file_load_map').addEventListener('change', loadMap, false);
 	document.getElementById('file_load_maptmx').addEventListener('change', loadMapTmx, false);
 	document.getElementById('import_clipart').addEventListener('change', importClipart, false);
-	
-	
-	
-	
+
+
+
+
 	/*
   // Prepare file drop box.
   var box = $('#box');
@@ -3619,7 +3619,7 @@ $(document).ready(function() {
     e.stopPropagation();
   }
 
-	
+
 
   // Connect to a peer
   $('#connect')
@@ -3644,7 +3644,7 @@ $(document).ready(function() {
       if (c.label === 'chat') {
         c.send(msg);
 		//$('#msgbox').append('<div><span class="you">You: </span>: ' + msg.text + '</div>');
-        
+
 		//$c.find('.msgbox').append('<div><span class="you">You: </span>' + msg
         //  + '</div>');
       }
@@ -3658,8 +3658,8 @@ $(document).ready(function() {
 
   // Show browser version
   $('#browsers').text(navigator.userAgent);
-  
-  
+
+
 	$("#app_container").show();
 });
 
@@ -3732,7 +3732,7 @@ function connectToDraw(p){
 	//requestedPeer = p;
 	var findPainter = $.grep(peerlist, function(e){ return e == p; });
 	if(findPainter.length==0){
-		
+
 		// Create 2 connections, one labelled chat and another labelled file.
 		var c = peer.connect(p, {
 			label: 'draw',
@@ -3754,14 +3754,14 @@ function connectToDraw(p){
 }
 
 </script>
-</head> 
- 
-<body> 
-  
+</head>
+
+<body>
+
 	<div style="width:100%; height:100%;">
 
-	
-		
+
+
 		<div align="right" style="position:absolute; bottom:0px; right:0px; width: calc(100% - 256px);">
 			<div id="userlist" style=""></div>
 			<div align="right" style="width:100%; height:26px; border-top: solid 0px black; background:#444477; vertical-align:middle;">
@@ -3771,35 +3771,35 @@ function connectToDraw(p){
 				<button id="close" style="margin-right:16px;">Disconnect</button>
 			</div>
 		</div>
-		
-		
+
+
 		<div id="console" style="z-index:1; position:absolute; bottom:0px; width: 256px; height: 100%; background:#666666;
-		border-width: 0px 4px 0px 0px; 
-		border-style: solid; 
-		-webkit-border-image: -webkit-gradient(linear, 100% 0, 0 0, from(#444), to(#999999)) 1 100%; 
-		-webkit-border-image: -webkit-linear-gradient(right, #444, #999999) 1 100%; 
-		-moz-border-image: -moz-linear-gradient(right, #444, #999999) 1 100%; 
-		-o-border-image: -o-linear-gradient(right, #444, #999999) 1 100%; 
+		border-width: 0px 4px 0px 0px;
+		border-style: solid;
+		-webkit-border-image: -webkit-gradient(linear, 100% 0, 0 0, from(#444), to(#999999)) 1 100%;
+		-webkit-border-image: -webkit-linear-gradient(right, #444, #999999) 1 100%;
+		-moz-border-image: -moz-linear-gradient(right, #444, #999999) 1 100%;
+		-o-border-image: -o-linear-gradient(right, #444, #999999) 1 100%;
 		border-image: linear-gradient(to right, #444, #999999) 1 100%; ">
-			
-			
-			
+
+
+
 			<div id="msgbox" style="direction:rtl; height: calc(100% - 30px); overflow-y:auto; overflow-x:hidden; ">
-				
-				<!--<img src="logo.png">-->
-			
-			
-		
+
+				<!--<img src="img/logo.png">-->
+
+
+
 				<!--<div class="important" style="direction:ltr;">Your browser version: <span id="browsers"></span><br>
 				Currently <strong>Firefox 22+ and Google Chrome 26.0.1403.0 or above</strong> is required.</strong>
 				</div>-->
 				<!--<div style="direction:ltr; text-align:center;">Welcome!</div><br>-->
-				<img src="lion.png">
-				
+				<img src="img/lion.png">
+
 			</div>
-				
+
 			<div style="position:absolute; width:100%; text-align:center; bottom:2px;">
-			
+
 			<div style="direction:ltr; text-align:center;">
 					<div id="connect_box" align="center" class="ui-widget-content" style="font-size:9px; font-style:bold; color:#eeeeee; text-align:center; border-radius:6px; padding:6px; display:table; margin: 0 auto; z-index:10; width: 80%; ">
 							<input type="text" id="connect_alias" size="16" placeholder="Type an Alias">
@@ -3826,7 +3826,7 @@ function connectToDraw(p){
 							<div class="ui-icon ui-icon-heart" style="display:inline-block;"></div>
 							<button onclick="connectStart();" style="float:right; vertical-align:top; margin-top:8px;">Connect</button>
 							An alias for this session is required if you will be painting with others, otherwise you can begin painting!
-							
+
 					</div>
 					<br>
 				</div>
@@ -3834,11 +3834,11 @@ function connectToDraw(p){
 					<div align="center" class="ui-widget-content" style="font-size:9px; font-style:bold; color:#eeeeee; text-align:center; border-radius:6px; padding:6px; display:table; margin: 0 auto; z-index:10; width: 80%; ">
 							<div class="ui-icon ui-icon-alert" style="display:inline-block;"></div>
 							Your Wacom plugin isn't enabled! Check your browser plugin settings to activate it if you want pressure sensitivity.<br>*supported by Firefox
-							
+
 					</div>
 					<br>
 				</div>
-			
+
 				<input type="text" id="text" placeholder="Enter message"><input id="sendmessage" class="button" type="submit" value="Send">
 				<button id="chat_toggle" class="smallicon">Hide Chat</button>
 			</div>
@@ -3849,7 +3849,7 @@ function connectToDraw(p){
 				Open Paint
 			</div>
 			<div style="width:calc(100% - 228px); height:100%; position:absolute; right: 0px; top: 0px; display: inline-block; ">
-			
+
 				<div onclick="" style="width:100px; height:100px; margin:10px; border:solid 1px black; display: inline-block;  ">
 					Feature
 				</div>
@@ -3875,12 +3875,12 @@ function connectToDraw(p){
 					Feature
 				</div>
 			</div>
-			
+
 		</div>-->
-		
+
 		<div id="app_container" style="z-index:0; position:absolute; top:0px; right:0px; width: calc(100% - 256px); height: calc(100% - 64px); display:none;">
-		
-			<div id="canvas_container" style="position:absolute; left: 64px; top:16px; display: table; background:#111111; border:solid 0px black; 
+
+			<div id="canvas_container" style="position:absolute; left: 64px; top:16px; display: table; background:#111111; border:solid 0px black;
 				user-select: none;
 				-webkit-user-select: none;
 				-moz-user-select: none;">
@@ -3899,7 +3899,7 @@ function connectToDraw(p){
 							<li><a href="javascript:;">Save</a></li>
 							<form id="form_import"><input type="file" id="import_file" name="import_file[]" /></form>
 							<li><a href="javascript:;" onclick="document.getElementById('import_file').click()">Import..</a></li>
-							<li><a href="javascript:;">Export..</a> 
+							<li><a href="javascript:;">Export..</a>
 								<ul>
 								<li><a href="javascript:;">Png</a></li>
 								<li><a href="javascript:;">Gif</a></li>
@@ -3918,20 +3918,20 @@ function connectToDraw(p){
 							<li><a href="javascript:;">Clear</a></li><hr>
 							<form id="form_clipart"><input type="file" id="import_clipart" name="import_clipart[]" /></form>
 							<li><a href="javascript:;" onclick="document.getElementById('import_clipart').click()">Insert Clipart</a></li>
-							<li><a href="javascript:;">Frame</a> 
+							<li><a href="javascript:;">Frame</a>
 								<ul>
 								<li><a href="javascript:;">Add Frame</a></li>
 								<li><a href="javascript:;">Remove Frame</a></li>
 								</ul>
 							</li>
-							<li><a href="javascript:;">Image</a> 
+							<li><a href="javascript:;">Image</a>
 								<ul>
 								<li><a href="javascript:;">Canvas Size</a></li>
 								<li><a href="javascript:;">Image Size</a></li>
 								<li><a href="javascript:;">Spritesheet</a></li>
 								</ul>
 							</li>
-							<li><a href="javascript:;">Map</a> 
+							<li><a href="javascript:;">Map</a>
 								<ul>
 								<li><a href="javascript:;">Map Size</a></li>
 								</ul>
@@ -3953,15 +3953,15 @@ function connectToDraw(p){
 							<li><a href="javascript:;">Secondary View</a></li>
 						</ul>
 					</div>
-					
+
 					<div id="menu_icons" style="float:right; vertical-align:middle;">
 						Filename:<input type="text" id="filename" size="16" placeholder="image" style="height:12px;">
-						
+
 						<span id="menu_icons_img" style="">
-							<input type="checkbox" id="grid" class="smallicon" data-img="icon-grid2.png"><label for="grid">Grid (Ctrl+')</label>
+							<input type="checkbox" id="grid" class="smallicon" data-img="img/icon-grid2.png"><label for="grid">Grid (Ctrl+')</label>
 						</span>
 						<button id="settings" class="smallicon">Settings</button>
-						<!--<button id="settings" class="smallicon" data-img="icon-gear.png">Settings</button>-->
+						<!--<button id="settings" class="smallicon" data-img="img/icon-gear.png">Settings</button>-->
 					</div>
 				</span>
 
@@ -4000,19 +4000,19 @@ function connectToDraw(p){
 						<li><a href="javascript:;">400%</a></li>
 						<li><a href="javascript:;">500%</a></li>
 					</ul>
-					
-					<div id="canvas_bg" style="position:relative; background-image:url('canvas-bg.png'); background-repeat:repeat; border: solid #333333; border-width:0px 6px 6px 6px;">
+
+					<div id="canvas_bg" style="position:relative; background-image:url('img/canvas-bg.png'); background-repeat:repeat; border: solid #333333; border-width:0px 6px 6px 6px;">
 					<object id="wtPlugin" type="application/x-wacomtabletplugin" WIDTH=1 HEIGHT=1 style="position:absolute; right:0px; top:0px">
 						<!-- <param name="onload" value="pluginLoaded" /> -->
 					</object>
 					<canvas id="canvas" width="512" height="480" style="outline: none;" tabindex="1">Canvas
 					</canvas>
-					
-					
+
+
 						<!-- miniviewport -->
 						<div id="mini_container" style="position:absolute; right: 0px; top:0px; ">
 							<div id="minicanvas_bg_color" style="">
-								<div id="minicanvas_bg" style="background-image:url('canvas-bg.png'); background-repeat:repeat; border: solid #333333; border-width:0px 0px 6px 6px;">
+								<div id="minicanvas_bg" style="background-image:url('img/canvas-bg.png'); background-repeat:repeat; border: solid #333333; border-width:0px 0px 6px 6px;">
 									<div id="minicanvas_resizer">
 										<canvas id="minicanvas" width="160" height="160" style="outline: none;" tabindex="2">Canvas
 										</canvas>
@@ -4021,8 +4021,8 @@ function connectToDraw(p){
 								</div>
 							</div>
 							<div id="map_settings" style="width:100%; background:#333333; display:none;">
-								<img id="map_visible_img" src="eye-open.png" title="visible" style="border:0px;" onclick="this.src=(this.src.indexOf('open')!=-1?'eye-shut.png':'eye-open.png'); this.title=(this.src.indexOf('open')!=-1?'visible':'hidden'); tile.layers[parseInt($('#map_layer_dropdown').val())].visible=(tile.layers[parseInt($('#map_layer_dropdown').val())].visible==false?true:false); ">
-								<select id="map_layer_dropdown" class="dropdown" onChange="tile.layer = this.selectedIndex; $('#map_visible_img').attr('src',(tile.layers[this.selectedIndex].visible==false?'eye-shut.png':'eye-open.png')); if(typeof(Storage) !== 'undefined')localStorage.map_layer = JSON.stringify(tile.layer); ">
+								<img id="map_visible_img" src="img/eye-open.png" title="visible" style="border:0px;" onclick="this.src=(this.src.indexOf('open')!=-1?'img/eye-shut.png':'img/eye-open.png'); this.title=(this.src.indexOf('open')!=-1?'visible':'hidden'); tile.layers[parseInt($('#map_layer_dropdown').val())].visible=(tile.layers[parseInt($('#map_layer_dropdown').val())].visible==false?true:false); ">
+								<select id="map_layer_dropdown" class="dropdown" onChange="tile.layer = this.selectedIndex; $('#map_visible_img').attr('src',(tile.layers[this.selectedIndex].visible==false?'img/eye-shut.png':'img/eye-open.png')); if(typeof(Storage) !== 'undefined')localStorage.map_layer = JSON.stringify(tile.layer); ">
 									<option value="0" SELECTED>0</option>
 									<option value="1">1</option>
 									<option value="2">2</option>
@@ -4039,7 +4039,7 @@ function connectToDraw(p){
 								</span>
 							</div>
 						</div>
-						
+
 						<!-- popup thing -->
 						<div id="popup_container" style="position:absolute; left: 0px; top:0px; display:none;">
 							<div id="popup_bg" style="background: #888888; border: solid #333333; border-width:0px 6px 6px 0px; padding:10px;">
@@ -4050,32 +4050,32 @@ function connectToDraw(p){
 						</div>
 					</div>
 				</div>
-				
+
 				<!-- toolbar -->
 				<div style="position:absolute; left: 0px; top:32px;">
 					<div id="toolbar" class="ui-widget-header ui-corner-all my-toolbar" style="position:absolute; right: 6px; top: 0px; padding:3px; display: table;
 					">
-						<div><button id="eraser" class="smallicon" data-img="icon-eraser.png" value="0">Eraser (E)</button></div>
-						<div><button id="magiceraser" class="smallicon" data-img="icon-magiceraser.png">Magic Eraser (E)</button></div>
-						<div><button id="pencil" class="smallicon" data-img="icon-pencil.png" value="0">Pencil (B)</button></div>
-						<div><button id="brush" class="smallicon" data-img="icon-brush.png">Brush (B)</button></div>
-						<div><button id="bucket" class="smallicon" data-img="icon-bucket.png">Flood Fill (G)</button></div>
-						<div><button id="marquee" class="smallicon" data-img="icon-marquee.png">Marquee (M)</button></div>
-						<div><button id="lasso" class="smallicon" data-img="icon-lasso.png">Lasso (L)</button></div>
-						<div><button id="magicwand" class="smallicon" data-img="icon-magicwand.png">Magic Wand (W)</button></div>
-						<div><button id="eyedropper" class="smallicon" data-img="icon-eyedropper.png">Eyedropper (I)</button></div>
-						<div><button id="hand" class="smallicon" data-img="icon-hand.png">Hand (H)</button></div>
-						<div><button id="zoom" class="smallicon" data-img="icon-zoom.png">Zoom (Z)</button></div>
-						<div><button id="tile" class="smallicon" data-img="icon-tile.png">Tile (T)</button></div>
-						<div><button id="erasetile" class="smallicon" data-img="icon-erasetile.png">Remove Tile (R)</button></div>
-						<div><button id="collision" class="smallicon" data-img="icon-collision.png">Collision (C)</button></div>
+						<div><button id="eraser" class="smallicon" data-img="img/icon-eraser.png" value="0">Eraser (E)</button></div>
+						<div><button id="magiceraser" class="smallicon" data-img="img/icon-magiceraser.png">Magic Eraser (E)</button></div>
+						<div><button id="pencil" class="smallicon" data-img="img/icon-pencil.png" value="0">Pencil (B)</button></div>
+						<div><button id="brush" class="smallicon" data-img="img/icon-brush.png">Brush (B)</button></div>
+						<div><button id="bucket" class="smallicon" data-img="img/icon-bucket.png">Flood Fill (G)</button></div>
+						<div><button id="marquee" class="smallicon" data-img="img/icon-marquee.png">Marquee (M)</button></div>
+						<div><button id="lasso" class="smallicon" data-img="img/icon-lasso.png">Lasso (L)</button></div>
+						<div><button id="magicwand" class="smallicon" data-img="img/icon-magicwand.png">Magic Wand (W)</button></div>
+						<div><button id="eyedropper" class="smallicon" data-img="img/icon-eyedropper.png">Eyedropper (I)</button></div>
+						<div><button id="hand" class="smallicon" data-img="img/icon-hand.png">Hand (H)</button></div>
+						<div><button id="zoom" class="smallicon" data-img="img/icon-zoom.png">Zoom (Z)</button></div>
+						<div><button id="tile" class="smallicon" data-img="img/icon-tile.png">Tile (T)</button></div>
+						<div><button id="erasetile" class="smallicon" data-img="img/icon-erasetile.png">Remove Tile (R)</button></div>
+						<div><button id="collision" class="smallicon" data-img="img/icon-collision.png">Collision (C)</button></div>
 					</div>
 				</div>
-				
-					
+
+
 				<div style="position:absolute; right: 0px; bottom:0px;">
 				<!--record -->
-					<div id="record_container" class="ui-widget-content ui-corner-all" style="position:absolute; right: 0px; top:6px; display: table; 
+					<div id="record_container" class="ui-widget-content ui-corner-all" style="position:absolute; right: 0px; top:6px; display: table;
 						user-select: none;
 						-webkit-user-select: none;
 						-moz-user-select: none;
@@ -4113,17 +4113,17 @@ function connectToDraw(p){
 								Frames Captured: <span id="record_count" data-capture="true">0</span><br>
 								<div id="record_progressbar" style="width:100%; height:8px;"></div>
 							</td></tr></table>
-							
+
 							<span style="position:absolute; bottom:0px; right:0px;">
 								<div id="record_progressbar" style="width:100px; height:8px;"></div>
 							</span>
 						</div>
 					</div>
 				</div>
-				
+
 				<div id="lowerleft_anchor" style="position:absolute; left: 0px; bottom:0px;">
 				<!-- playback -->
-					<div id="playback_container" class="my-container ui-widget-content ui-corner-all properties" style="position:absolute; left: 0px; top:6px; display: table; 
+					<div id="playback_container" class="my-container ui-widget-content ui-corner-all properties" style="position:absolute; left: 0px; top:6px; display: table;
 						user-select: none;
 						-webkit-user-select: none;
 						-moz-user-select: none;
@@ -4142,10 +4142,10 @@ function connectToDraw(p){
 							<div style="display:inline;"><input type="text" class="pickertextbox" id="playback_speed" ></div>
 						</span>
 					</div>
-				
+
 				<!-- colorpicker / properties / colordex-->
-					
-					<div id="colorpicker_container" class="my-container properties"  style="position:absolute; left: 0px; top:6px; display: table; 
+
+					<div id="colorpicker_container" class="my-container properties"  style="position:absolute; left: 0px; top:6px; display: table;
 						user-select: none;
 						-webkit-user-select: none;
 						-moz-user-select: none;
@@ -4156,7 +4156,7 @@ function connectToDraw(p){
 							<input type="radio" id="radio1" name="radio" checked="checked"><label for="radio1">RGB</label>
 							<input type="radio" id="radio2" name="radio"><label for="radio2">HSL</label>
 						</div></span>
-						
+
 						<!-- colordex -->
 						<span style="position:absolute; top:0px; left:80px;">
 							<input type="checkbox" id="colordex_radio"><label for="colordex_radio">Colordex</label>
@@ -4164,19 +4164,19 @@ function connectToDraw(p){
 						</span>
 						<div style="position:absolute; top:0px; left:0px; ">
 							<div style="position:absolute; bottom: 0px; ">
-							<div id="colordex_container" style="  display: none; 
+							<div id="colordex_container" style="  display: none;
 								user-select: none;
 								-webkit-user-select: none;
 								-moz-user-select: none;">
-								
+
 								<span style="display: block; width:100%; text-align:right; background: #222222;">
 									<form id="form_load_colordex"><input type="file" id="file_load_colordex" name="file_load_colordex[]" /></form>
 									<button id="load_colordex" class="smallicon smallericon">Load</button>
 									<button id="save_colordex" class="smallicon smallericon">Save</button>
 									<input type="checkbox" id="lock_colordex"><label for="lock_colordex">Lock</label>
 								</span>
-								
-								<div style="position:relative; bottom: 0px; background: rgba(255,255,255,0.25); border:solid 2px white; 
+
+								<div style="position:relative; bottom: 0px; background: rgba(255,255,255,0.25); border:solid 2px white;
 									user-select: none;
 									-webkit-user-select: none;
 									-moz-user-select: none;">
@@ -4184,26 +4184,26 @@ function connectToDraw(p){
 									</canvas>
 									<!--<span class="ui-widget-header" style="display: block; width:100%;">Colordex</span>
 									-->
-									<div id="colordex_start" style="position:absolute; top:0px; left:0px; width:16px; height:16px; pointer-events:none; background: url('colordex-start.png');"></div>
-									<div id="colordex_end" style="position:absolute; top:0px; left:0px; width:16px; height:16px; pointer-events:none; background: url('colordex-end.png');"></div>
-									<div id="colordex_endup" style="position:absolute; top:0px; left:0px; width:16px; height:16px; pointer-events:none; background: url('colordex-endup.png');"></div>
-									<div id="colordex2_start" style="position:absolute; top:0px; left:0px; width:16px; height:16px; pointer-events:none; opacity:0.25; background: url('colordex-start.png');"></div>
-									<div id="colordex2_end" style="position:absolute; top:0px; left:0px; width:16px; height:16px; pointer-events:none; opacity:0.25; background: url('colordex-end.png');"></div>
-									<div id="colordex2_endup" style="position:absolute; top:0px; left:0px; width:16px; height:16px; pointer-events:none; opacity:0.25; background: url('colordex-endup.png');"></div>
+									<div id="colordex_start" style="position:absolute; top:0px; left:0px; width:16px; height:16px; pointer-events:none; background: url('img/colordex-start.png');"></div>
+									<div id="colordex_end" style="position:absolute; top:0px; left:0px; width:16px; height:16px; pointer-events:none; background: url('img/colordex-end.png');"></div>
+									<div id="colordex_endup" style="position:absolute; top:0px; left:0px; width:16px; height:16px; pointer-events:none; background: url('img/colordex-endup.png');"></div>
+									<div id="colordex2_start" style="position:absolute; top:0px; left:0px; width:16px; height:16px; pointer-events:none; opacity:0.25; background: url('img/colordex-start.png');"></div>
+									<div id="colordex2_end" style="position:absolute; top:0px; left:0px; width:16px; height:16px; pointer-events:none; opacity:0.25; background: url('img/colordex-end.png');"></div>
+									<div id="colordex2_endup" style="position:absolute; top:0px; left:0px; width:16px; height:16px; pointer-events:none; opacity:0.25; background: url('img/colordex-endup.png');"></div>
 								</div>
 							</div>
 							</div>
 						</div>
-						
-						
+
+
 						<!-- palette -->
 						<div style="position:absolute; top:0px; right:0px; ">
 							<div id="palette_bounds" style="position:absolute; width:100px; ">
-							<div id="palette_container" style="background: rgba(0,0,0,0.5);  width:100%; height:100%; display: none; 
+							<div id="palette_container" style="background: rgba(0,0,0,0.5);  width:100%; height:100%; display: none;
 								user-select: none;
 								-webkit-user-select: none;
 								-moz-user-select: none;">
-								
+
 								<span style="display: block; width:100%; text-align:right; background: #333333;">
 									<select id="scan_palette_dropdown" class="dropdown" onChange="if(typeof(Storage) !== 'undefined')localStorage.scan_palette_dropdown = JSON.stringify(this.selectedIndex); ">
 										<option value="0" SELECTED>All</option>
@@ -4215,8 +4215,8 @@ function connectToDraw(p){
 							</div>
 							</div>
 						</div>
-						
-						
+
+
 						<table><tr><td align="right" style="white-space: nowrap; vertical-align:top; font-size:8px;">
 						<div style="display:inline-block; vertical-align:top; ">
 						<div id="red"></div>
@@ -4232,7 +4232,7 @@ function connectToDraw(p){
 							<div id="swatch" class="ui-widget-content ui-corner-all" style="z-index:1; position:absolute; top:0px; left;0px; width:32px; height:32px; background:none;" onclick="mouse.currentColor=0; $(this).css('z-index',1); $('#swatch2').css('z-index',0); currentColorGroup = 0; eyedropColor({r:mouse.rgb.r,g:mouse.rgb.g,b:mouse.rgb.b}); "></div>
 							<div id="swatch2" class="ui-widget-content ui-corner-all" style="z-index:0; position:absolute; bottom:0px; right:0px; width:32px; height:32px; background:none;" onclick="mouse.currentColor=1; $(this).css('z-index',1); $('#swatch').css('z-index',0); currentColorGroup = 1; eyedropColor({r:mouse.rgb2.r,g:mouse.rgb2.g,b:mouse.rgb2.b}); "></div>
 						</div>
-						
+
 						<!-- preset buttons -->
 						<div id="brush_presets">
 							<input type="radio" id="preset1" name="preset" value="1" checked="checked"><label for="preset1">1</label>
@@ -4247,7 +4247,7 @@ function connectToDraw(p){
 							<input type="radio" id="preset0" name="preset" value="0" ><label for="preset0">0</label>
 						</div>
 						</td><td style="vertical-align:top; font-size:8px;">
-						
+
 						<div id="brush_settings">
 							<table><tr><td style="vertical-align:top; font-size:8px;">
 								<div id="tool_size"><span style="position:absolute;">Size:</span></div>
@@ -4256,13 +4256,13 @@ function connectToDraw(p){
 								<div id="tool_levels"><span style="position:absolute;">Steps:</span></div>
 								</td><td style="vertical-align:middle; font-size:5px;">
 								<div id="pencontrols">
-								<button id="pencontrol_size" class="smallicon penicon" data-img="icon-none.png">None</button><br>
-								<button id="pencontrol_opacity" class="smallicon penicon" data-img="icon-none.png">None</button><br>
-								<button id="pencontrol_hardness" class="smallicon penicon" data-img="icon-none.png">None</button><br>
-								<button id="pencontrol_levels" class="smallicon penicon" data-img="icon-none.png">None</button>
+								<button id="pencontrol_size" class="smallicon penicon" data-img="img/icon-none.png">None</button><br>
+								<button id="pencontrol_opacity" class="smallicon penicon" data-img="img/icon-none.png">None</button><br>
+								<button id="pencontrol_hardness" class="smallicon penicon" data-img="img/icon-none.png">None</button><br>
+								<button id="pencontrol_levels" class="smallicon penicon" data-img="img/icon-none.png">None</button>
 								</div>
 							</td><td valign="top">
-								<div class="ui-widget-content ui-corner-all" style="width:70px; height:70px; overflow:hidden; background:url(canvas-bg.png) repeat; "> 
+								<div class="ui-widget-content ui-corner-all" style="width:70px; height:70px; overflow:hidden; background:url(img/canvas-bg.png) repeat; ">
 								<canvas id="toolcanvas" width="64" height="64" style="top: 50%; left: 50%;  margin-left: -100%; position: relative;">Brush
 								</canvas>
 								</div>
@@ -4273,17 +4273,17 @@ function connectToDraw(p){
 								<input type="checkbox" id="contiguous"><label for="contiguous">Contiguous</label>
 							</span>
 						</div>
-						
+
 						</td></tr></table>
 					</div>
-					
-			
+
+
 				</div>
-				
-					
-				
+
+
+
 				<div style="position:absolute; right: -6px; top:0px; height:100%;">
-					
+
 					<!-- containers -->
 					<div style="position:absolute; left:0px; height:100%;">
 						<div id="window_slider" class="my-container" style="width:90px; border: solid 6px #333333;">
@@ -4293,7 +4293,7 @@ function connectToDraw(p){
 							<span class="" style="display: block; width:100%;">&nbsp;</span>
 						</div>
 					</div>
-					
+
 					<!-- historylist -->
 					<div id="history_container" style="position:absolute; top: 32px; left:0px; width:90px; ">
 						<span class="my-header" style="display: block; ">History</span>
@@ -4309,7 +4309,7 @@ function connectToDraw(p){
 						<span id="history_resizer" class="resizer" class="" style="display: block; width:100%;">&nbsp;</span>
 						</div>
 					</div>
-					
+
 					<!-- frames -->
 					<div id="frame_container" style="position:absolute; bottom: 0px; left:0px; display: table;">
 						<span class="my-header" style="display: block; ">Frames</span>
@@ -4317,7 +4317,7 @@ function connectToDraw(p){
 						<div id="frame_transparency"></div>
 						<div id="frame_box" style="overflow-x: auto; overflow-y: hidden;">
 						<ul id="frame_list" data-droploc="0">
-							<li id="frame_null" value="-1" data-interval="300" class="ui-widget-content " style="background:url(canvas-bg.png) repeat;"><span class="handle"></span></li>
+							<li id="frame_null" value="-1" data-interval="300" class="ui-widget-content " style="background:url(img/canvas-bg.png) repeat;"><span class="handle"></span></li>
 						</ul>
 						</div>
 						<div style="position:absolute;">
@@ -4342,15 +4342,15 @@ function connectToDraw(p){
 						</div>
 						</div>
 					</div>
-					
+
 				</div>
-				
-				
-	
+
+
+
 			</div>
-			
+
 			<!--
-			<div id="properties_container" class="ui-widget-header ui-corner-all" style="position:absolute; bottom:0px; left: 400px;  display: table; 
+			<div id="properties_container" class="ui-widget-header ui-corner-all" style="position:absolute; bottom:0px; left: 400px;  display: table;
 				user-select: none;
 				-webkit-user-select: none;
 				-moz-user-select: none;">
@@ -4362,51 +4362,51 @@ function connectToDraw(p){
 				<div id="tool_levels"></div>
 				</td><td style="font-size:5px;">
 				<div id="pencontrols">
-				<button id="pencontrol_size" data-img="icon-pencil.png">None</button>
+				<button id="pencontrol_size" data-img="img/icon-pencil.png">None</button>
 				</div>
 				</td><td>
-				<div style="width:64px; height:64px; overflow:hidden; "> 
+				<div style="width:64px; height:64px; overflow:hidden; ">
 				<canvas id="toolcanvas" width="64" height="64" style="top: 50%; left: 50%;  margin-left: -100%; position: relative;">Brush
 				</canvas>
 				</div>
 				</td></tr></table>
 			</div>
 			-->
-			
-			
-			
-			
-		
+
+
+
+
+
 		</div>
-		
+
 	</div>
-  
+
 
 
   <div style="position:relative; background: #bbbbbb; font-size: 18px; width:100%; height:256px; text-align: center; border-top: solid 4px #888888;">
-		
+
 		<div class="bottomtext" style="float:left; vertical-align:middle; width:256px; height:100%; display:table;">
 			<div style="padding:10px 16px 16px 16px; font-size:13px; text-align:center; display:table-cell; vertical-align:middle;">
-			<img src="network.png" style="border:0px; "><br>
+			<img src="img/network.png" style="border:0px; "><br>
 			<strong><font style="font-size:24px; line-height:24px;">T</font>he world's first pixel-art editor allowing artists to paint together online!
 			</strong><br><br><font style="font-size:12px;">*Network support only in Chrome & Firefox browsers currently.</font>
 			</div>
 		</div>
-		
+
 		<div id="information" class="bottomtext" style="width:calc(80% - 256px); height:100%; float:left; vertical-align:bottom; display:inline-block; ">
 			<div id="infobox" class="infobox scroll-pane" style="height:100%; overflow: auto; ">
 				<div id="infobox_content" class="" style="padding:16px 16px 16px 16px; ">
-			
+
 				<div id="info_overview" style="display:none; padding:8px;">
-					Allow me to introduce myself, my name is Alex Hanson-White, and I primarily create pixel-art for a living. In my free time I like to code video games, but recently I've been developing this pixel-art editor out of my love for the medium and all the amazing artists that work with it. My hope is that by developing this editor I will be helping give back to the community a resource that will enable a new fun and rewarding way to create pixel-art. I've briefly outlined below a few main features that set this editor apart from the rest. 
+					Allow me to introduce myself, my name is Alex Hanson-White, and I primarily create pixel-art for a living. In my free time I like to code video games, but recently I've been developing this pixel-art editor out of my love for the medium and all the amazing artists that work with it. My hope is that by developing this editor I will be helping give back to the community a resource that will enable a new fun and rewarding way to create pixel-art. I've briefly outlined below a few main features that set this editor apart from the rest.
 					<table>
 					<tr><td valign="top" width="">
 					<ul>
 						<li><strong>Pixel with others simultaneously!</strong> This is the main reason why I created this editor. With all my years of pixeling, I've never came across a tool with this ability that is geared towards pixel artists. I believe it will be useful for game projects with multiple artists or for quick gamejam asset creation between collaborators. It can also be great for tutoring sessions, or other fun collaborations.<br></li>
 						<li>You can <strong>record the entire process</strong> and also replay it. This allows everyone to share and relive each other's work step by step, offering an exciting way to appreciate a work of art. You can also branch off anywhere in the replay and pixel it a new direction.</li>
 						<li>The <strong>Colordex</strong> system that makes it easy to apply multiple colors intelligently with a single brush stroke while maintaining order of any specific color ramping you've defined. I was inspired by the HD Index Painting technique my friend Dan Fessler popularized, however I found that technique a hassle to manage, and the software expensive. The Colordex system I created solves these issues, allowing you to focus on pixeling. The best way to understand how it works is to experience it yourself.</li>
-					
-					</ul> 
+
+					</ul>
 					</td></tr>
 					</table>
 				</div>
@@ -4444,7 +4444,7 @@ function connectToDraw(p){
 						<dt>Tool customization</dt>
 						<dt>Wacom web plugin</dt>
 						<dt>Zoom</dt>
-					</dl> 
+					</dl>
 					</td></tr>
 					</table>
 				</div>
@@ -4473,7 +4473,7 @@ function connectToDraw(p){
 						<li>Magic Wand (W)</li>
 						<li>Eyedropper (I)</li>
 						<li>Hand (H)</li>
-					</ul> 
+					</ul>
 					</td><td valign="top">
 					<ul>
 						<li>Zoom (Z)</li>
@@ -4518,7 +4518,7 @@ function connectToDraw(p){
 				<div id="info_help" style="display:none;">
 					<a target="_blank" href="http://youtu.be/QGLg-N9RT44">How to use the Colordex</a>
 				</div>
-			
+
 				</div>
 			</div>
 			<div id="tab_overview" class="infotab" style="display:inline-block; " onclick="$('#infobox_content').children().hide(); $('#info_overview').toggle();">
@@ -4541,7 +4541,7 @@ function connectToDraw(p){
 		<div class="bottomtext" style="float:right; vertical-align:top; height:100%; width:20%; display:table;">
 			<div style="padding:24px 16px 16px 16px; text-align:center; vertical-align:bottom; display:table-cell;">
 				<a href="https://github.com/prominentdetail/Pixel.Tools"><img src="github.png" style="float:right; position:absolute; top:0px; right:0px;"></a>
-				<!--<img src="face.png" style=""><br>-->
+				<!--<img src="img/face.png" style=""><br>-->
 				<hr>
 				<i><font style="font-size:24px; line-height:24px;">T</font>his editor is free to use, but developing it takes time & energy. Support the pixel-art community. Inspire the world one pixel at a time.</i>
 				<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
@@ -4555,8 +4555,8 @@ function connectToDraw(p){
 		</div>
 
   </div>
-  
-  
-  
-</body> 
-</html> 
+
+
+
+</body>
+</html>
